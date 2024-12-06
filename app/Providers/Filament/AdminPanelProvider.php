@@ -7,10 +7,12 @@ use Filament\Panel;
 use Filament\Widgets;
 use App\Models\Company;
 use Filament\PanelProvider;
+use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use App\Filament\Pages\Tenancy\EditCompanyProfile;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -28,7 +30,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->tenant(Company::class)
+            ->tenant(Company::class, slugAttribute: 'rfc')
+            ->tenantProfile(EditCompanyProfile::class)
+            ->tenantMenuItems([
+                'profile' => MenuItem::make()->label('Editar datos de empresa'),
+            ])
             ->colors([
                 'primary' => Color::Amber,
             ])

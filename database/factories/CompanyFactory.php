@@ -18,6 +18,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => fake()->company(),
+            'rfc' => fake()->bothify('???######?#?'),
         ];
     }
 }
