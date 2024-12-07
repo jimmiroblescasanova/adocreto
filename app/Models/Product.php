@@ -20,6 +20,11 @@ class Product extends Model
         ->withTimestamps();
     }
 
+    public function components(): BelongsToMany
+    {
+        return $this->belongsToMany(Material::class, table: 'product_components');
+    }
+
     public function unit(): BelongsTo
     {
         return $this->belongsTo(Unit::class);
