@@ -12,13 +12,22 @@ class Material extends Model
     /** @use HasFactory<\Database\Factories\MaterialFactory> */
     use HasFactory;
 
-    public function unit(): BelongsTo
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
+    public function category(): BelongsTo
     {
-        return $this->belongsTo(Unit::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, table: 'product_components');
+    }
+
+    public function unit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class);
     }
 }
