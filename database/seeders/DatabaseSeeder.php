@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\Product;
 use App\Models\Category;
+use App\Models\Material;
 use Illuminate\Database\Seeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -16,84 +18,40 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         $user = User::factory()->create([
             'name' => 'Jimmi Robles',
             'email' => 'admin@admin.com',
         ]);
 
+        // TODO: Delete when app is ready for production
+
+        // Create fake companies 
         $company = Company::factory(2)->create(); 
-
+        // Attach company to user
         $user->companies()->attach($company);
-
-        // Basic units
-        $units = [
-            ['name' => 'Pieza', 'abbreviation' => 'PZA'],
-            ['name' => 'Metro', 'abbreviation' => 'MTR'],
-            ['name' => 'Kilogramo', 'abbreviation' => 'KGM'],
-            ['name' => 'Litro', 'abbreviation' => 'LTR'],
-            ['name' => 'Paquete', 'abbreviation' => 'PAQ'],
-            ['name' => 'Caja', 'abbreviation' => 'CJA'],
-            ['name' => 'Juego', 'abbreviation' => 'JGO'],
-            ['name' => 'Par', 'abbreviation' => 'PAR'],
-        ];
-        
+        // Pre-load data
+        $categories = require __DIR__ . '/FakeCategories.php';
+        $materials = require __DIR__ . '/FakeMaterials.php';
+        $products = require __DIR__ . '/FakeProducts.php';
+        $units = require __DIR__ . '/FakeUnits.php';
+        // Inserting data
         Unit::insert($units);
-
-        $categories = [
-            [
-                'name' => 'Herramientas Manuales',
-                'color' => '#FF5733',
-                'description' => 'Instrumentos operados sin electricidad.',
-            ],
-            [
-                'name' => 'Herramientas Eléctricas',
-                'color' => '#33C1FF',
-                'description' => 'Equipos motorizados para diversas tareas.',
-            ],
-            [
-                'name' => 'Materiales de Construcción',
-                'color' => '#8D6E63',
-                'description' => 'Suministros esenciales para edificación.',
-            ],
-            [
-                'name' => 'Pinturas y Acabados',
-                'color' => '#FFC300',
-                'description' => 'Productos para decorar y proteger superficies.',
-            ],
-            [
-                'name' => 'Fontanería y Sanitarios',
-                'color' => '#4CAF50',
-                'description' => 'Sistemas de agua y accesorios sanitarios.',
-            ],
-            [
-                'name' => 'Electricidad e Iluminación',
-                'color' => '#FFEB3B',
-                'description' => 'Componentes eléctricos y soluciones lumínicas.',
-            ],
-            [
-                'name' => 'Ferretería General',
-                'color' => '#9E9E9E',
-                'description' => 'Variedad de artículos para múltiples usos.',
-            ],
-            [
-                'name' => 'Jardinería y Exteriores',
-                'color' => '#81C784',
-                'description' => 'Herramientas y productos para el jardín.',
-            ],
-            [
-                'name' => 'Seguridad y Protección Laboral',
-                'color' => '#E53935',
-                'description' => 'Equipos para garantizar seguridad laboral.',
-            ],
-            [
-                'name' => 'Adhesivos y Selladores',
-                'color' => '#FF9800',
-                'description' => 'Materiales para unir y sellar superficies.',
-            ],
-        ];
-
         Category::insert($categories);
+        // Pre-load units and categories
+        $units = Unit::all();
+        $categories = Category::all();
+        // add units to materials
+        foreach ($materials as &$material) {
+            $material['unit_id'] = $units->random()->id;
+        }
+        // Inserting data to materials table
+        Material::insert($materials);
+        // add units to products
+        foreach ($products as &$product) {
+            $product['unit_id'] = $units->random()->id;
+            $product['category_id'] = $categories->random()->id; 
+        }
+        // Inserting data to products table
+        Product::insert($products);
     }
 }

@@ -21,3 +21,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/database/seeders/FakeCategories.php
+/database/seeders/FakeMaterials.php
+/database/seeders/FakeProducts.php
+/database/seeders/FakeUnits.php
