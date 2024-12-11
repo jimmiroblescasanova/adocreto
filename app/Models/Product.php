@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\IsActiveEnum;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,26 @@ class Product extends Model
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
 
+    protected function casts(): array
+    {
+        return [
+            'active' => IsActiveEnum::class,
+        ];
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function components(): BelongsToMany
+    {
+        return $this->belongsToMany(Material::class, table: 'product_components')
+        ->using(ProductComponent::class)
+        ->withPivot(['quantity'])
+        ->withTimestamps();
+    }
+
     public function price_lists(): BelongsToMany
     {
         return $this->belongsToMany(PriceList::class, table: 'prices')
@@ -20,19 +41,9 @@ class Product extends Model
         ->withTimestamps();
     }
 
-    public function components(): BelongsToMany
-    {
-        return $this->belongsToMany(Material::class, table: 'product_components');
-    }
-
     public function unit(): BelongsTo
     {
         return $this->belongsTo(Unit::class);
-    }
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
     }
 
     /**

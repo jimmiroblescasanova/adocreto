@@ -23,7 +23,10 @@ class Material extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, table: 'product_components');
+        return $this->belongsToMany(Product::class, table: 'product_components')
+        ->using(ProductComponent::class)
+        ->withPivot(['quantity'])
+        ->withTimestamps();
     }
 
     public function unit(): BelongsTo

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('abbreviation');
+            $table->string('virtual_label')->virtualAs('concat(abbreviation, \' - \', name)');
             $table->timestamps();
         });
     }
