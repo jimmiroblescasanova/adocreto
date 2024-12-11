@@ -37,6 +37,7 @@ class Product extends Model
     public function price_lists(): BelongsToMany
     {
         return $this->belongsToMany(PriceList::class, table: 'prices')
+        ->using(Price::class)
         ->withPivot(['price'])
         ->withTimestamps();
     }

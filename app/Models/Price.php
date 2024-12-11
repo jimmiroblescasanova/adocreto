@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Price extends Pivot
 {
+    protected function casts(): array
+    {
+        return [
+            'price' => MoneyCast::class,
+        ];
+    }
 
     public function product(): BelongsTo
     {
