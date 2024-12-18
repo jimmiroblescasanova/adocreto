@@ -14,6 +14,8 @@ class PriceListsRelationManager extends RelationManager
 {
     protected static string $relationship = 'price_lists';
 
+    protected static ?string $title = 'Listas de precios';
+
     public function table(Table $table): Table
     {
         return $table
@@ -22,12 +24,11 @@ class PriceListsRelationManager extends RelationManager
             )
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                ->label('Nombre de la lista'),
 
                 Tables\Columns\TextColumn::make('price')
-            ])
-            ->filters([
-                //
+                ->label('Precio'),
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
@@ -35,6 +36,7 @@ class PriceListsRelationManager extends RelationManager
                     fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant())
                 )
                 ->preloadRecordSelect()
+                ->modalHeading('Vincular lista de precios')
                 ->form(fn (Tables\Actions\AttachAction $action): array => [
                     $action->getRecordSelect(),
                     Forms\Components\TextInput::make('price')

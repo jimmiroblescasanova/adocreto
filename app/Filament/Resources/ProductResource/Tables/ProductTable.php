@@ -12,6 +12,8 @@ class ProductTable extends Table
         return $table
         ->deferLoading()
         ->defaultSort('code', 'asc')
+        ->persistSearchInSession()
+        ->persistFiltersInSession()
         ->columns([
             Tables\Columns\TextColumn::make('code')
             ->label('Código')

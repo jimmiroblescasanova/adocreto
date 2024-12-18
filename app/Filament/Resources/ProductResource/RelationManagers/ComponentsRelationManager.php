@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProductResource\RelationManagers;
 
 use Filament\Forms;
+use App\Models\Unit;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,6 +13,8 @@ use Filament\Resources\RelationManagers\RelationManager;
 class ComponentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'components';
+
+    protected static ?string $title = 'Materiales';
 
     public function table(Table $table): Table
     {
@@ -35,21 +38,36 @@ class ComponentsRelationManager extends RelationManager
             ->label('Unidad')
             ->alignEnd(),
         ])
-        ->filters([
-            //
-        ])
         ->headerActions([
             Tables\Actions\AttachAction::make()
             ->label('Añadir')
             ->preloadRecordSelect()
+            ->modalHeading('Añadir materia prima')
             ->form(fn (Tables\Actions\AttachAction $action): array => [
-                $action->getRecordSelect()
-                ->searchable(['code', 'name'])
-                ->optionsLimit(10),
+                Forms\Components\Group::make([
+                    $action->getRecordSelect()
+                    ->label('Materia prima')
+                    ->searchable(['code', 'name'])
+                    ->optionsLimit(10)
+                    ->live()
+                    ->columnSpanFull(),
 
-                Forms\Components\TextInput::make('quantity')
-                ->numeric()
-                ->required(),
+                    Forms\Components\TextInput::make('quantity')
+                    ->label('Cantidad')
+                    ->numeric()
+                    ->required(),
+
+                    Forms\Components\Placeholder::make('unit')
+                    ->label('Unidad')
+                    ->content(function (Forms\Get $get): string {
+                        return Unit::query()
+                            ->whereHas('materials', function (Builder $query) use ($get){
+                                $query->where('id', $get('recordId'));
+                            })
+                            ->value('name') ?? '';
+                    }),
+                ])
+                ->columns()
             ]),
         ])
         ->actions([
