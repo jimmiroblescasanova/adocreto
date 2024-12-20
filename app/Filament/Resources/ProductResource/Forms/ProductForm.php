@@ -16,8 +16,8 @@ class ProductForm extends Form
             ->warning()
             ->title('Aun no hay componentes en este producto')
             ->columnSpanFull()
-            ->hiddenOn('create')
-            ->hidden(fn ($record) => $record->components()->exists()),
+            ->hidden(fn ($record) => $record->components()->exists())
+            ->hiddenOn('create'),
 
             Forms\Components\Group::make([
                 Forms\Components\Section::make('Información básica')
