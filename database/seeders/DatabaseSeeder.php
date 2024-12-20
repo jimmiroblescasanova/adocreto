@@ -26,9 +26,17 @@ class DatabaseSeeder extends Seeder
         // TODO: Delete when app is ready for production
 
         // Create fake companies 
-        $company = Company::factory(2)->create(); 
+        Company::insert([
+            [
+                'name' => 'Empresa 1',
+                'rfc' => 'xaxx010101000',
+            ], [
+                'name' => 'Empresa 2',
+                'rfc' => 'abc010101dfg',
+            ]
+        ]); 
         // Attach company to user
-        $user->companies()->attach($company);
+        $user->companies()->attach(Company::all());
         // Pre-load data
         $categories = require __DIR__ . '/FakeCategories.php';
         $materials = require __DIR__ . '/FakeMaterials.php';
