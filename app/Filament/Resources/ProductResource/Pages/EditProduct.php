@@ -2,19 +2,14 @@
 
 namespace App\Filament\Resources\ProductResource\Pages;
 
-use App\Filament\Resources\ProductResource;
 use Filament\Actions;
+use App\Traits\EditActionsOnTop;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\ProductResource;
 
 class EditProduct extends EditRecord
 {
-    protected static string $resource = ProductResource::class;
+    use EditActionsOnTop;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-        ];
-    }
+    protected static string $resource = ProductResource::class;
 }
