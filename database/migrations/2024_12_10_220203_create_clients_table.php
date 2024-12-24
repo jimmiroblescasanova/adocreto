@@ -11,17 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('entities', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(App\Models\Company::class)->constrained();
-            $table->unsignedBigInteger('type');
-            $table->string('code')->unique();
+            $table->unsignedBigInteger('type'); // 1: Client, 2: Provider
+            $table->string('code');
             $table->string('name');
             $table->string('rfc')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('active')->default(true);
+            $table->longText('notes')->nullable();
             $table->timestamps();
+
+            $table->unique(['company_id', 'code']);
         });
     }
 

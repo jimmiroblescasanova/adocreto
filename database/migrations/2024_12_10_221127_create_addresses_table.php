@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(App\Models\Client::class)->constrained();
+            $table->foreignIdFor(App\Models\Entity::class)->constrained();
             $table->unsignedBigInteger('type');
             $table->string('street');
             $table->string('exterior')->nullable();

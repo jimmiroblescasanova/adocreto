@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignIdFor(App\Models\Company::class)->constrained();
             $table->unsignedBigInteger('type');
             $table->foreignIdFor(App\Models\User::class)->constrained();
-            $table->foreignIdFor(App\Models\Client::class)->nullable()->constrained();
+            $table->foreignIdFor(App\Models\Entity::class)->nullable()->constrained();
             $table->foreignIdFor(App\Models\Warehouse::class)->nullable()->constrained();
             $table->dateTime('date');
             $table->string('folio');

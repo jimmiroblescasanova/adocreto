@@ -10,6 +10,11 @@ class Company extends Model
 {
     use HasFactory;
 
+    public function entities(): HasMany
+    {
+        return $this->hasMany(Entity::class);
+    }
+
     public function priceLists(): HasMany
     {
         return $this->hasMany(PriceList::class);
