@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            cfdi_40_regimenes_fiscales::class,
+            cfdi_40_usos_cfdi::class,
+        ]);
+
         $user = User::factory()->create([
             'name' => 'Jimmi Robles',
             'email' => 'admin@admin.com',

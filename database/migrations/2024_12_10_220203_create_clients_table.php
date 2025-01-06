@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Cfdi40\RegimenFiscal;
+use App\Models\Cfdi40\UsoCfdi;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,6 +24,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->boolean('active')->default(true);
             $table->longText('notes')->nullable();
+            $table->foreignIdFor(RegimenFiscal::class)->nullable();
+            $table->foreignIdFor(UsoCfdi::class)->nullable();
             $table->timestamps();
 
             $table->unique(['company_id', 'code']);

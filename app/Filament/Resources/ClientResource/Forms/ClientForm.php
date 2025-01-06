@@ -3,7 +3,11 @@
 namespace App\Filament\Resources\ClientResource\Forms;
 
 use Filament\Forms;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
+use Illuminate\Support\Str;
+use App\Models\Cfdi40\UsoCfdi;
+use App\Models\Cfdi40\RegimenFiscal;
 
 class ClientForm extends Form 
 {
@@ -22,7 +26,8 @@ class ClientForm extends Form
                 ->label('RFC')
                 ->hintIcon(icon: 'heroicon-m-question-mark-circle', tooltip: 'Captura sin guiones')
                 ->minLength(12)
-                ->maxLength(13),
+                ->maxLength(13)
+                ->live(),
 
                 Forms\Components\TextInput::make('name')
                 ->label('Nombre del cliente')
@@ -37,6 +42,31 @@ class ClientForm extends Form
                 Forms\Components\TextInput::make('phone')
                 ->label('Teléfono')
                 ->tel(),
+
+                Forms\Components\Fieldset::make('Datos CFDi')
+                ->schema([
+                    Forms\Components\Select::make('regimen_fiscal_id')
+                    ->label('Régimen Fiscal')
+                    ->options(function (Get $get) {
+                        return match (Str::length($get('rfc'))) {
+                            12 => RegimenFiscal::moral()->pluck('descripcion', 'id'),
+                            13 => RegimenFiscal::fisica()->pluck('descripcion', 'id'),
+                            default => [],
+                        };
+                    })
+                    ->searchable(), 
+
+                    Forms\Components\Select::make('uso_cfdi_id')
+                    ->label('Uso del CFDi')
+                    ->options(function (Get $get) {
+                        return match (Str::length($get('rfc'))) {
+                            12 => UsoCfdi::moral()->pluck('descripcion', 'id'),
+                            13 => UsoCfdi::fisica()->pluck('descripcion', 'id'),
+                            default => [],
+                        };
+                    })
+                    ->searchable(), 
+                ]),
             ])
             ->columns()
             ->columnSpan(2),

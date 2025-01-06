@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Entity extends Model
 {
@@ -19,9 +20,24 @@ class Entity extends Model
         ];
     }
 
+    /**
+     * Get the company that owns the entity.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get all of the addresses for the entity.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function addresses(): MorphMany
+    {
+        return $this->morphMany(Address::class, 'addressable');
     }
 
     /**
@@ -33,6 +49,16 @@ class Entity extends Model
     public function scopeClients(Builder $query): Builder
     {
         return $query->where('type', EntityType::CLIENT);
+    }
+
+    /**
+     * Verify if the client already have a billing address.
+     *
+     * @return bool
+     */
+    public function hasBillingAddress(): bool
+    {
+        return $this->addresses()->where('type', 1)->exists();
     }
 
     /**
