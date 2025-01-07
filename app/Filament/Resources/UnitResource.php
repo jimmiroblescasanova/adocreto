@@ -28,11 +28,13 @@ class UnitResource extends Resource
                 Forms\Components\TextInput::make('name')
                 ->label('Nombre')
                 ->autocapitalize('words')
+                ->required()
                 ->columnSpan(2),
 
                 Forms\Components\TextInput::make('abbreviation')
                 ->label('Abreviación')
-                ->maxLength(3),
+                ->maxLength(3)
+                ->required(),
             ])
             ->columns(3);
     }

@@ -28,7 +28,8 @@ class PriceListsRelationManager extends RelationManager
                 ->label('Nombre de la lista'),
 
                 Tables\Columns\TextColumn::make('price')
-                ->label('Precio'),
+                ->label('Precio')
+                ->money(),
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()

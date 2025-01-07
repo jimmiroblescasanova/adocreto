@@ -19,6 +19,8 @@ class ProductResource extends Resource
 
     protected static bool $isScopedToTenant = false;
 
+    protected static ?string $modelLabel = 'producto';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form

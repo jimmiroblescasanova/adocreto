@@ -7,6 +7,7 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use App\Models\Warehouse;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use App\Enums\WarehouseTypeEnum;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,6 +32,7 @@ class WarehouseResource extends Resource
         return $form
         ->schema([
             Forms\Components\Select::make('type')
+            ->label('Tipo de almacen')
             ->options(WarehouseTypeEnum::class)
             ->required(),
 
@@ -42,10 +44,12 @@ class WarehouseResource extends Resource
             ->columnSpan(2),
 
             Forms\Components\Textarea::make('location')
+            ->label('Ubicación')
             ->rows(3)
             ->columnSpanFull(),
 
             Forms\Components\ToggleButtons::make('active')
+            ->label('Estado')
             ->boolean()
             ->inline()
             ->hiddenOn('create'),
@@ -89,7 +93,13 @@ class WarehouseResource extends Resource
         ])
         ->deferFilters()
         ->actions([
-            Tables\Actions\EditAction::make(),
+            Tables\Actions\EditAction::make()
+            ->mutateFormDataUsing(function (array $data): array {
+                $data['name'] = Str::title($data['name']);
+
+                return $data;
+            }),
+            
             Tables\Actions\DeleteAction::make(),
         ]);
     }
