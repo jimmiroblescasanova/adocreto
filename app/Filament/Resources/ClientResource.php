@@ -47,4 +47,9 @@ class ClientResource extends Resource
             'edit' => Pages\EditClient::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->clients();
+    }
 }

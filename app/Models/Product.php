@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\ProductType;
+use App\Casts\QuantityCast;
 use App\Enums\IsActiveEnum;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,7 +21,8 @@ class Product extends Model
     protected function casts(): array
     {
         return [
-            'active' => IsActiveEnum::class,
+            'mininum'   => QuantityCast::class,
+            'active'    => IsActiveEnum::class,
         ];
     }
 
@@ -26,12 +31,18 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function components(): BelongsToMany
+    /**
+     * Get the components associated with the product.
+     * 
+     * This establishes a one-to-many relationship between the Product model
+     * and the ProductComponent model, allowing access to all components
+     * that belong to this product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function components(): HasMany
     {
-        return $this->belongsToMany(Material::class, table: 'product_components')
-        ->using(ProductComponent::class)
-        ->withPivot(['quantity'])
-        ->withTimestamps();
+        return $this->hasMany(ProductComponent::class);
     }
 
     public function price_lists(): BelongsToMany
@@ -42,6 +53,11 @@ class Product extends Model
         ->withTimestamps();
     }
 
+    /**
+     * Get the Unit that this Product belongs to
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function unit(): BelongsTo
     {
         return $this->belongsTo(Unit::class);
@@ -58,5 +74,27 @@ class Product extends Model
         ->price_lists
         ->whereBelongsTo(Filament::getTenant())
         ->pluck('pivot.price', 'id')->toArray();
+    }
+
+    /**
+     * Scope query to only include products of type material.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeMaterials(Builder $query): Builder
+    {
+        return $query->where('type', ProductType::MATERIAL);
+    }
+
+    /**
+     * Scope query to only include products of type PRODUCT.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeProducts(Builder $query): Builder
+    {
+        return $query->where('type', ProductType::PRODUCT);
     }
 }

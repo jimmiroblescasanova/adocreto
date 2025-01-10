@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('rfc');
+            $table->integer('tax')->default(1600);
             $table->timestamps();
         });
     }

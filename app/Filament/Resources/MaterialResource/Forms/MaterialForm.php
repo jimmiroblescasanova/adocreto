@@ -44,10 +44,12 @@ class MaterialForm extends Form
                     ->selectablePlaceholder(false)
                     ->required(),
 
-                    Forms\Components\TextInput::make('minumum')
+                    Forms\Components\TextInput::make('minimum')
                     ->label('Mínimo')
                     ->numeric()
-                    ->inputMode('decimal'),
+                    ->inputMode('decimal')
+                    ->default(0)
+                    ->required(),
                 ])
                 ->columns(),
             ])

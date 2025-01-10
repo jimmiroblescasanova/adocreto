@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(App\Models\Company::class)->constrained();
-            $table->unsignedBigInteger('type');
+            $table->unsignedBigInteger('type'); // 1: Entrada. 2: Salida. 
             $table->foreignIdFor(App\Models\User::class)->constrained();
             $table->foreignIdFor(App\Models\Entity::class)->nullable()->constrained();
             $table->foreignIdFor(App\Models\Warehouse::class)->nullable()->constrained();
             $table->dateTime('date');
-            $table->string('folio');
+            $table->unsignedBigInteger('folio');
             $table->string('title')->nullable();
             $table->bigInteger('subtotal')->default(0);
             $table->bigInteger('tax')->default(0);
@@ -28,6 +28,8 @@ return new class extends Migration
             $table->unsignedBigInteger('status')->default(0);
             $table->uuid('uuid')->nullable()->unique();
             $table->timestamps();
+
+            $table->unique(['company_id', 'type', 'folio']);
         });
     }
 

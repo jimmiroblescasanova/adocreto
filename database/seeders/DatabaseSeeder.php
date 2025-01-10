@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             $material['unit_id'] = $units->random()->id;
         }
         // Inserting data to materials table
-        Material::insert($materials);
+        Product::insert($materials);
         // add units to products
         foreach ($products as &$product) {
             $product['unit_id'] = $units->random()->id;

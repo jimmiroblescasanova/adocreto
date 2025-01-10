@@ -8,11 +8,15 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Entity extends Model
 {
+    /** @use HasFactory<\Database\Factories\EntityFactory> */
+    use HasFactory;
+
     protected function casts()
     {
         return [
@@ -41,6 +45,17 @@ class Entity extends Model
     }
 
     /**
+     * Scope a query to priorize active entities first
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeActiveFirst(Builder $query): Builder
+    {
+        return $query->orderBy('active', 'desc');
+    }
+
+    /**
      * Scope a query to only include clients.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -49,6 +64,17 @@ class Entity extends Model
     public function scopeClients(Builder $query): Builder
     {
         return $query->where('type', EntityType::CLIENT);
+    }
+
+    /**
+     * Scope a query to only include suppliers.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeSuppliers(Builder $query): Builder
+    {
+        return $query->where('type', EntityType::SUPPLIER);
     }
 
     /**

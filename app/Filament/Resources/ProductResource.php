@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProductResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Filament\Resources\ProductResource\Forms\ProductForm;
-use App\Filament\Resources\ProductResource\Tables\ProductTable;
+use App\Filament\Resources\ProductResource as ExtraResource;
 
 class ProductResource extends Resource
 {
@@ -25,12 +24,12 @@ class ProductResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return ProductForm::form($form);
+        return ExtraResource\Forms\ProductForm::form($form);
     }
 
     public static function table(Table $table): Table
     {
-        return ProductTable::table($table);
+        return ExtraResource\Tables\ProductTable::table($table);
     }
 
     public static function getRelations(): array
@@ -49,5 +48,10 @@ class ProductResource extends Resource
             'view' => Pages\ViewProduct::route('/{record}'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->products();
     }
 }
