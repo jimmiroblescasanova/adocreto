@@ -6,9 +6,11 @@ use Filament\Tables;
 use App\Models\Document;
 use Filament\Tables\Table;
 use App\Enums\DocumentStatus;
+use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use App\Filament\Resources\InventoryInResource\Tables\TableFilters;
 
 class InventoryInTable extends Table 
 {
@@ -21,7 +23,9 @@ class InventoryInTable extends Table
                 ->orderBy('folio', 'desc');
         })
         ->deferLoading()
+        ->deferFilters()
         ->persistSearchInSession()
+        ->persistFiltersInSession()
         ->columns([
             Tables\Columns\TextColumn::make('date')
             ->label('Fecha')
@@ -57,8 +61,9 @@ class InventoryInTable extends Table
             ->toggleable(isToggledHiddenByDefault: false),
         ])
         ->filters([
-            //
-        ])
+            ...TableFilters::documentFilters(),
+        ], layout: FiltersLayout::Modal)
+        ->filtersFormColumns(2)
         ->actions([
             Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),
