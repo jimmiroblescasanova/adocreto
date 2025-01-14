@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\InventoryInResource\Forms;
 
 use Filament\Forms;
+use App\Models\Product;
+use Filament\Forms\Get;
 use App\Models\Document;
 use Filament\Forms\Form;
 use App\Enums\ProductType;
@@ -86,6 +88,12 @@ class InventoryInForm extends Form
                 ->required()
                 ->columnSpan(2),
 
+                Forms\Components\Placeholder::make('unit')
+                ->label('Unidad')
+                ->content(function (Get $get): string {
+                    return Product::with('unit')->find($get('product_id'))->unit->name ?? '';
+                }),
+
                 Forms\Components\TextInput::make('quantity')
                 ->label('Cantidad')
                 ->numeric()
@@ -102,7 +110,7 @@ class InventoryInForm extends Form
                 $data['total'] = $data['subtotal'] + $data['tax'];
                 return $data;
             })
-            ->columns(4),
+            ->columns(5),
         ]);
     }
 }
