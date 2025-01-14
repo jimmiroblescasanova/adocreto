@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
 use App\Models\Document;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -30,24 +28,7 @@ class InventoryInResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-        ->columns([
-            Tables\Columns\TextColumn::make('date')
-            ->label('Fecha')
-            ->date(),
-        ])
-        ->filters([
-            //
-        ])
-        ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+        return ExtraResource\Tables\InventoryInTable::table($table);
     }
 
     public static function getRelations(): array

@@ -16,6 +16,7 @@ class ManageWarehouses extends ManageRecords
         return [
             Actions\CreateAction::make()
             ->mutateFormDataUsing(function (array $data): array {
+                $data['code'] = Str::upper($data['code']);
                 $data['name'] = Str::title($data['name']);
 
                 return $data;

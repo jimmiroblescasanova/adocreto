@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
 
-        Table::$defaultNumberLocale = 'mx';
+        Table::$defaultNumberLocale = 'es_MX';
     }
 }

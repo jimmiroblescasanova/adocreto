@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\InventoryInResource\Pages;
 
-use App\Filament\Resources\InventoryInResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Components\Actions\BackButton;
+use App\Filament\Resources\InventoryInResource;
 
 class ViewInventoryIn extends ViewRecord
 {
@@ -14,6 +15,8 @@ class ViewInventoryIn extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
+
+            BackButton::make(),
         ];
     }
 }

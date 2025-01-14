@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('type');
+            $table->string('code')->unique();
             $table->string('name');
             $table->longText('location')->nullable();
             $table->boolean('active')->default(true);

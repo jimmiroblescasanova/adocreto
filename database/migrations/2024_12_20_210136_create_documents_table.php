@@ -25,7 +25,7 @@ return new class extends Migration
             $table->bigInteger('tax')->default(0);
             $table->bigInteger('total')->default(0);
             $table->tinyInteger('operation')->default(0); // 0: Sin efecto, 1: Entrada, 2: Salida
-            $table->unsignedBigInteger('status')->default(0);
+            $table->integer('status')->default(0);
             $table->uuid('uuid')->nullable()->unique();
             $table->timestamps();
 

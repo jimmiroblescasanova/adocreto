@@ -81,6 +81,7 @@ class InventoryInForm extends Form
                     titleAttribute: 'name', 
                     modifyQueryUsing: fn (Builder $query): Builder => $query->where('type', ProductType::MATERIAL))
                 ->searchable(['code', 'name'])
+                ->preload()
                 ->optionsLimit(10)
                 ->required()
                 ->columnSpan(2),
@@ -97,6 +98,8 @@ class InventoryInForm extends Form
             ])
             ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
                 $data['subtotal'] = $data['quantity'] * $data['price'];
+                $data['tax'] = $data['subtotal'] * 0.16;
+                $data['total'] = $data['subtotal'] + $data['tax'];
                 return $data;
             })
             ->columns(4),

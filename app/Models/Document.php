@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\MoneyCast;
+use App\Enums\DocumentStatus;
 use Filament\Facades\Filament;
 use App\Enums\DocumentTypeEnum;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Document extends Model
             'subtotal' => MoneyCast::class,
             'tax' => MoneyCast::class,
             'total' => MoneyCast::class,
+            'status' => DocumentStatus::class,
         ];
     }
 

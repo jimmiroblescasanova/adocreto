@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use App\Models\Warehouse;
 use Filament\Tables\Table;
@@ -36,6 +37,18 @@ class WarehouseResource extends Resource
             ->options(WarehouseTypeEnum::class)
             ->required(),
 
+            Forms\Components\TextInput::make('code')
+            ->label('Código del almacen')
+            ->minLength(5)
+            ->maxLength(25)
+            ->required()
+            ->extraAttributes([
+                'onkeydown' => "if (event.key === ' ') { event.preventDefault(); }",
+                'oninput' => "this.value = this.value.replace(/\\s+/g, '');",
+            ])
+            ->live(onBlur: true)
+            ->afterStateUpdated(fn (Set $set, ?string $state): string => $set('code', Str::upper($state))),
+
             Forms\Components\TextInput::make('name')
             ->label('Nombre del almacen')
             ->minLength(5)
@@ -54,13 +67,21 @@ class WarehouseResource extends Resource
             ->inline()
             ->hiddenOn('create'),
         ])
-        ->columns(3);
+        ->columns();
     }
 
     public static function table(Table $table): Table
     {
         return $table
+        ->defaultSort('code', 'desc')
+        ->deferLoading()
+        ->persistSearchInSession()
         ->columns([
+            Tables\Columns\TextColumn::make('code')
+            ->label('Código')
+            ->searchable()
+            ->sortable(),
+
             Tables\Columns\TextColumn::make('name')
             ->label('Nombre del almacen')
             ->searchable()
