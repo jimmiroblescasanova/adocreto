@@ -10,7 +10,6 @@ use Filament\Forms\Form;
 use App\Enums\ProductType;
 use App\Enums\DocumentType;
 use App\Enums\InventoryOperation;
-use Filament\Forms\Components\Wizard;
 use Illuminate\Database\Eloquent\Builder;
 
 class InventoryInForm extends Form 
@@ -19,18 +18,37 @@ class InventoryInForm extends Form
     {
         return $form
         ->schema([
-            Wizard::make([
+            Forms\Components\Wizard::make([
                 self::stepGeneral(),
 
                 self::stepItems(),
             ])
-            ->columnSpanFull()
+            ->columnSpanFull(), 
+            // TODO: Opcional: agregarlos como campos de texto deshabilitados
+            Forms\Components\Fieldset::make('Totales')
+            ->schema([
+                Forms\Components\Placeholder::make('subtotal')
+                ->label('Subtotal')
+                ->inlineLabel()
+                ->content(fn (Get $get) => "$ " . number_format(self::calculateSubtotal($get('items')), 2, '.', ',')),
+
+                Forms\Components\Placeholder::make('tax')
+                ->label('IVA')
+                ->inlineLabel()
+                ->content(fn (Get $get) => "$ " . number_format(self::calculateTax($get('items')), 2, '.', ',')),
+
+                Forms\Components\Placeholder::make('total')
+                ->label('TOTAL')
+                ->inlineLabel()
+                ->content(fn (Get $get) => "$ " . number_format(self::calculateTotal($get('items')), 2, '.', ',')),
+            ])
+            ->columns(3),
         ]);
     }
 
-    public static function stepGeneral(): Wizard\Step
+    public static function stepGeneral(): Forms\Components\Wizard\Step
     {
-        return Wizard\Step::make('General')
+        return Forms\Components\Wizard\Step::make('General')
         ->schema([
             Forms\Components\TextInput::make('folio')
             ->label('Folio')
@@ -71,9 +89,9 @@ class InventoryInForm extends Form
         ->columns(4);
     }
 
-    public static function stepItems(): Wizard\Step
+    public static function stepItems(): Forms\Components\Wizard\Step
     {
-        return Wizard\Step::make('Movimientos')
+        return Forms\Components\Wizard\Step::make('Movimientos')
         ->schema([
             Forms\Components\Repeater::make('items')
             ->relationship()
@@ -99,11 +117,13 @@ class InventoryInForm extends Form
                 Forms\Components\TextInput::make('quantity')
                 ->label('Cantidad')
                 ->numeric()
+                ->live(onBlur: true)
                 ->required(),
 
                 Forms\Components\TextInput::make('price')
                 ->label('Costo')
                 ->numeric()
+                ->live(onBlur: true)
                 ->required(),
             ])
             ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
@@ -115,5 +135,22 @@ class InventoryInForm extends Form
             })
             ->columns(5),
         ]);
+    }
+
+    private static function calculateSubtotal(array $items): int
+    {
+        return collect($items)->sum(function($item) {
+            return $item['quantity'] * $item['price'];
+        });
+    }
+
+    private static function calculateTax(array $items): int
+    {
+        return self::calculateSubtotal($items) * 0.16;
+    }
+
+    private static function calculateTotal(array $items): int
+    {
+        return self::calculateSubtotal($items) + self::calculateTax($items);
     }
 }
