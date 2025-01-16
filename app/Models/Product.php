@@ -32,6 +32,16 @@ class Product extends Model
     }
 
     /**
+     * Get the document items associated with the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function documentItems(): HasMany
+    {
+        return $this->hasMany(DocumentItem::class);
+    }
+
+    /**
      * Get the components associated with the product.
      * 
      * This establishes a one-to-many relationship between the Product model
@@ -74,6 +84,30 @@ class Product extends Model
         ->price_lists
         ->whereBelongsTo(Filament::getTenant())
         ->pluck('pivot.price', 'id')->toArray();
+    }
+
+    /**
+     * Calculate the average price of the product.
+     *
+     * @return int
+     */
+    public function calculateAveragePrice(): int
+    {
+        return ($this->documentItems()->average('price') / 100) 
+            ?? 0;
+    }
+
+
+    /**
+     * Calculate the inventory of the product.
+     *
+     * @return int
+     */
+    public function totalInventory(): int
+    {
+        return $this->documentItems()
+            ->selectRaw('SUM(quantity * operation) as total')
+            ->value('total') ?? 0;
     }
 
     /**

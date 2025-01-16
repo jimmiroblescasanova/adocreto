@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use Filament\Support\Contracts\HasLabel;
 
-enum DocumentTypeEnum: int implements HasLabel
+enum DocumentType: int implements HasLabel
 {
     case InventoryIn = 1;
     case InventoryOut = 2;

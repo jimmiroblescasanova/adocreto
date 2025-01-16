@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Unit;
 use App\Models\User;
+use App\Models\Entity;
 use App\Models\Company;
 use App\Models\Product;
 use App\Models\Category;
@@ -66,5 +67,6 @@ class DatabaseSeeder extends Seeder
         }
         // Inserting data to products table
         Product::insert($products);
+        Entity::factory(40)->create();
     }
 }

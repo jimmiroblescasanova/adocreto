@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('subtotal')->default(0);
             $table->bigInteger('tax')->default(0);
             $table->bigInteger('total')->default(0);
+            $table->integer('operation')->default(1); // 1: Entrada. -1: Salida.
             $table->timestamps();
         });
     }

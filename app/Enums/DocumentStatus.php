@@ -7,25 +7,25 @@ use Filament\Support\Contracts\HasLabel;
 
 enum DocumentStatus: int implements HasLabel, HasColor
 {
-    case CANCELLED = -1;
     case INCOMPLETE = 0;
     case PLACED = 1;
+    case CANCELLED = 2;
 
     public function getLabel(): string
     {
         return match ($this) {
+            self::INCOMPLETE => 'Incompleto',
             self::PLACED => 'Completo',
             self::CANCELLED => 'Cancelado',
-            self::INCOMPLETE => 'Incompleto',
         };
     }
 
     public function getColor(): string
     {
         return match ($this) {
+            self::INCOMPLETE => 'danger',
             self::PLACED => 'success',
             self::CANCELLED => 'gray',
-            self::INCOMPLETE => 'warning',
         };
     }
 }

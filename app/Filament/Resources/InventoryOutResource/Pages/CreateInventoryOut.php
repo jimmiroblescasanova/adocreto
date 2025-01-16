@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\InventoryInResource\Pages;
+namespace App\Filament\Resources\InventoryOutResource\Pages;
 
 use Filament\Actions;
 use App\Enums\DocumentType;
@@ -10,17 +10,17 @@ use App\Traits\CreateActionsOnTop;
 use Illuminate\Support\Facades\Auth;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
-use App\Filament\Resources\InventoryInResource;
+use App\Filament\Resources\InventoryOutResource;
 
-class CreateInventoryIn extends CreateRecord
+class CreateInventoryOut extends CreateRecord
 {
     use CreateActionsOnTop;
     
-    protected static string $resource = InventoryInResource::class;
+    protected static string $resource = InventoryOutResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['type'] = DocumentType::InventoryIn;
+        $data['type'] = DocumentType::InventoryOut;
         $data['user_id'] = Auth::id();
         $data['uuid'] = Str::uuid();
 

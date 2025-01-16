@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Models\Document;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use App\Enums\DocumentTypeEnum;
+use App\Enums\DocumentType;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -50,6 +50,6 @@ class InventoryInResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('type', DocumentTypeEnum::InventoryIn);
+        return parent::getEloquentQuery()->where('type', DocumentType::InventoryIn);
     }
 }

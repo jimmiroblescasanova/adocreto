@@ -1,40 +1,39 @@
 <?php
 
-namespace App\Filament\Resources\InventoryInResource\Forms;
+namespace App\Filament\Resources\InventoryOutResource\Forms;
 
 use Filament\Forms;
 use App\Models\Product;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use App\Models\Document;
 use Filament\Forms\Form;
-use App\Enums\ProductType;
 use App\Enums\DocumentType;
 use App\Enums\InventoryOperation;
-use Filament\Forms\Components\Wizard;
-use Illuminate\Database\Eloquent\Builder;
 
-class InventoryInForm extends Form 
+class InventoryOutForm extends Form
 {
     public static function form(Form $form): Form
     {
         return $form
         ->schema([
-            Wizard::make([
-                self::stepGeneral(),
+            Forms\Components\Wizard::make([
+                self::stepGeneral()
+                ->columns(4),
 
                 self::stepItems(),
             ])
-            ->columnSpanFull()
+            ->columnSpanFull(),
         ]);
     }
 
-    public static function stepGeneral(): Wizard\Step
+    public static function stepGeneral(): Forms\Components\Wizard\Step
     {
-        return Wizard\Step::make('General')
+        return Forms\Components\Wizard\Step::make('Datos generales')
         ->schema([
             Forms\Components\TextInput::make('folio')
             ->label('Folio')
-            ->default(fn (): int => Document::getFolio(DocumentType::InventoryIn)+1)
+            ->default(fn (): int => Document::getFolio(DocumentType::InventoryOut)+1)
             ->readOnly(),
 
             Forms\Components\DatePicker::make('date')
@@ -45,7 +44,7 @@ class InventoryInForm extends Form
             ->label('Almacén')
             ->relationship(name: 'warehouse', titleAttribute: 'name', 
                 modifyQueryUsing: function ($query) {
-                return $query->active()->supplies();
+                return $query->active();
             })
             ->searchable()
             ->preload()
@@ -53,41 +52,33 @@ class InventoryInForm extends Form
             ->required()
             ->columnSpan(2),
 
-            Forms\Components\Select::make('entity_id')
-            ->label('Proveedor')
-            ->relationship('entity', 'name')
-            ->searchable()
-            ->preload()
-            ->optionsLimit(15)
-            ->required()
-            ->selectablePlaceholder(false)
-            ->columnSpan(2),
-
             Forms\Components\TextInput::make('title')
             ->label('Título')
             ->maxLength(255)
-            ->columnSpan(2),
-        ])
-        ->columns(4);
+            ->columnSpanFull()
+            ->required(),
+        ]);
     }
 
-    public static function stepItems(): Wizard\Step
+    public static function stepItems(): Forms\Components\Wizard\Step
     {
-        return Wizard\Step::make('Movimientos')
+        return Forms\Components\Wizard\Step::make('Productos')
         ->schema([
             Forms\Components\Repeater::make('items')
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_id')
-                ->label('Material')
-                ->relationship(name: 'product', 
-                    titleAttribute: 'name', 
-                    modifyQueryUsing: fn (Builder $query): Builder => $query->where('type', ProductType::MATERIAL))
+                ->label('Producto')
+                ->relationship(name: 'product', titleAttribute: 'name')
                 ->searchable(['code', 'name'])
                 ->preload()
-                ->optionsLimit(10)
+                ->optionsLimit(15)
                 ->required()
                 ->live()
+                ->afterStateUpdated(function (Set $set, Get $get): void {
+                    $product = Product::find($get('product_id'));
+                    $set('price', $product->calculateAveragePrice());
+                })
                 ->columnSpan(2),
 
                 Forms\Components\Placeholder::make('unit')
@@ -99,21 +90,28 @@ class InventoryInForm extends Form
                 Forms\Components\TextInput::make('quantity')
                 ->label('Cantidad')
                 ->numeric()
-                ->required(),
+                ->default(1)
+                ->live(),
 
                 Forms\Components\TextInput::make('price')
                 ->label('Costo')
-                ->numeric()
-                ->required(),
+                ->numeric(),
+
+                Forms\Components\Placeholder::make('available')
+                ->label('Disponible')
+                ->content(function (Get $get): mixed {
+                    return Product::find($get('product_id'))?->totalInventory() ?? 0;
+                }),
             ])
             ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
                 $data['subtotal'] = $data['quantity'] * $data['price'];
                 $data['tax'] = $data['subtotal'] * 0.16;
                 $data['total'] = $data['subtotal'] + $data['tax'];
-                $data['operation'] = InventoryOperation::IN;
+                $data['operation'] = InventoryOperation::OUT; 
                 return $data;
             })
-            ->columns(5),
+            ->columns(6),
         ]);
     }
 }
+

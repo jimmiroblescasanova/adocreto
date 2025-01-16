@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Casts\MoneyCast;
+use App\Enums\DocumentType;
 use App\Enums\DocumentStatus;
 use Filament\Facades\Filament;
-use App\Enums\DocumentTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -57,10 +57,10 @@ class Document extends Model
      *
      * This method retrieves the count of documents of a given type that belong to the current tenant.
      *
-     * @param DocumentTypeEnum $type The type of document to count.
+     * @param DocumentType $type The type of document to count.
      * @return int The count of documents of the specified type.
      */
-    public static function getFolio(DocumentTypeEnum $type): int
+    public static function getFolio(DocumentType $type): int
     {
         $company = Filament::getTenant();
 
