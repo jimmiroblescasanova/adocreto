@@ -126,7 +126,8 @@ class InventoryInForm extends Form
                 ->live(onBlur: true)
                 ->required(),
             ])
-            ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
+            ->mutateRelationshipDataBeforeCreateUsing(function (array $data, Forms\Get $get): array {
+                $data['warehouse_id'] = $get('warehouse_id');
                 $data['subtotal'] = $data['quantity'] * $data['price'];
                 $data['tax'] = $data['subtotal'] * 0.16;
                 $data['total'] = $data['subtotal'] + $data['tax'];

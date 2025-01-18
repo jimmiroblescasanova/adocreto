@@ -99,13 +99,17 @@ class Product extends Model
 
 
     /**
-     * Calculate the inventory of the product.
+     * Calculate the inventory of the product for a specific warehouse.
      *
+     * @param int|null $warehouseId
      * @return int
      */
-    public function totalInventory(): int
+    public function totalInventory(?int $warehouseId = null): int
     {
         return $this->documentItems()
+            ->when($warehouseId, function ($query) use ($warehouseId) {
+                $query->where('warehouse_id', $warehouseId);
+            })
             ->selectRaw('SUM(quantity * operation) as total')
             ->value('total') ?? 0;
     }

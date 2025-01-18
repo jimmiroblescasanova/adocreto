@@ -4,8 +4,6 @@ namespace App\Filament\Resources\InventoryOutResource\Forms;
 
 use Filament\Forms;
 use App\Models\Product;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use App\Models\Document;
 use Filament\Forms\Form;
 use App\Enums\DocumentType;
@@ -75,15 +73,17 @@ class InventoryOutForm extends Form
                 ->optionsLimit(15)
                 ->required()
                 ->live()
-                ->afterStateUpdated(function (Set $set, Get $get): void {
+                ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get): void {
                     $product = Product::find($get('product_id'));
-                    $set('price', $product->calculateAveragePrice());
+                    if ($product) {
+                        $set('price', $product->calculateAveragePrice());
+                    }
                 })
                 ->columnSpan(2),
 
                 Forms\Components\Placeholder::make('unit')
                 ->label('Unidad')
-                ->content(function (Get $get): string {
+                ->content(function (Forms\Get $get): string {
                     return Product::with('unit')->find($get('product_id'))->unit->name ?? '';
                 }),
 
@@ -99,11 +99,12 @@ class InventoryOutForm extends Form
 
                 Forms\Components\Placeholder::make('available')
                 ->label('Disponible')
-                ->content(function (Get $get): mixed {
-                    return Product::find($get('product_id'))?->totalInventory() ?? 0;
+                ->content(function (Forms\Get $get): mixed {
+                    return Product::find($get('product_id'))?->totalInventory($get('../../warehouse_id')) ?? 0;
                 }),
             ])
-            ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
+            ->mutateRelationshipDataBeforeCreateUsing(function (array $data, Forms\Get $get): array {
+                $data['warehouse_id'] = $get('warehouse_id');
                 $data['subtotal'] = $data['quantity'] * $data['price'];
                 $data['tax'] = $data['subtotal'] * 0.16;
                 $data['total'] = $data['subtotal'] + $data['tax'];

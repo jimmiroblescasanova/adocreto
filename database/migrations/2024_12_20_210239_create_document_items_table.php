@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(App\Models\Document::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(App\Models\Product::class)->constrained();
+            $table->foreignIdFor(App\Models\Warehouse::class)->constrained();
             $table->bigInteger('quantity')->default(0);
             $table->bigInteger('price')->default(0);
             $table->bigInteger('subtotal')->default(0);
