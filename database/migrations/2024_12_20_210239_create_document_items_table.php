@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('document_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(App\Models\Document::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(App\Models\Document::class)
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
             $table->foreignIdFor(App\Models\Product::class)->constrained();
             $table->foreignIdFor(App\Models\Warehouse::class)->constrained();
             $table->bigInteger('quantity')->default(0);
@@ -22,6 +25,7 @@ return new class extends Migration
             $table->bigInteger('tax')->default(0);
             $table->bigInteger('total')->default(0);
             $table->integer('operation')->default(1); // 1: Entrada. -1: Salida.
+            $table->foreignIdFor(App\Models\Transfer::class)->nullable();
             $table->timestamps();
         });
     }

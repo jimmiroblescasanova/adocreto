@@ -19,6 +19,10 @@ class WarehouseFactory extends Factory
     {
         return [
             'type' => fake()->randomElement(WarehouseType::cases()),
+            'code' => fake()->unique()->numerify('W-####'),
+            'name' => fake()->unique()->city(),
+            'location' => fake()->optional()->address(),
+            'active' => fake()->boolean(),
         ];
     }
 }

@@ -3,16 +3,19 @@
 namespace App\Models;
 
 use App\Enums\IsActiveEnum;
-use App\Enums\WarehouseTypeEnum;
-use Illuminate\Database\Eloquent\Builder;
+use App\Enums\WarehouseType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Warehouse extends Model
 {
+    use HasFactory;
+    
     protected function casts(): array
     {
         return [
-            'type' => WarehouseTypeEnum::class,
+            'type' => WarehouseType::class,
             'active' => IsActiveEnum::class,
         ];
     }
@@ -36,7 +39,7 @@ class Warehouse extends Model
      */
     public function scopeGeneral(Builder $query): Builder
     {
-        return $query->where('type', WarehouseTypeEnum::GENERAL);
+        return $query->where('type', WarehouseType::GENERAL);
     }
 
     /**
@@ -47,7 +50,7 @@ class Warehouse extends Model
      */
     public function scopeSupplies(Builder $query): Builder
     {
-        return $query->where('type', WarehouseTypeEnum::SUPPLIES);
+        return $query->where('type', WarehouseType::SUPPLIES);
     }
 
     public static function getGroupedOptions(): array

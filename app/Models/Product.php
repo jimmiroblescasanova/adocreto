@@ -87,14 +87,18 @@ class Product extends Model
     }
 
     /**
-     * Calculate the average price of the product.
+     * Calculate the average price of the product for a specific warehouse.
      *
+     * @param int|null $warehouseId
      * @return int
      */
-    public function calculateAveragePrice(): int
+    public function calculateAveragePrice(?int $warehouseId = null): int
     {
-        return ($this->documentItems()->average('price') / 100) 
-            ?? 0;
+        return $this->documentItems()
+            ->when($warehouseId, function ($query) use ($warehouseId) {
+                $query->where('warehouse_id', $warehouseId);
+            })
+            ->average('price') / 100 ?? 0;
     }
 
 

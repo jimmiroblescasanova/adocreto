@@ -57,7 +57,8 @@ class InventoryInForm extends Form
 
             Forms\Components\DatePicker::make('date')
             ->label('Fecha')
-            ->default(now()->toDateString()),
+            ->default(now()->toDateString())
+            ->required(),
 
             Forms\Components\Select::make('warehouse_id')
             ->label('Almacén')
