@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use Filament\Support\Contracts\HasLabel;
 
-enum WarehouseTypeEnum: int implements HasLabel
+enum WarehouseType: int implements HasLabel
 {
     case GENERAL = 1;
     case SUPPLIES = 2;

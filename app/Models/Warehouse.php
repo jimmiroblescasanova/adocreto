@@ -49,4 +49,31 @@ class Warehouse extends Model
     {
         return $query->where('type', WarehouseTypeEnum::SUPPLIES);
     }
+
+    public static function getGroupedOptions(): array
+    {
+        // Obtener solo almacenes activos y ordenados por nombre
+        $warehouses = self::active()
+            ->orderBy('name')
+            ->get();
+
+        // Validar si hay almacenes
+        if ($warehouses->isEmpty()) {
+            return [];
+        }
+
+        // Agrupar las opciones por el label del enum
+        return $warehouses
+            ->groupBy(function ($warehouse) {
+                return $warehouse->type->getLabel(); // Acceso directo al enum gracias al cast
+            })
+            ->mapWithKeys(function ($group, $typeLabel) {
+                return [
+                    $typeLabel => $group->mapWithKeys(function ($warehouse) {
+                        return [$warehouse->id => $warehouse->name];
+                    })->toArray()
+                ];
+            })
+            ->toArray();
+    }
 }

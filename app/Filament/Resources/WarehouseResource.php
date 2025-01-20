@@ -9,7 +9,7 @@ use Filament\Forms\Form;
 use App\Models\Warehouse;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use App\Enums\WarehouseTypeEnum;
+use App\Enums\WarehouseType;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\WarehouseResource\Pages;
@@ -34,7 +34,7 @@ class WarehouseResource extends Resource
         ->schema([
             Forms\Components\Select::make('type')
             ->label('Tipo de almacen')
-            ->options(WarehouseTypeEnum::class)
+            ->options(WarehouseType::class)
             ->required(),
 
             Forms\Components\TextInput::make('code')
@@ -110,7 +110,7 @@ class WarehouseResource extends Resource
         ->filters([
             Tables\Filters\SelectFilter::make('type')
             ->label('Tipo')
-            ->options(WarehouseTypeEnum::class),
+            ->options(WarehouseType::class),
         ])
         ->deferFilters()
         ->actions([
