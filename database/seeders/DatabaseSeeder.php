@@ -9,6 +9,7 @@ use App\Models\Company;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Material;
+use App\Models\Warehouse;
 use Illuminate\Database\Seeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -68,5 +69,6 @@ class DatabaseSeeder extends Seeder
         // Inserting data to products table
         Product::insert($products);
         Entity::factory(40)->create();
+        Warehouse::factory(20)->create();
     }
 }
