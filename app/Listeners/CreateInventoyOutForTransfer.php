@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Document;
 use App\Models\Transfer;
 use App\Enums\DocumentType;
+use Illuminate\Support\Str;
 use App\Enums\DocumentStatus;
 use App\Enums\TransferStatus;
 use App\Events\TransferInRoute;
@@ -42,6 +43,7 @@ class CreateInventoyOutForTransfer
                 'folio' => Document::getFolio(DocumentType::InventoryOut) + 1,
                 'title' => 'Salida de inventario por traspaso. ID: ' . $event->transfer->folio,
                 'status' => DocumentStatus::LOCKED,
+                'uuid' => Str::uuid(),
                 'external_model' => Transfer::class,
                 'external_id' => $event->transfer->id,
             ]);
