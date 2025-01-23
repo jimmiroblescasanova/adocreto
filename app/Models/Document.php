@@ -76,8 +76,18 @@ class Document extends Model
     {
         $company = Filament::getTenant();
 
-        return self::whereBelongsTo($company)
+        return (int) self::whereBelongsTo($company)
             ->where('type', $type)
             ->max('folio') ?? 0;
+    }
+    
+    /**
+     * Returns the next available folio number.
+     *
+     * @return int
+     */
+    public static function getNextFolio(DocumentType $type): int
+    {
+        return self::getFolio($type) + 1;
     }
 }
