@@ -25,3 +25,4 @@ yarn-error.log
 /database/seeders/FakeMaterials.php
 /database/seeders/FakeProducts.php
 /database/seeders/FakeUnits.php
+.DS_Store
