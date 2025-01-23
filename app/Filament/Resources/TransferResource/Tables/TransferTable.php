@@ -4,6 +4,7 @@ namespace App\Filament\Resources\TransferResource\Tables;
 
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Enums\TransferStatus;
 use Illuminate\Database\Eloquent\Builder;
 
 class TransferTable extends Table
@@ -37,9 +38,29 @@ class TransferTable extends Table
             ->searchable()
             ->sortable()
             ->grow(),
+
+            Tables\Columns\TextColumn::make('status')
+            ->label('Estado')
+            ->badge()
+            ->alignCenter(),
+
+            Tables\Columns\TextColumn::make('createdBy.name')
+            ->label('Creado por')
+            ->sortable()
+            ->searchable()
+            ->toggleable(isToggledHiddenByDefault: true)
+            ->alignCenter(),
         ])
         ->filters([
-            //
+            Tables\Filters\SelectFilter::make('status')
+            ->options(TransferStatus::class)
+            ->label('Estado')
+            ->native(false),
+
+            Tables\Filters\SelectFilter::make('createdBy.name')
+            ->label('Creado por')
+            ->searchable()
+            ->native(false),
         ])
         ->actions([
             Tables\Actions\ViewAction::make(),

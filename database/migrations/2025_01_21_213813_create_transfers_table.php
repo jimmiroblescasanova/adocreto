@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('date');
+            $table->date('date');
             $table->unsignedBigInteger('folio');
             $table->string('title')->nullable();
             $table->foreignIdFor(App\Models\Warehouse::class, 'origin_warehouse_id')->constrained();

@@ -15,16 +15,26 @@ class Transfer extends Model
     protected function casts(): array
     {
         return [
-            'date' => 'datetime',
+            'date' => 'date',
             'status' => TransferStatus::class,
         ];
     }
 
+    /**
+     * This method returns the user who created the transfer.
+     *
+     * @return BelongsTo<User>
+     */
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * This method returns the user who accepted the transfer.
+     *
+     * @return BelongsTo<User>
+     */
     public function acceptedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'accepted_by');

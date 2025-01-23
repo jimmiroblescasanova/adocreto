@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\TransferResource\Pages;
 
-use App\Filament\Resources\TransferResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Resources\TransferResource;
+use App\Filament\Components\Actions\BackButton;
 
 class ViewTransfer extends ViewRecord
 {
@@ -14,6 +15,8 @@ class ViewTransfer extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
+
+            BackButton::make(),
         ];
     }
 }

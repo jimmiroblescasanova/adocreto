@@ -2,20 +2,44 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Contracts\HasColor;
 
-enum TransferStatus: string implements HasLabel
+enum TransferStatus: string implements HasLabel, HasIcon, HasColor
 {
-    case PENDING = 'pending';
-    case ACCEPTED = 'accepted';
-    case REJECTED = 'rejected';
+    case Pending = 'pending';
+    case InRoute = 'in_route';
+    case Delivered = 'delivered';
+    case Rejected = 'rejected';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::PENDING => 'Pendiente',
-            self::ACCEPTED => 'Aceptado',
-            self::REJECTED => 'Rechazado',
+            self::Pending => 'Pendiente',
+            self::InRoute => 'En ruta',
+            self::Delivered => 'Entregado',
+            self::Rejected => 'Rechazado',
+        };
+    }
+
+    public function getIcon(): ?string
+    {
+        return match ($this) {
+            self::Pending => 'heroicon-m-clock',
+            self::InRoute => 'heroicon-m-truck',
+            self::Delivered => 'heroicon-m-check',
+            self::Rejected => 'heroicon-m-x-circle',
+        };
+    }
+
+    public function getColor(): string | array | null
+    {
+        return match ($this) {
+            self::Pending => 'warning',
+            self::InRoute => 'info',
+            self::Delivered => 'success',
+            self::Rejected => 'danger',
         };
     }
 }
