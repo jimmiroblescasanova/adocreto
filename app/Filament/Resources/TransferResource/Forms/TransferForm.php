@@ -15,7 +15,7 @@ class TransferForm extends Form
         return $form
         ->schema([
             Forms\Components\Wizard::make([
-                Forms\Components\Wizard\Step::make('general')
+                Forms\Components\Wizard\Step::make('Datos generales')
                 ->schema([
                     Forms\Components\TextInput::make('folio')
                     ->label('Folio')
@@ -60,18 +60,26 @@ class TransferForm extends Form
 
     private static function getItems(): Forms\Components\Wizard\Step
     {
-        return Forms\Components\Wizard\Step::make('items')
+        return Forms\Components\Wizard\Step::make('Movimientos del traspaso')
         ->schema([
             Forms\Components\Repeater::make('items')
+            ->hiddenLabel()
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_id')
                 ->label('Producto')
                 ->relationship(name: 'product', titleAttribute: 'name')
+                ->native(false)
+                ->searchable()
+                ->preload()
+                ->optionsLimit(15)
                 ->required()
                 ->live()
                 ->afterStateUpdated(function (Forms\Set $set, $state, Forms\Get $get): void {
-                    $set('inventory', self::getInventory($state, $get('../../origin_warehouse_id')) ?? 0);
+                    if ($state) {
+                        $product = self::getProduct($state);
+                        $set('inventory', $product->totalInventory($get('../../origin_warehouse_id')) ?? 0);
+                    }
                 })
                 ->columnSpan(function (string $operation): string {
                     return match ($operation) {
@@ -80,10 +88,20 @@ class TransferForm extends Form
                     };
                 }),
 
+                Forms\Components\Placeholder::make('unit')
+                ->label('Unidad')
+                ->content(function (Forms\Get $get) {
+                    if ($get('product_id')) {
+                        $product = self::getProduct($get('product_id'));
+                        return $product->unit->name;
+                    }
+                }),
+
                 Forms\Components\TextInput::make('inventory')
                 ->label('Inventario')
                 ->readOnly()
-                ->dehydrated(false),
+                ->dehydrated(false)
+                ->visibleOn('create'),
 
                 Forms\Components\TextInput::make('quantity')
                 ->label('Cantidad')
@@ -92,7 +110,7 @@ class TransferForm extends Form
                 ->required()
                 ->lte('inventory'),
             ])
-            ->columns(4),
+            ->columns(5),
         ]);
     }
 
@@ -101,8 +119,8 @@ class TransferForm extends Form
         return once(fn () => Warehouse::getGroupedOptions());
     }
 
-    public static function getInventory(int $productId, int $warehouseId): int|string
+    public static function getProduct(int $productId): Product
     {
-        return once(fn () => Product::find($productId)->totalInventory($warehouseId));
+        return once(fn () => Product::find($productId));
     }
 }

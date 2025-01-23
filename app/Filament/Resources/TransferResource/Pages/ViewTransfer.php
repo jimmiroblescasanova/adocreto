@@ -32,6 +32,7 @@ class ViewTransfer extends ViewRecord
             ->label('Marcar como recibido')
             ->action(fn () => $this->markAsReceived())
             ->icon('heroicon-m-check')
+            ->requiresConfirmation()
             ->visible(fn () => $this->record->status === TransferStatus::InRoute),
 
             BackButton::make(),

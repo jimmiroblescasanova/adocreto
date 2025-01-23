@@ -41,7 +41,7 @@ class CreateInventoyOutForTransfer
                 'warehouse_id' => $event->transfer->origin_warehouse_id,
                 'date' => now(),
                 'folio' => Document::getFolio(DocumentType::InventoryOut) + 1,
-                'title' => 'Salida de inventario por traspaso. ID: ' . $event->transfer->folio,
+                'title' => "Salida de inventario por traspaso. [ID#{$event->transfer->folio}]",
                 'status' => DocumentStatus::LOCKED,
                 'uuid' => Str::uuid(),
                 'external_model' => Transfer::class,

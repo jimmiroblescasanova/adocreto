@@ -43,7 +43,8 @@ class InventoryInTable extends Table
             ->searchable()
             ->sortable()
             ->grow()
-            ->description(fn (Document $record): string => $record->title ?? ''),
+            ->description(fn (Document $record): string => $record->title ?? '')
+            ->default('Traspaso'),
 
             Tables\Columns\TextColumn::make('warehouse.code')
             ->label('Almacén'),
