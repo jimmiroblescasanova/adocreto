@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TransferResource\Pages;
 
+use Illuminate\Support\Str;
 use App\Enums\TransferStatus;
 use App\Traits\CreateActionsOnTop;
 use Filament\Resources\Pages\CreateRecord;
@@ -17,6 +18,7 @@ class CreateTransfer extends CreateRecord
     {
         $data['created_by'] = auth()->id();
         $data['status'] = TransferStatus::Pending;
+        $data['uuid'] = Str::uuid();
         return $data;
     }
 }
