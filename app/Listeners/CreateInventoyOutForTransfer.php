@@ -41,7 +41,9 @@ class CreateInventoyOutForTransfer
                 'date' => now(),
                 'folio' => Document::getFolio(DocumentType::InventoryOut) + 1,
                 'title' => 'Salida de inventario por traspaso. ID: ' . $event->transfer->folio,
-                'status' => DocumentStatus::PLACED,
+                'status' => DocumentStatus::LOCKED,
+                'external_model' => Transfer::class,
+                'external_id' => $event->transfer->id,
             ]);
 
             // Create inventory out items
@@ -54,7 +56,7 @@ class CreateInventoyOutForTransfer
             ]);
     
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
 
             $event->transfer->update([
