@@ -7,6 +7,7 @@ use App\Enums\DocumentType;
 use App\Enums\DocumentStatus;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -15,6 +16,7 @@ class Document extends Model
     protected function casts(): array
     {
         return [
+            'type' => DocumentType::class,
             'subtotal' => MoneyCast::class,
             'tax' => MoneyCast::class,
             'total' => MoneyCast::class,
@@ -43,6 +45,16 @@ class Document extends Model
     }
 
     /**
+     * Get the production associated with the document.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function production(): HasOne
+    {
+        return $this->hasOne(Production::class);
+    }
+
+    /**
      * Get the warehouse that owns the document.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -66,6 +78,6 @@ class Document extends Model
 
         return self::whereBelongsTo($company)
             ->where('type', $type)
-            ->count();
+            ->max('folio') ?? 0;
     }
 }

@@ -6,7 +6,7 @@ use App\Casts\QuantityCast;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TransferItem extends Model
+class ProductionItems extends Model
 {
     protected function casts(): array
     {
@@ -14,20 +14,20 @@ class TransferItem extends Model
             'quantity' => QuantityCast::class,
         ];
     }
-    
+
     /**
-     * This method returns the transfer for the item.
-     *
-     * @return BelongsTo<Transfer>
+     * This method returns the production of the item.
+     * 
+     * @return BelongsTo<Production>
      */
-    public function transfer(): BelongsTo
+    public function production(): BelongsTo
     {
-        return $this->belongsTo(Transfer::class);
+        return $this->belongsTo(Production::class);
     }
 
     /**
-     * This method returns the product for the item.
-     *
+     * This method returns the product of the item.
+     * 
      * @return BelongsTo<Product>
      */
     public function product(): BelongsTo

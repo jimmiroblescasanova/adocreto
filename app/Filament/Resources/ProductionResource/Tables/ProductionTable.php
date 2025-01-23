@@ -1,12 +1,11 @@
 <?php
-
-namespace App\Filament\Resources\TransferResource\Tables;
+namespace App\Filament\Resources\ProductionResource\Tables;
 
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class TransferTable extends Table
+class ProductionTable extends Table 
 {
     public static function table(Table $table): Table
     {
@@ -24,19 +23,30 @@ class TransferTable extends Table
             Tables\Columns\TextColumn::make('date')
             ->label('Fecha')
             ->date(format: 'd/m/Y')
-            ->searchable()
-            ->sortable(),
+            ->sortable()
+            ->searchable(),
 
             Tables\Columns\TextColumn::make('folio')
             ->label('Folio')
-            ->searchable()
-            ->sortable(),
+            ->sortable()
+            ->searchable(),
 
             Tables\Columns\TextColumn::make('title')
-            ->label('Título')
-            ->searchable()
+            ->label('Titulo')
             ->sortable()
+            ->searchable()
+            ->limit(50)
             ->grow(),
+
+            Tables\Columns\TextColumn::make('status')
+            ->label('Estado')
+            ->badge(),
+
+            Tables\Columns\TextColumn::make('user.name')
+            ->label('Usuario')
+            ->sortable()
+            ->searchable()
+            ->toggleable(isToggledHiddenByDefault: true),
         ])
         ->filters([
             //

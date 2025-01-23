@@ -2,67 +2,38 @@
 
 namespace App\Models;
 
-use Filament\Facades\Filament;
-use App\Observers\TransferObserver;
+use App\Traits\HasFolio;
+use App\Enums\TransferStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
-#[ObservedBy([TransferObserver::class])]
 class Transfer extends Model
 {
+    use HasFolio;
+
     protected function casts(): array
     {
         return [
-            'date' => 'date',
+            'date' => 'datetime',
+            'status' => TransferStatus::class,
         ];
     }
 
-    /**
-     * Get the company that owns the transfer.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function company(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function acceptedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'accepted_by');
     }
 
     /**
-     * Get the items associated with the transfer.
+     * This method returns the destination warehouse for the transfer.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function items(): HasMany
-    {
-        return $this->hasMany(TransferItem::class);
-    }
-
-    /**
-     * Get the user that owns the transfer.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the origin warehouse that owns the transfer.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function originWarehouse(): BelongsTo
-    {
-        return $this->belongsTo(Warehouse::class, 'origin_warehouse_id');
-    }
-
-    /**
-     * Get the destination warehouse that owns the transfer.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo<Warehouse>
      */
     public function destinationWarehouse(): BelongsTo
     {
@@ -70,15 +41,23 @@ class Transfer extends Model
     }
 
     /**
-     * Get the folio for a transfer.
+     * This method returns the origin warehouse for the transfer.
      *
-     * @return int The folio for the transfer.
+     * @return BelongsTo<Warehouse>
      */
-    public static function getFolio(): int
+    public function originWarehouse(): BelongsTo
     {
-        $company = Filament::getTenant();
-
-        return self::whereBelongsTo($company)
-            ->max('folio') ?? 0;
+        return $this->belongsTo(Warehouse::class, 'origin_warehouse_id');
     }
+
+    /**
+     * This method returns the items for the transfer.
+     *
+     * @return HasMany<TransferItem>
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(TransferItem::class);
+    }
+
 }

@@ -37,14 +37,4 @@ class Company extends Model
     {
         return $this->hasMany(PriceList::class);
     }
-
-    /**
-     * Get the transfers associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function transfers(): HasMany
-    {
-        return $this->hasMany(Transfer::class);
-    }
 }

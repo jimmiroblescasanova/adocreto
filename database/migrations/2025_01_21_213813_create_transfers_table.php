@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(App\Models\Company::class)->constrained();
-            $table->foreignIdFor(App\Models\User::class)->constrained();
+            $table->dateTime('date');
+            $table->unsignedBigInteger('folio');
+            $table->string('title')->nullable();
             $table->foreignIdFor(App\Models\Warehouse::class, 'origin_warehouse_id')->constrained();
             $table->foreignIdFor(App\Models\Warehouse::class, 'destination_warehouse_id')->constrained();
-            $table->unsignedBigInteger('folio');
-            $table->dateTime('date');
-            $table->string('title');
-            $table->uuid('uuid')->nullable()->unique();
+            $table->foreignIdFor(App\Models\User::class, 'created_by')->constrained();
+            $table->foreignIdFor(App\Models\User::class, 'accepted_by')->nullable()->constrained();
+            $table->string('status');
+            $table->uuid();
             $table->timestamps();
-
-            $table->unique(['company_id', 'folio']);
         });
     }
 

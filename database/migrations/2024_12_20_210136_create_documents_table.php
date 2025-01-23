@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(App\Models\Company::class)->constrained();
-            $table->unsignedBigInteger('type'); // 1: Entrada. 2: Salida. 
+            $table->unsignedBigInteger('type'); 
             $table->foreignIdFor(App\Models\User::class)->constrained();
             $table->foreignIdFor(App\Models\Entity::class)->nullable()->constrained();
             $table->foreignIdFor(App\Models\Warehouse::class)->nullable()->constrained();
@@ -26,6 +26,8 @@ return new class extends Migration
             $table->bigInteger('total')->default(0);
             $table->integer('status')->default(0);
             $table->uuid('uuid')->nullable()->unique();
+            $table->string('external_model')->nullable();
+            $table->unsignedBigInteger('external_id')->nullable();
             $table->timestamps();
 
             $table->unique(['company_id', 'type', 'folio']);

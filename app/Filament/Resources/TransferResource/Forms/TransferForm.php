@@ -15,70 +15,65 @@ class TransferForm extends Form
         return $form
         ->schema([
             Forms\Components\Wizard::make([
-                Forms\Components\Wizard\Step::make('General')
+                Forms\Components\Wizard\Step::make('general')
                 ->schema([
                     Forms\Components\TextInput::make('folio')
                     ->label('Folio')
-                    ->default(fn (): int => Transfer::getFolio()+1)
+                    ->default(fn () => Transfer::getFolio() + 1)
                     ->readOnly(),
 
                     Forms\Components\DatePicker::make('date')
                     ->label('Fecha')
-                    ->default(now()->toDateString())
+                    ->default(now())
                     ->required(),
 
                     Forms\Components\TextInput::make('title')
                     ->label('Título')
+                    ->maxLength(255)
                     ->required()
                     ->columnSpanFull(),
 
                     Forms\Components\Select::make('origin_warehouse_id')
-                    ->label('Almacén de origen')
-                    ->relationship(name: 'originWarehouse')
-                    ->options(fn () => self::generateOptions())
+                    ->label('Almacén de salida')
+                    ->relationship('originWarehouse')
+                    ->options(self::generateOptions())
                     ->searchable()
                     ->preload()
-                    ->optionsLimit(15)
                     ->required(),
 
                     Forms\Components\Select::make('destination_warehouse_id')
                     ->label('Almacén de destino')
-                    ->relationship(name: 'destinationWarehouse')
-                    ->options(fn () => self::generateOptions())
+                    ->relationship('destinationWarehouse')
+                    ->options(self::generateOptions())
                     ->searchable()
                     ->preload()
-                    ->optionsLimit(15)
                     ->required()
                     ->different('origin_warehouse_id'),
                 ])
                 ->columns(),
 
-                self::stepItems(),
+                self::getItems(),
             ])
-            ->columnSpanFull(),
+            ->columnSpanFull()
         ]);
     }
 
-    public static function stepItems(): Forms\Components\Wizard\Step
+    private static function getItems(): Forms\Components\Wizard\Step
     {
-        return Forms\Components\Wizard\Step::make('Productos')
+        return Forms\Components\Wizard\Step::make('items')
         ->schema([
             Forms\Components\Repeater::make('items')
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_id')
+                ->label('Producto')
                 ->relationship(name: 'product', titleAttribute: 'name')
-                ->searchable()
-                ->preload()
-                ->optionsLimit(15)
                 ->required()
                 ->live()
-                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
-                    if (!is_null($get('product_id')) ) {
-                        $set('inventory', self::getInventory($get('product_id'), $get('../../origin_warehouse_id')));
-                    }
+                ->afterStateUpdated(function (Forms\Set $set, $state, Forms\Get $get): void {
+                    $set('inventory', self::getInventory($state, $get('../../origin_warehouse_id')) ?? 0);
                 })
-                ->columnSpan(function (string $operation) {
+                ->columnSpan(function (string $operation): string {
                     return match ($operation) {
                         'view' => 3,
                         default => 2,
@@ -86,24 +81,22 @@ class TransferForm extends Form
                 }),
 
                 Forms\Components\TextInput::make('inventory')
-                ->label('Disponible')
+                ->label('Inventario')
                 ->readOnly()
-                ->dehydrated(false)
-                ->visibleOn('create'),
+                ->dehydrated(false),
 
                 Forms\Components\TextInput::make('quantity')
                 ->label('Cantidad')
                 ->numeric()
-                ->minValue(1)
-                ->default(1)
-                ->lte('inventory')
-                ->required(),
+                ->minValue(0.1)
+                ->required()
+                ->lte('inventory'),
             ])
             ->columns(4),
         ]);
     }
 
-    public static function generateOptions(): array
+    private static function generateOptions(): array
     {
         return once(fn () => Warehouse::getGroupedOptions());
     }
