@@ -5,11 +5,12 @@ namespace App\Enums;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum DocumentStatus: int implements HasLabel, HasColor
+enum DocumentStatus: string implements HasLabel, HasColor
 {
-    case INCOMPLETE = 0;
-    case PLACED = 1;
-    case CANCELLED = 2;
+    case INCOMPLETE = 'incomplete';
+    case PLACED = 'placed';
+    case CANCELLED = 'cancelled';
+    case LOCKED = 'locked';
 
     public function getLabel(): string
     {
@@ -17,15 +18,17 @@ enum DocumentStatus: int implements HasLabel, HasColor
             self::INCOMPLETE => 'Incompleto',
             self::PLACED => 'Completo',
             self::CANCELLED => 'Cancelado',
+            self::LOCKED => 'Bloqueado',
         };
     }
 
     public function getColor(): string
     {
         return match ($this) {
-            self::INCOMPLETE => 'danger',
+            self::INCOMPLETE => 'warning',
             self::PLACED => 'success',
-            self::CANCELLED => 'gray',
+            self::CANCELLED => 'danger',
+            self::LOCKED => 'gray',
         };
     }
 }

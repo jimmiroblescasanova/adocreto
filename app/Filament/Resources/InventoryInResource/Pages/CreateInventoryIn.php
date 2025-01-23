@@ -21,6 +21,7 @@ class CreateInventoryIn extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['type'] = DocumentType::InventoryIn;
+        $data['status'] = DocumentStatus::INCOMPLETE;
         $data['user_id'] = Auth::id();
         $data['uuid'] = Str::uuid();
 

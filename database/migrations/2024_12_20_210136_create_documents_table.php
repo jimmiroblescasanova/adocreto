@@ -15,19 +15,19 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(App\Models\Company::class)->constrained();
             $table->unsignedBigInteger('type'); 
-            $table->foreignIdFor(App\Models\User::class)->constrained();
+            $table->unsignedBigInteger('folio');
+            $table->dateTime('date');
+            $table->string('title')->nullable();
             $table->foreignIdFor(App\Models\Entity::class)->nullable()->constrained();
             $table->foreignIdFor(App\Models\Warehouse::class)->nullable()->constrained();
-            $table->dateTime('date');
-            $table->unsignedBigInteger('folio');
-            $table->string('title')->nullable();
             $table->bigInteger('subtotal')->default(0);
             $table->bigInteger('tax')->default(0);
             $table->bigInteger('total')->default(0);
-            $table->integer('status')->default(0);
+            $table->string('status');
             $table->uuid('uuid')->nullable()->unique();
             $table->string('external_model')->nullable();
             $table->unsignedBigInteger('external_id')->nullable();
+            $table->foreignIdFor(App\Models\User::class)->constrained();
             $table->timestamps();
 
             $table->unique(['company_id', 'type', 'folio']);
