@@ -3,6 +3,7 @@ namespace App\Filament\Resources\ProductionResource\Tables;
 
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Enums\ProductionStatus;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProductionTable extends Table 
@@ -49,7 +50,15 @@ class ProductionTable extends Table
             ->toggleable(isToggledHiddenByDefault: true),
         ])
         ->filters([
-            //
+            Tables\Filters\SelectFilter::make('status')
+            ->options(ProductionStatus::class)
+            ->label('Estado')
+            ->native(false),
+
+            Tables\Filters\SelectFilter::make('user.name')
+            ->label('Usuario')
+            ->searchable()
+            ->native(false),
         ])
         ->actions([
             Tables\Actions\ViewAction::make(),

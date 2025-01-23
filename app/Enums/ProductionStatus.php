@@ -36,10 +36,10 @@ enum ProductionStatus: string implements HasLabel, HasColor, HasIcon
     public function getIcon(): string
     {
         return match ($this) {
-            self::Pending => 'heroicon-o-clock',
-            self::InProgress => 'heroicon-o-arrow-path',
-            self::Completed => 'heroicon-o-check-circle',
-            self::Cancelled => 'heroicon-o-x-circle',
+            self::Pending => 'heroicon-m-clock',
+            self::InProgress => 'heroicon-m-arrow-path',
+            self::Completed => 'heroicon-m-check-circle',
+            self::Cancelled => 'heroicon-m-x-circle',
         };
     }
 }
