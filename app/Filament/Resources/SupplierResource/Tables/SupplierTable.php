@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\SupplierResource\Tables;
 
 use Filament\Tables;
+use App\Enums\IsActive;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -11,11 +12,11 @@ class SupplierTable extends Table
     public static function table(Table $table): Table
     {
         return $table
-        ->modifyQueryUsing(function (Builder $query) {
-            return $query->activeFirst();
-        })
+        ->modifyQueryUsing(fn (Builder $query) => $query->orderByActiveFirst())
         ->defaultSort(column: 'code', direction: 'asc')
+        ->striped()
         ->deferLoading()
+        ->deferFilters()
         ->persistSearchInSession()
         ->persistFiltersInSession()
         ->columns([
@@ -37,7 +38,8 @@ class SupplierTable extends Table
 
             Tables\Columns\TextColumn::make('active')
             ->label('Estado')
-            ->badge(),
+            ->badge()
+            ->toggleable(),
 
             Tables\Columns\TextColumn::make('created_at')
             ->label('Fecha creación')
@@ -52,16 +54,22 @@ class SupplierTable extends Table
             ->toggleable(isToggledHiddenByDefault: true),
         ])
         ->filters([
-            //
+            Tables\Filters\SelectFilter::make('active')
+            ->label('Estado')
+            ->options(IsActive::class)
+            ->native(false),
         ])
+        ->filtersTriggerAction(
+            fn (Tables\Actions\Action $action) => $action
+                ->button()
+                ->label('Filtros'),
+        )
         ->actions([
             Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),
         ])
         ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
+            //
         ]);
     }
 }

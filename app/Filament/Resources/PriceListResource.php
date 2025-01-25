@@ -18,11 +18,13 @@ class PriceListResource extends Resource
 {
     protected static ?string $model = PriceList::class;
 
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Configuración';
+
     protected static ?string $modelLabel = 'lista de precios';
 
     protected static ?string $pluralModelLabel = 'listas de precios';
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {

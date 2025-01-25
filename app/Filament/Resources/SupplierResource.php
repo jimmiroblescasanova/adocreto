@@ -2,10 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
 use App\Models\Entity;
-use App\Models\Supplier;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -21,6 +18,8 @@ class SupplierResource extends Resource
     protected static ?string $model = Entity::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Catalogos';
 
     protected static ?string $modelLabel = 'proveedor';
 

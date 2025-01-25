@@ -16,7 +16,8 @@ class TableFilters
         return [
             SelectFilter::make('status')
             ->label('Estado')
-            ->options(DocumentStatus::class),
+            ->options(DocumentStatus::class)
+            ->native(false),
 
             SelectFilter::make('warehouse_id')
             ->label('Almacén')
@@ -24,7 +25,8 @@ class TableFilters
             ->relationship(name: 'warehouse', titleAttribute: 'name')
             ->searchable()
             ->preload()
-            ->optionsLimit(5),
+            ->optionsLimit(5)
+            ->native(false),
 
             SelectFilter::make('entity_id')
             ->label('Proveedor')
@@ -33,6 +35,7 @@ class TableFilters
             ->searchable()
             ->preload()
             ->optionsLimit(10)
+            ->native(false)
             ->columnSpan(2),
 
             Filter::make('date')

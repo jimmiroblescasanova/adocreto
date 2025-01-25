@@ -46,6 +46,12 @@ class InventoryOutTable extends Table
 
             MoneyColumn::make('total')
             ->label('Total'),
+
+            Tables\Columns\TextColumn::make('status')
+            ->label('Estado')
+            ->badge()
+            ->alignCenter()
+            ->toggleable(),
         ])
         ->filters([
             //

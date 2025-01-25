@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\MaterialResource\Forms;
 
-use App\Filament\Resources\CategoryResource;
 use Filament\Forms;
+use App\Enums\IsActive;
 use Filament\Forms\Form;
+use App\Filament\Resources\CategoryResource;
 
 class MaterialForm extends Form 
 {
@@ -25,10 +26,11 @@ class MaterialForm extends Form
                     ])
                     ->required(),
 
-                    Forms\Components\Toggle::make('active')
-                    ->label('Activo')
+                    Forms\Components\ToggleButtons::make('active')
+                    ->label('Estado')
+                    ->options(IsActive::class)
                     ->default(true)
-                    ->inline(false),
+                    ->inline(),
 
                     Forms\Components\TextInput::make('name')
                     ->label('Nombre')

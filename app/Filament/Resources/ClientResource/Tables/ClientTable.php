@@ -3,61 +3,77 @@
 namespace App\Filament\Resources\ClientResource\Tables;
 
 use Filament\Tables;
+use App\Enums\IsActive;
 use Filament\Tables\Table;
-use App\Enums\IsActiveEnum;
+use Illuminate\Database\Eloquent\Builder;
 
 class ClientTable extends Table 
 {
     public static function table(Table $table): Table
     {
         return $table
-        ->modifyQueryUsing(function ($query) {
-            return $query->activeFirst();
-        })
-        ->defaultSort('code', 'asc')
+        ->modifyQueryUsing(fn (Builder $query) => $query->orderByActiveFirst())
+        ->defaultSort(column: 'code', direction: 'asc')
+        ->striped()
         ->deferLoading()
+        ->deferFilters()
         ->persistSearchInSession()
         ->persistFiltersInSession()
         ->columns([
             Tables\Columns\TextColumn::make('code')
             ->label('Código')
-            ->searchable(),
+            ->searchable()
+            ->sortable(),
 
             Tables\Columns\TextColumn::make('name')
             ->label('Nombre del cliente')
             ->searchable()
+            ->sortable()
             ->grow(),
 
             Tables\Columns\TextColumn::make('rfc')
             ->label('RFC')
-            ->searchable(),
+            ->searchable()
+            ->sortable()
+            ->toggleable(),
 
             Tables\Columns\TextColumn::make('email')
-            ->searchable(),
+            ->searchable()
+            ->sortable()
+            ->toggleable(),
 
             Tables\Columns\TextColumn::make('phone')
-            ->searchable(),
+            ->label('Teléfono')
+            ->searchable()
+            ->alignEnd()
+            ->toggleable(),
 
             Tables\Columns\TextColumn::make('active')
             ->label('Estado')
-            ->badge(),
+            ->badge()
+            ->alignCenter()
+            ->toggleable(isToggledHiddenByDefault: true),
 
             Tables\Columns\TextColumn::make('created_at')
+            ->label('Fecha de creación')
             ->date()
             ->sortable()
+            ->alignEnd()
             ->toggleable(isToggledHiddenByDefault: true),
 
             Tables\Columns\TextColumn::make('updated_at')
+            ->label('Últ. actualización')
             ->since()
             ->sortable()
+            ->alignEnd()
             ->toggleable(isToggledHiddenByDefault: true),
         ])
         ->filters([
             Tables\Filters\SelectFilter::make('active')
             ->label('Estado')
-            ->options(IsActiveEnum::class),
+            ->options(IsActive::class)
+            ->native(false),
         ])
-        ->deferFilters()
         ->actions([
             Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),

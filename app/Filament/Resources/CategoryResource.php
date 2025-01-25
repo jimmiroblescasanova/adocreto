@@ -20,6 +20,8 @@ class CategoryResource extends Resource
 
     protected static bool $isScopedToTenant = false;
 
+    protected static ?string $navigationGroup = 'Configuración';
+
     protected static ?string $modelLabel = 'categoría';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

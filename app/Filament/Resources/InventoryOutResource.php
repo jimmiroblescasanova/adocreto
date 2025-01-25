@@ -19,6 +19,8 @@ class InventoryOutResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Documentos';
+
     protected static ?string $modelLabel = 'Salida de inventario';
 
     protected static ?string $pluralModelLabel = 'Salidas de inventario';

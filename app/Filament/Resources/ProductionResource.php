@@ -20,6 +20,8 @@ class ProductionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Documentos';
+
     protected static ?string $modelLabel = 'producción';
     protected static ?string $pluralModelLabel = 'producciones';
 

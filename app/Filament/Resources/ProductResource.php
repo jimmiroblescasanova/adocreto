@@ -14,13 +14,15 @@ use App\Filament\Resources\ProductResource as ExtraResource;
 
 class ProductResource extends Resource
 {
-    protected static ?string $model = Product::class;
-
     protected static bool $isScopedToTenant = false;
 
-    protected static ?string $modelLabel = 'producto';
+    protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Catalogos';
+
+    protected static ?string $modelLabel = 'producto';
 
     public static function form(Form $form): Form
     {

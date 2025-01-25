@@ -5,11 +5,9 @@ namespace App\Filament\Resources\InventoryInResource\Tables;
 use Filament\Tables;
 use App\Models\Document;
 use Filament\Tables\Table;
-use App\Enums\DocumentStatus;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Columns\Summarizers\Sum;
-use Illuminate\Database\Query\Builder as QueryBuilder;
+use App\Filament\Components\Tables\MoneyColumn;
 use App\Filament\Resources\InventoryInResource\Tables\TableFilters;
 
 class InventoryInTable extends Table 
@@ -49,11 +47,11 @@ class InventoryInTable extends Table
             Tables\Columns\TextColumn::make('warehouse.code')
             ->label('Almacén'),
 
-            self::moneyColumn('subtotal', 'Subtotal'),
+            MoneyColumn::make('subtotal', 'Subtotal'),
 
-            self::moneyColumn('tax', 'IVA'),
+            MoneyColumn::make('tax', 'IVA'),
 
-            self::moneyColumn('total', 'Total'),
+            MoneyColumn::make('total', 'Total'),
 
             Tables\Columns\TextColumn::make('status')
             ->label('Estado')
@@ -65,6 +63,11 @@ class InventoryInTable extends Table
             ...TableFilters::documentFilters(),
         ], layout: FiltersLayout::Modal)
         ->filtersFormColumns(2)
+        ->filtersTriggerAction(
+            fn (Tables\Actions\Action $action) => $action
+                ->button()
+                ->label('Filtros'),
+        )
         ->actions([
             Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),
@@ -72,21 +75,5 @@ class InventoryInTable extends Table
         ->bulkActions([
             //
         ]);
-    }
-
-    public static function moneyColumn(string $column, string $label): Tables\Columns\TextColumn 
-    {
-        return Tables\Columns\TextColumn::make($column)
-        ->label($label)
-        ->money(currency: 'MXN')
-        ->searchable()
-        ->sortable()
-        ->alignEnd()
-        ->toggleable(isToggledHiddenByDefault: false)
-        ->summarize(
-            Sum::make()
-            ->money(currency: 'MXN', divideBy: 100)
-            ->query(fn (QueryBuilder $query): QueryBuilder => $query->where('status', DocumentStatus::PLACED)),
-        );
     }
 }

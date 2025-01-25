@@ -19,6 +19,8 @@ class InventoryInResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Documentos';
+
     protected static ?string $modelLabel = 'Entrada de inventario';
 
     public static function form(Form $form): Form

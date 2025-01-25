@@ -20,6 +20,8 @@ class TransferResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Documentos';
+
     protected static ?string $modelLabel = 'traspaso';
 
     public static function form(Form $form): Form

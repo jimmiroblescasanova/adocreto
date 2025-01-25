@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\IsActive;
 use App\Enums\ProductType;
 use App\Casts\QuantityCast;
-use App\Enums\IsActiveEnum;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,7 +22,7 @@ class Product extends Model
     {
         return [
             'mininum'   => QuantityCast::class,
-            'active'    => IsActiveEnum::class,
+            'active'    => IsActive::class,
         ];
     }
 

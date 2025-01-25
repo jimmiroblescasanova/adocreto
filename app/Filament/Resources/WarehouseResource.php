@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Enums\IsActive;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use App\Models\Warehouse;
@@ -23,6 +24,8 @@ class WarehouseResource extends Resource
     protected static bool $isScopedToTenant = false;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Configuración';
 
     protected static ?string $modelLabel = 'almacen';
 
@@ -47,35 +50,49 @@ class WarehouseResource extends Resource
                 'oninput' => "this.value = this.value.replace(/\\s+/g, '');",
             ])
             ->live(onBlur: true)
-            ->afterStateUpdated(fn (Set $set, ?string $state): string => $set('code', Str::upper($state))),
+            ->afterStateUpdated(fn (Set $set, ?string $state): string => $set('code', Str::upper($state)))
+            ->columnSpan(function (string $operation): string {
+                return match ($operation) {
+                    'create' => 2,
+                    default => 1,
+                };
+            }),
+
+            Forms\Components\ToggleButtons::make('active')
+            ->label('Estado')
+            ->options(IsActive::class)
+            ->inline()
+            ->hiddenOn('create'),
 
             Forms\Components\TextInput::make('name')
             ->label('Nombre del almacen')
             ->minLength(5)
             ->maxLength(255)
             ->required()
-            ->columnSpan(2),
+            ->columnSpanFull(),
 
             Forms\Components\Textarea::make('location')
             ->label('Ubicación')
             ->rows(3)
             ->columnSpanFull(),
-
-            Forms\Components\ToggleButtons::make('active')
-            ->label('Estado')
-            ->boolean()
-            ->inline()
-            ->hiddenOn('create'),
         ])
-        ->columns();
+        ->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-        ->defaultSort('code', 'desc')
+        ->modifyQueryUsing(fn (Builder $query) => $query->orderByActiveFirst())
+        ->defaultSort(function (Builder $query): Builder {
+            return $query
+                ->orderBy('code', 'asc')
+                ->orderBy('name', 'asc');
+        })
+        ->striped()
         ->deferLoading()
+        ->deferFilters()
         ->persistSearchInSession()
+        ->persistFiltersInSession()
         ->columns([
             Tables\Columns\TextColumn::make('code')
             ->label('Código')
@@ -93,7 +110,8 @@ class WarehouseResource extends Resource
 
             Tables\Columns\TextColumn::make('active')
             ->label('Estado')
-            ->badge(),
+            ->badge()
+            ->toggleable(),
 
             Tables\Columns\TextColumn::make('created_at')
             ->label('Fecha de creación')
@@ -110,9 +128,14 @@ class WarehouseResource extends Resource
         ->filters([
             Tables\Filters\SelectFilter::make('type')
             ->label('Tipo')
-            ->options(WarehouseType::class),
+            ->options(WarehouseType::class)
+            ->native(false),
+
+            Tables\Filters\SelectFilter::make('active')
+            ->label('Estado')
+            ->options(IsActive::class)
+            ->native(false),
         ])
-        ->deferFilters()
         ->actions([
             Tables\Actions\EditAction::make()
             ->mutateFormDataUsing(function (array $data): array {

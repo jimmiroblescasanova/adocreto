@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ClientResource\Forms;
 
 use Filament\Forms;
+use App\Enums\IsActive;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Illuminate\Support\Str;
@@ -74,8 +75,8 @@ class ClientForm extends Form
             Forms\Components\Section::make('Información adicional')
             ->schema([
                 Forms\Components\ToggleButtons::make('active')
-                ->label('Activo')
-                ->boolean()
+                ->label('Estado')
+                ->options(IsActive::class)
                 ->inline()
                 ->hiddenOn('create'),
 

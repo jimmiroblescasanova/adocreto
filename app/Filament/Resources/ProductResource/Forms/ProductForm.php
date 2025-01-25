@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProductResource\Forms;
 
 use Filament\Forms;
+use App\Enums\IsActive;
 use Filament\Forms\Form;
 use CodeWithDennis\SimpleAlert\Components\Forms\SimpleAlert;
 
@@ -32,8 +33,8 @@ class ProductForm extends Form
                     ->required(),
 
                     Forms\Components\ToggleButtons::make('active')
-                    ->label('Activo')
-                    ->boolean()
+                    ->label('Estado')
+                    ->options(IsActive::class)
                     ->inline()
                     ->hiddenOn('create'),
 

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProductResource\Tables;
 
 use Filament\Tables;
+use App\Enums\IsActive;
 use Filament\Tables\Table;
 
 class ProductTable extends Table 
@@ -10,8 +11,10 @@ class ProductTable extends Table
     public static function table(Table $table): Table
     {
         return $table
+        ->defaultSort(column: 'code', direction: 'asc')
+        ->striped()
         ->deferLoading()
-        ->defaultSort('code', 'asc')
+        ->deferFilters()
         ->persistSearchInSession()
         ->persistFiltersInSession()
         ->columns([
@@ -37,7 +40,8 @@ class ProductTable extends Table
             Tables\Columns\TextColumn::make('active')
             ->label('Estado')
             ->badge()
-            ->alignCenter(),
+            ->alignCenter()
+            ->toggleable(isToggledHiddenByDefault: true),
 
             Tables\Columns\TextColumn::make('updated_at')
             ->label('Últ. actualización')
@@ -58,27 +62,19 @@ class ProductTable extends Table
             ->relationship(name: 'category', titleAttribute: 'name')
             ->searchable()
             ->preload()
-            ->optionsLimit(10),
+            ->optionsLimit(10)
+            ->native(false),
 
-            Tables\Filters\SelectFilter::make('unit_id')
-            ->label('Unidad')
-            ->multiple()
-            ->relationship(name: 'unit', titleAttribute: 'name')
-            ->searchable()
-            ->preload()
-            ->optionsLimit(10),
-
-            Tables\Filters\TernaryFilter::make('active')
+            Tables\Filters\SelectFilter::make('active')
             ->label('Estado')
-            ->trueLabel('Activo')
-            ->falseLabel('Inactivo'),
+            ->options(IsActive::class)
+            ->native(false),
         ])
         ->filtersTriggerAction(
             fn (Tables\Actions\Action $action) => $action
                 ->button()
                 ->label('Filtros'),
         )
-        ->deferFilters()
         ->actions([
             Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),

@@ -21,7 +21,10 @@ class UnitResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Configuración';
+
     protected static ?string $modelLabel = 'unidad';
+    
     protected static ?string $pluralModelLabel = 'unidades';
 
     public static function form(Form $form): Form

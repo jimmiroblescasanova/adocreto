@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\IsActiveEnum;
+use App\Enums\IsActive;
 use App\Enums\WarehouseType;
+use App\Traits\HasActiveSorting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,12 +12,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Warehouse extends Model
 {
     use HasFactory;
+    use HasActiveSorting;
     
     protected function casts(): array
     {
         return [
             'type' => WarehouseType::class,
-            'active' => IsActiveEnum::class,
+            'active' => IsActive::class,
         ];
     }
 
@@ -28,7 +30,7 @@ class Warehouse extends Model
      */
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('active', IsActiveEnum::YES);
+        return $query->where('active', IsActive::Yes);
     }
 
     /**
