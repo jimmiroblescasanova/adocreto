@@ -33,6 +33,16 @@ class Production extends Model
     }
 
     /**
+     * Get the components associated with the production.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function components(): HasMany
+    {
+        return $this->hasMany(ProductionComponent::class);
+    }
+
+    /**
      * This method returns the origin warehouse of the production.
      * 
      * @return BelongsTo<Warehouse>
