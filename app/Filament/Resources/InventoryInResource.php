@@ -6,6 +6,7 @@ use App\Models\Document;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Enums\DocumentType;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -31,6 +32,11 @@ class InventoryInResource extends Resource
     public static function table(Table $table): Table
     {
         return ExtraResource\Tables\InventoryInTable::table($table);
+    }
+
+    public static function infolist($infolist): Infolist
+    {
+        return ExtraResource\Infolists\InventoryInInfolist::infolist($infolist);
     }
 
     public static function getRelations(): array

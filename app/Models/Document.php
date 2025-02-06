@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\MoneyCast;
+use App\Casts\QuantityCast;
 use App\Enums\DocumentType;
 use App\Enums\DocumentStatus;
 use Filament\Facades\Filament;
@@ -16,11 +17,13 @@ class Document extends Model
     protected function casts(): array
     {
         return [
-            'type' => DocumentType::class,
-            'subtotal' => MoneyCast::class,
-            'tax' => MoneyCast::class,
-            'total' => MoneyCast::class,
-            'status' => DocumentStatus::class,
+            'type'      => DocumentType::class,
+            'quantity'  => QuantityCast::class,
+            'price'     => MoneyCast::class,
+            'subtotal'  => MoneyCast::class,
+            'tax'       => MoneyCast::class,
+            'total'     => MoneyCast::class,
+            'status'    => DocumentStatus::class,
         ];
     }
 
@@ -52,6 +55,16 @@ class Document extends Model
     public function production(): HasOne
     {
         return $this->hasOne(Production::class);
+    }
+
+    /**
+     * Get the user that owns the document.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
