@@ -18,16 +18,36 @@ class ClientForm extends Form
         ->schema([
             Forms\Components\Section::make('Información del cliente')
             ->schema([
-                Forms\Components\TextInput::make('code')
-                ->label('Código')
-                ->required()
-                ->maxLength(255),
+                Forms\Components\ToggleButtons::make('is_fiscal')
+                ->label('Tipo de cliente')
+                ->options([
+                    0 => 'Fiscal',
+                    1 => 'No fiscal',
+                ])
+                ->default(0)
+                ->inline()
+                ->live()
+                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set) {
+                    $set('is_fiscal', $get('rfc') ? 0 : 1);
+                })
+                ->dehydrated(false),
 
                 Forms\Components\TextInput::make('rfc')
                 ->label('RFC')
+                ->validationAttribute('rfc')
                 ->hintIcon(icon: 'heroicon-m-question-mark-circle', tooltip: 'Captura sin guiones')
                 ->minLength(12)
                 ->maxLength(13)
+                ->required(fn (Forms\Get $get) => !$get('is_fiscal'))
+                ->disabled(fn (Forms\Get $get) => $get('is_fiscal'))
+                ->unique(ignoreRecord: true)
+                ->dehydrateStateUsing(function (Forms\Get $get, string $state) {
+                    if ($get('is_fiscal') === 1) {
+                        $state = '';
+                    }
+
+                    return $state;
+                })
                 ->live(),
 
                 Forms\Components\TextInput::make('name')

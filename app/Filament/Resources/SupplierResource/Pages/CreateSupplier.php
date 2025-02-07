@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\SupplierResource\Pages;
 
 use Filament\Actions;
+use App\Models\Entity;
 use App\Enums\EntityType;
 use App\Traits\CreateActionsOnTop;
 use Filament\Resources\Pages\CreateRecord;
@@ -16,6 +17,7 @@ class CreateSupplier extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        $data['code'] = Entity::getNextCode(EntityType::SUPPLIER);
         $data['type'] = EntityType::SUPPLIER;
 
         return $data;

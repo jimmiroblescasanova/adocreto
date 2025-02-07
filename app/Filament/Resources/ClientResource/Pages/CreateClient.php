@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ClientResource\Pages;
 
 use Filament\Actions;
+use App\Models\Entity;
 use App\Enums\EntityType;
 use App\Traits\CreateActionsOnTop;
 use App\Filament\Resources\ClientResource;
@@ -16,6 +17,7 @@ class CreateClient extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        $data['code'] = Entity::getNextCode(EntityType::CLIENT);
         $data['type'] = EntityType::CLIENT;
 
         return $data;

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(App\Models\Company::class)->constrained();
             $table->unsignedBigInteger('type'); // 1: Client, 2: Provider
-            $table->string('code');
+            $table->unsignedBigInteger('code');
             $table->string('name');
             $table->string('rfc')->nullable();
             $table->string('email')->nullable();
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreignIdFor(UsoCfdi::class)->nullable();
             $table->timestamps();
 
-            $table->unique(['company_id', 'code']);
+            $table->unique(['company_id', 'type', 'code']);
         });
     }
 

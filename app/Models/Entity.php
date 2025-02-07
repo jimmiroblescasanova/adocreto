@@ -5,11 +5,15 @@ namespace App\Models;
 use App\Enums\IsActive;
 use App\Enums\EntityType;
 use Illuminate\Support\Str;
+use App\Models\Cfdi40\UsoCfdi;
+use Filament\Facades\Filament;
 use App\Traits\BelongsToTenant;
 use App\Traits\HasActiveSorting;
+use App\Models\Cfdi40\RegimenFiscal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -35,6 +39,26 @@ class Entity extends Model
     public function addresses(): MorphMany
     {
         return $this->morphMany(Address::class, 'addressable');
+    }
+
+    /**
+     * Get the regimen fiscal for the entity.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function regimenFiscal(): BelongsTo
+    {
+        return $this->belongsTo(RegimenFiscal::class);
+    }
+
+    /**
+     * Get the uso cfdi for the entity.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function usoCfdi(): BelongsTo
+    {
+        return $this->belongsTo(UsoCfdi::class);
     }
 
     /**
@@ -70,15 +94,19 @@ class Entity extends Model
     }
 
     /**
-     * Set the client's code attribute.
+     * Get the next code for the given type.
      *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     * @param EntityType $type
+     * @return int
      */
-    protected function code(): Attribute
+    public static function getNextCode(EntityType $type): int
     {
-        return Attribute::make(
-            set: fn ($value) => Str::upper($value)
-        );
+        $tenant = Filament::getTenant();
+
+        return self::query()
+            ->where('company_id', $tenant->id)
+            ->where('type', $type)
+            ->max('code') + 1;
     }
 
     /**

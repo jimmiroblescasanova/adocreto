@@ -13,11 +13,6 @@ class SupplierForm extends Form
         ->schema([
             Forms\Components\Section::make('Información General')
             ->schema([
-                Forms\Components\TextInput::make('code')
-                ->label('Código')
-                ->minLength(3)
-                ->required(),
-
                 Forms\Components\TextInput::make('rfc')
                 ->label('RFC')
                 ->minLength(12)

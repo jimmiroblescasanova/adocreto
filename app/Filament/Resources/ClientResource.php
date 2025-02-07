@@ -5,13 +5,13 @@ namespace App\Filament\Resources;
 use App\Models\Entity;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ClientResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ClientResource\Forms\ClientForm;
+use App\Filament\Resources\ClientResource as ExtraResource;
 use App\Filament\Resources\ClientResource\RelationManagers;
-use App\Filament\Resources\ClientResource\Tables\ClientTable;
 
 class ClientResource extends Resource
 {
@@ -25,12 +25,17 @@ class ClientResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return ClientForm::form($form);
+        return ExtraResource\Forms\ClientForm::form($form);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return ExtraResource\Infolists\ClientInfolist::infolist($infolist);
     }
 
     public static function table(Table $table): Table
     {
-        return ClientTable::table($table);
+        return ExtraResource\Tables\ClientTable::table($table);
     }
 
     public static function getRelations(): array
