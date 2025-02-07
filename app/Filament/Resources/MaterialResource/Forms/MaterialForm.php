@@ -5,7 +5,10 @@ namespace App\Filament\Resources\MaterialResource\Forms;
 use Filament\Forms;
 use App\Enums\IsActive;
 use Filament\Forms\Form;
+use Illuminate\Support\Str;
+use Filament\Facades\Filament;
 use App\Filament\Resources\CategoryResource;
+use Filament\Forms\Components\Actions\Action;
 
 class MaterialForm extends Form 
 {
@@ -68,8 +71,17 @@ class MaterialForm extends Form
                     ->preload()
                     ->optionsLimit(10)
                     ->createOptionForm(
-                        fn ($form) => CategoryResource::form($form)->columns(2)
-                    ),
+                        fn ($form) => CategoryResource::form($form)
+                        ->columns(2)
+                    )
+                    ->createOptionAction(function (Action $action) {
+                        $action->mutateFormDataUsing(function ($data) {
+                            $data['company_id'] = Filament::getTenant()->id;
+                            $data['name'] = Str::title($data['name']);
+                    
+                            return $data;
+                        });
+                    }),
 
                     Forms\Components\Textarea::make('description')
                     ->label('Descripción')

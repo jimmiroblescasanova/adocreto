@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ProductResource\Forms;
 
 use Filament\Forms;
 use App\Enums\IsActive;
+use App\Enums\ProductType;
 use Filament\Forms\Form;
 use CodeWithDennis\SimpleAlert\Components\Forms\SimpleAlert;
 
@@ -17,7 +18,11 @@ class ProductForm extends Form
             ->warning()
             ->title('Aun no hay componentes en este producto')
             ->columnSpanFull()
-            ->hidden(fn ($record): bool => $record?->components()->exists() ?? true),
+            ->hidden(function ($record): bool {
+                $isNotFinishedProduct = $record->type != ProductType::FINISHED_PRODUCT;
+                
+                return $record->hasComponents() || $isNotFinishedProduct;
+            }),
 
             Forms\Components\Group::make([
                 Forms\Components\Section::make('Información básica')
@@ -32,11 +37,11 @@ class ProductForm extends Form
                     ])
                     ->required(),
 
-                    Forms\Components\ToggleButtons::make('active')
-                    ->label('Estado')
-                    ->options(IsActive::class)
-                    ->inline()
-                    ->hiddenOn('create'),
+                    Forms\Components\Select::make('type')
+                    ->label('Tipo')
+                    ->options(ProductType::class)
+                    ->native(false)
+                    ->required(),
 
                     Forms\Components\TextInput::make('name')
                     ->label('Nombre')
@@ -59,6 +64,12 @@ class ProductForm extends Form
             Forms\Components\Group::make([
                 Forms\Components\Section::make('Datos adicionales')
                 ->schema([
+                    Forms\Components\ToggleButtons::make('active')
+                    ->label('Estado')
+                    ->options(IsActive::class)
+                    ->inline()
+                    ->hiddenOn('create'),
+
                     Forms\Components\Select::make('category_id')
                     ->label('Categoría')
                     ->relationship(name: 'category', titleAttribute: 'name')

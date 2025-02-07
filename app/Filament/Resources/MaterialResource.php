@@ -16,13 +16,13 @@ class MaterialResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static bool $isScopedToTenant = false;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Catalogos';
 
-    protected static ?string $modelLabel = 'insumo';
+    protected static ?string $modelLabel = 'materia prima';
+
+    protected static ?string $pluralModelLabel = 'materias primas';
 
     public static function form(Form $form): Form
     {

@@ -7,6 +7,7 @@ use App\Casts\QuantityCast;
 use App\Enums\DocumentType;
 use App\Enums\DocumentStatus;
 use Filament\Facades\Filament;
+use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Document extends Model
 {
+    use BelongsToTenant;
+    
     protected function casts(): array
     {
         return [
@@ -27,11 +30,11 @@ class Document extends Model
         ];
     }
 
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
-
+    /**
+     * Get the entity associated with the document.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function entity(): BelongsTo
     {
         return $this->belongsTo(Entity::class);

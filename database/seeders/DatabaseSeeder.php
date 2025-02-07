@@ -43,31 +43,5 @@ class DatabaseSeeder extends Seeder
         ]); 
         // Attach company to user
         $user->companies()->attach(Company::all());
-        // Pre-load data
-        $categories = require __DIR__ . '/FakeCategories.php';
-        $materials = require __DIR__ . '/FakeMaterials.php';
-        $products = require __DIR__ . '/FakeProducts.php';
-        $units = require __DIR__ . '/FakeUnits.php';
-        // Inserting data
-        Unit::insert($units);
-        Category::insert($categories);
-        // Pre-load units and categories
-        $units = Unit::all();
-        $categories = Category::all();
-        // add units to materials
-        foreach ($materials as &$material) {
-            $material['unit_id'] = $units->random()->id;
-        }
-        // Inserting data to materials table
-        Product::insert($materials);
-        // add units to products
-        foreach ($products as &$product) {
-            $product['unit_id'] = $units->random()->id;
-            $product['category_id'] = $categories->random()->id; 
-        }
-        // Inserting data to products table
-        Product::insert($products);
-        Entity::factory(40)->create();
-        Warehouse::factory(20)->create();
     }
 }

@@ -21,6 +21,7 @@ class CreateInventoryOut extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['type'] = DocumentType::InventoryOut;
+        $data['status'] = DocumentStatus::INCOMPLETE;
         $data['user_id'] = Auth::id();
         $data['uuid'] = Str::uuid();
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('productions', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(App\Models\Company::class);
             $table->unsignedBigInteger('folio')->unique();
             $table->date('date');
             $table->string('title');

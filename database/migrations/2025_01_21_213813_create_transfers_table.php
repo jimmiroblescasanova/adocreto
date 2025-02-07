@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(App\Models\Company::class);
             $table->date('date');
             $table->unsignedBigInteger('folio');
             $table->string('title')->nullable();

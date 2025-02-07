@@ -14,8 +14,6 @@ use App\Filament\Resources\TransferResource\RelationManagers;
 
 class TransferResource extends Resource
 {
-    protected static bool $isScopedToTenant = false;
-
     protected static ?string $model = Transfer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

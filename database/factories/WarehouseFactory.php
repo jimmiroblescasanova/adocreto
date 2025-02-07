@@ -18,11 +18,12 @@ class WarehouseFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(WarehouseType::cases()),
-            'code' => fake()->unique()->numerify('W-####'),
-            'name' => fake()->unique()->city(),
-            'location' => fake()->optional()->address(),
-            'active' => fake()->boolean(),
+            'company_id'    => 1,
+            'type'          => fake()->randomElement(WarehouseType::cases()),
+            'code'          => fake()->unique()->numerify('W-####'),
+            'name'          => fake()->unique()->city(),
+            'location'      => fake()->optional()->address(),
+            'active'        => fake()->boolean(),
         ];
     }
 }

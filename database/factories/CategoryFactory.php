@@ -18,9 +18,10 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Str::title(fake()->word()),
-            'color' => fake()->hexColor(),
-            'description' => fake()->sentence(),
+            'company_id'    => 1,
+            'name'          => Str::title(fake()->word()),
+            'color'         => fake()->hexColor(),
+            'description'   => fake()->sentence(),
         ];
     }
 }

@@ -18,8 +18,6 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static bool $isScopedToTenant = false;
-
     protected static ?string $navigationGroup = 'Configuración';
 
     protected static ?string $modelLabel = 'categoría';

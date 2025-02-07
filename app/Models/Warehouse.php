@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\IsActive;
 use App\Enums\WarehouseType;
+use App\Traits\BelongsToTenant;
 use App\Traits\HasActiveSorting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Warehouse extends Model
 {
     use HasFactory;
+    use BelongsToTenant;
     use HasActiveSorting;
     
     protected function casts(): array
@@ -55,6 +57,11 @@ class Warehouse extends Model
         return $query->where('type', WarehouseType::SUPPLIES);
     }
 
+    /**
+     * Get the grouped options for the warehouse.
+     *
+     * @return array
+     */
     public static function getGroupedOptions(): array
     {
         // Obtener solo almacenes activos y ordenados por nombre

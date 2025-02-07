@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Enums\IsActive;
 use App\Enums\EntityType;
 use Illuminate\Support\Str;
+use App\Traits\BelongsToTenant;
 use App\Traits\HasActiveSorting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -17,6 +17,7 @@ class Entity extends Model
 {
     /** @use HasFactory<\Database\Factories\EntityFactory> */
     use HasFactory;
+    use BelongsToTenant;
     use HasActiveSorting;
 
     protected function casts()
@@ -24,16 +25,6 @@ class Entity extends Model
         return [
             'active' => IsActive::class,
         ];
-    }
-
-    /**
-     * Get the company that owns the entity.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
     }
 
     /**

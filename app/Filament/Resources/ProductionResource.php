@@ -14,8 +14,6 @@ use App\Filament\Resources\ProductionResource\RelationManagers;
 
 class ProductionResource extends Resource
 {
-    protected static bool $isScopedToTenant = false;
-
     protected static ?string $model = Production::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

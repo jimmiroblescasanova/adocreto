@@ -9,13 +9,15 @@ enum ProductType: int implements HasLabel
     case MATERIAL = 1;
     case PRODUCT = 2;
     case SERVICE = 3;
+    case FINISHED_PRODUCT = 4;
 
     public function getLabel(): ?string
     {
         return match ($this) {
             self::MATERIAL => 'Insumo',
-            self::PRODUCT => 'Producto Terminado',
+            self::PRODUCT => 'Producto',
             self::SERVICE => 'Servicio',
+            self::FINISHED_PRODUCT => 'Producto compuesto',
         };
     }
 }

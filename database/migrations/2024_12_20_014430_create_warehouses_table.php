@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(App\Models\Company::class);
             $table->unsignedBigInteger('type');
             $table->string('code')->unique();
             $table->string('name');

@@ -13,7 +13,7 @@ enum WarehouseType: int implements HasLabel
     {
         return match ($this) {
             self::GENERAL => 'General',
-            self::SUPPLIES => 'Insumos',
+            self::SUPPLIES => 'Materias primas',
         };
     }
 }

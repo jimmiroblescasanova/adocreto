@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Enums\IsActive;
 use App\Enums\ProductType;
 use App\Casts\QuantityCast;
-use Filament\Facades\Filament;
+use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,15 +17,22 @@ class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
+    use BelongsToTenant;
 
     protected function casts(): array
     {
         return [
+            'type'      => ProductType::class,
             'mininum'   => QuantityCast::class,
             'active'    => IsActive::class,
         ];
     }
 
+    /**
+     * Get the category that owns the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -55,6 +62,11 @@ class Product extends Model
         return $this->hasMany(ProductComponent::class);
     }
 
+    /**
+     * Get the price lists associated with the product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function price_lists(): BelongsToMany
     {
         return $this->belongsToMany(PriceList::class, table: 'prices')
@@ -71,19 +83,6 @@ class Product extends Model
     public function unit(): BelongsTo
     {
         return $this->belongsTo(Unit::class);
-    }
-
-    /**
-     * It returns the prices of the product in an array.
-     *
-     * @return array
-     */
-    public function prices(): array
-    {
-        return $this
-        ->price_lists
-        ->whereBelongsTo(Filament::getTenant())
-        ->pluck('pivot.price', 'id')->toArray();
     }
 
     /**
@@ -137,6 +136,16 @@ class Product extends Model
      */
     public function scopeProducts(Builder $query): Builder
     {
-        return $query->where('type', ProductType::PRODUCT);
+        return $query->where('type', '!=', ProductType::MATERIAL);
+    }
+
+    /**
+     * Check if the product has components.
+     *
+     * @return bool
+     */
+    public function hasComponents(): bool
+    {
+        return $this->components()->exists();
     }
 }

@@ -9,6 +9,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Form;
 use App\Enums\ProductType;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,7 +21,7 @@ class ComponentsRelationManager extends RelationManager
 
     protected static ?string $title = 'Componentes';
 
-    protected static ?string $modelLabel = 'material';
+    protected static ?string $modelLabel = 'materia prima';
 
     public function form(Form $form): Form
     {
@@ -80,7 +81,7 @@ class ComponentsRelationManager extends RelationManager
         ])
         ->headerActions([
             Tables\Actions\CreateAction::make()
-            ->label('Agregar material')
+            ->label('Agregar materia prima')
             ->before(function (Tables\Actions\CreateAction $action, array $data) {
                 $recordExists = $this->getOwnerRecord()->components->contains('component_id', $data['component_id']);
                 if ($recordExists) {
@@ -107,5 +108,10 @@ class ComponentsRelationManager extends RelationManager
     public function isReadOnly(): bool
     {
         return false;
+    }
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $ownerRecord->type === ProductType::FINISHED_PRODUCT;
     }
 }
