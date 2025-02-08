@@ -13,6 +13,7 @@ class SupplierForm extends Form
         return $form
         ->schema([
             Forms\Components\Section::make('Información General')
+            ->icon('heroicon-o-user')
             ->schema([
                 Forms\Components\TextInput::make('name')
                 ->label('Nombre')
@@ -38,6 +39,7 @@ class SupplierForm extends Form
             ->columnSpan(2),
 
             Forms\Components\Section::make('Adicionales')
+            ->icon('heroicon-o-information-circle')
             ->schema([
                 Forms\Components\ToggleButtons::make('active')
                 ->label('Estado')

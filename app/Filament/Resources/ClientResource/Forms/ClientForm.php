@@ -17,6 +17,7 @@ class ClientForm extends Form
         return $form
         ->schema([
             Forms\Components\Section::make('Información del cliente')
+            ->icon('heroicon-o-user')
             ->schema([
                 Forms\Components\ToggleButtons::make('is_fiscal')
                 ->label('Tipo de cliente')
@@ -93,6 +94,7 @@ class ClientForm extends Form
             ->columnSpan(2),
 
             Forms\Components\Section::make('Información adicional')
+            ->icon('heroicon-o-information-circle')
             ->schema([
                 Forms\Components\ToggleButtons::make('active')
                 ->label('Estado')
