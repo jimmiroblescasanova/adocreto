@@ -75,6 +75,11 @@ class ClientTable extends Table
             ->options(IsActive::class)
             ->native(false),
         ])
+        ->filtersTriggerAction(
+            fn (Tables\Actions\Action $action) => $action
+                ->button()
+                ->label('Filtros'),
+        )
         ->actions([
             Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),

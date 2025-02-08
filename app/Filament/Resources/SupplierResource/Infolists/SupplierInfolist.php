@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Filament\Resources\ClientResource\Infolists;
+namespace App\Filament\Resources\SupplierResource\Infolists;
 
 use Filament\Infolists;
-use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry\TextEntrySize;
+use Filament\Infolists\Infolist;
 
-class ClientInfolist extends Infolist
+class SupplierInfolist extends Infolist
 {
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
         ->schema([
             Infolists\Components\Group::make([
-                Infolists\Components\Section::make('Datos generales')
+                Infolists\Components\Section::make('Datos Generales')
                 ->icon('heroicon-o-user')
                 ->schema([
                     Infolists\Components\TextEntry::make('code')
@@ -28,31 +28,20 @@ class ClientInfolist extends Infolist
                     ->label('RFC'),
 
                     Infolists\Components\TextEntry::make('email')
-                    ->label('Correo electrónico')
-                    ->copyable(),
+                    ->label('Correo electrónico'),
 
                     Infolists\Components\TextEntry::make('phone')
-                    ->label('Teléfono')
-                    ->copyable(),
+                    ->label('Teléfono'),
                 ])
                 ->columns(),
             ])
-            ->columnSpan(2), 
+            ->columnSpan(2),
 
             Infolists\Components\Group::make([
-                Infolists\Components\Section::make('Fiscal')
-                ->icon('heroicon-o-qr-code')
-                ->schema([
-                    Infolists\Components\TextEntry::make('regimenFiscal.descripcion')
-                    ->label('Régimen Fiscal'),
-
-                    Infolists\Components\TextEntry::make('usoCfdi.descripcion')
-                    ->label('Uso CFDI'),
-                ]),
-
-                Infolists\Components\Section::make('Adicionales')
+                Infolists\Components\Section::make('Datos Adicionales')
                 ->icon('heroicon-o-information-circle')
-                ->schema([Infolists\Components\TextEntry::make('active')
+                ->schema([
+                    Infolists\Components\TextEntry::make('active')
                     ->label('Estado')
                     ->badge(),
 
@@ -67,7 +56,7 @@ class ClientInfolist extends Infolist
                     ->label('Últ. actualización')
                     ->since(),
                 ]),
-            ]),
+            ])
         ])
         ->columns(3);
     }

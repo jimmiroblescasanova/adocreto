@@ -13,7 +13,7 @@ class SupplierTable extends Table
     {
         return $table
         ->modifyQueryUsing(fn (Builder $query) => $query->orderByActiveFirst())
-        ->defaultSort(column: 'code', direction: 'asc')
+        ->defaultSort(column: 'name', direction: 'asc')
         ->striped()
         ->deferLoading()
         ->deferFilters()
@@ -21,9 +21,10 @@ class SupplierTable extends Table
         ->persistFiltersInSession()
         ->columns([
             Tables\Columns\TextColumn::make('code')
-            ->label('Código')
+            ->label('#')
             ->searchable()
-            ->sortable(),
+            ->sortable()
+            ->toggleable(),
 
             Tables\Columns\TextColumn::make('name')
             ->label('Nombre')
