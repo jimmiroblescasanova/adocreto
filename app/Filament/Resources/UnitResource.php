@@ -32,12 +32,14 @@ class UnitResource extends Resource
                 Forms\Components\TextInput::make('name')
                 ->label('Nombre')
                 ->autocapitalize('words')
+                ->unique(ignoreRecord: true)
                 ->required()
                 ->columnSpan(2),
 
                 Forms\Components\TextInput::make('abbreviation')
                 ->label('Abreviación')
                 ->maxLength(3)
+                ->unique(ignoreRecord: true)
                 ->required(),
             ])
             ->columns(3);
@@ -46,51 +48,51 @@ class UnitResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort('name', 'asc')
-            ->columns([
-                Tables\Columns\TextColumn::make('name')
-                ->label('Nombre')
-                ->searchable()
-                ->sortable()
-                ->grow(),
+        ->defaultSort(column: 'name', direction: 'asc')
+        ->striped()
+        ->deferLoading()
+        ->deferFilters()
+        ->persistSearchInSession()
+        ->persistFiltersInSession()
+        ->columns([
+            Tables\Columns\TextColumn::make('name')
+            ->label('Nombre')
+            ->searchable()
+            ->sortable()
+            ->grow(),
 
-                Tables\Columns\TextColumn::make('abbreviation')
-                ->label('Abreviación')
-                ->searchable()
-                ->sortable()
-                ->alignCenter(),
+            Tables\Columns\TextColumn::make('abbreviation')
+            ->label('Abreviación')
+            ->searchable()
+            ->sortable()
+            ->alignCenter(),
 
-                Tables\Columns\TextColumn::make('created_at')
-                ->label('Fecha de creación')
-                ->date()
-                ->alignEnd()
-                ->toggleable(isToggledHiddenByDefault: true),
+            Tables\Columns\TextColumn::make('created_at')
+            ->label('Fecha de creación')
+            ->date()
+            ->alignEnd()
+            ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\TextColumn::make('updated_at')
-                ->label('Últ. actualización')
-                ->since()
-                ->alignEnd()
-                ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make()
-                ->mutateFormDataUsing(function (array $data): array {
-                    $data['name'] = strtoupper($data['name']);
-                    $data['abbreviation'] = strtoupper($data['abbreviation']);
-             
-                    return $data;
-                }),
+            Tables\Columns\TextColumn::make('updated_at')
+            ->label('Últ. actualización')
+            ->since()
+            ->alignEnd()
+            ->toggleable(isToggledHiddenByDefault: true),
+        ])
+        ->filters([
+            //
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make()
+            ->mutateFormDataUsing(function (array $data): array {
+                $data['name'] = strtoupper($data['name']);
+                $data['abbreviation'] = strtoupper($data['abbreviation']);
+            
+                return $data;
+            }),
 
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            Tables\Actions\DeleteAction::make(),
+        ]);
     }
 
     public static function getPages(): array

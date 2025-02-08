@@ -40,8 +40,9 @@ class WarehouseResource extends Resource
 
             Forms\Components\TextInput::make('code')
             ->label('Código del almacen')
-            ->minLength(5)
+            ->minLength(3)
             ->maxLength(25)
+            ->unique(ignoreRecord: true)
             ->required()
             ->extraAttributes([
                 'onkeydown' => "if (event.key === ' ') { event.preventDefault(); }",
@@ -134,6 +135,11 @@ class WarehouseResource extends Resource
             ->options(IsActive::class)
             ->native(false),
         ])
+        ->filtersTriggerAction(
+            fn (Tables\Actions\Action $action) => $action
+                ->button()
+                ->label('Filtros'),
+        )
         ->actions([
             Tables\Actions\EditAction::make()
             ->mutateFormDataUsing(function (array $data): array {

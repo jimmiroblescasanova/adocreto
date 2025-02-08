@@ -30,13 +30,16 @@ class CategoryResource extends Resource
         ->schema([
             Forms\Components\TextInput::make('name')
             ->label('Nombre')
-            ->required()
-            ->minLength(5)
-            ->maxLength(255),
+            ->minLength(3)
+            ->maxLength(255)
+            ->unique(ignoreRecord: true)
+            ->required(),
 
             Forms\Components\ColorPicker::make('color')
             ->label('Color')
-            ->hex(),
+            ->hex()
+            ->default('#000000')
+            ->required(),
 
             Forms\Components\Textarea::make('description')
             ->label('Descripción')
@@ -47,8 +50,12 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-        ->defaultSort('name', 'asc')
+        ->defaultSort(column: 'name', direction: 'asc')
+        ->striped()
         ->deferLoading()
+        ->deferFilters()
+        ->persistSearchInSession()
+        ->persistFiltersInSession()
         ->columns([
             Tables\Columns\TextColumn::make('name')
             ->label('Nombre')
