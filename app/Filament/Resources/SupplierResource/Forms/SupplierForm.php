@@ -44,6 +44,7 @@ class SupplierForm extends Form
                 Forms\Components\ToggleButtons::make('active')
                 ->label('Estado')
                 ->options(IsActive::class)
+                ->default(IsActive::Yes)
                 ->inline(),
 
                 Forms\Components\Textarea::make('notes')

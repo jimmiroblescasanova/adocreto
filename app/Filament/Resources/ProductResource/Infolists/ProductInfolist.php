@@ -63,6 +63,14 @@ class ProductInfolist extends Infolist
 
                     Infolists\Components\TextEntry::make('category.name')
                     ->label('Categoría'),
+
+                    Infolists\Components\TextEntry::make('created_at')
+                    ->label('Fecha de creación')
+                    ->date(),
+
+                    Infolists\Components\TextEntry::make('updated_at')
+                    ->label('Últ. actualización')
+                    ->since(),
                 ]),
 
                 Infolists\Components\Section::make('Producción')

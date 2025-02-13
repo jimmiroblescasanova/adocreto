@@ -43,8 +43,16 @@ class MaterialInfolist extends Infolist
 
                     Infolists\Components\TextEntry::make('category.name')
                     ->label('Categoría'),
+
+                    Infolists\Components\TextEntry::make('created_at')
+                    ->label('Fecha de creación')
+                    ->date(),
+
+                    Infolists\Components\TextEntry::make('updated_at')
+                    ->label('Últ. actualización')
+                    ->since(),
                 ])
-            ])
+            ]),
         ])
         ->columns(3);
     }

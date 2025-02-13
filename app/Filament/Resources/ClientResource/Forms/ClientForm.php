@@ -76,7 +76,9 @@ class ClientForm extends Form
                             default => [],
                         };
                     })
-                    ->searchable(), 
+                    ->preload()
+                    ->searchable()
+                    ->native(false), 
 
                     Forms\Components\Select::make('uso_cfdi_id')
                     ->label('Uso del CFDi')
@@ -87,8 +89,11 @@ class ClientForm extends Form
                             default => [],
                         };
                     })
-                    ->searchable(), 
-                ]),
+                    ->preload()
+                    ->searchable()
+                    ->native(false), 
+                ])
+                ->hidden(fn (Forms\Get $get) => $get('is_fiscal')),
             ])
             ->columns()
             ->columnSpan(2),
