@@ -5,8 +5,10 @@ namespace App\Filament\Resources\MaterialResource\Forms;
 use Filament\Forms;
 use App\Enums\IsActive;
 use Filament\Forms\Form;
+use App\Enums\ProductType;
 use Illuminate\Support\Str;
 use Filament\Facades\Filament;
+use Illuminate\Validation\Rules\Unique;
 use App\Filament\Resources\CategoryResource;
 use Filament\Forms\Components\Actions\Action;
 
@@ -27,7 +29,11 @@ class MaterialForm extends Form
                     ->extraAttributes([
                         'onkeydown' => "if (event.key === ' ') return false;",
                     ])
-                    ->required(),
+                    ->required()
+                    ->unique(ignoreRecord: true, modifyRuleUsing: function (Unique $rule) {
+                        return $rule->where('company_id', Filament::getTenant()->id)
+                            ->where('type', ProductType::MATERIAL);
+                    }),
 
                     Forms\Components\ToggleButtons::make('active')
                     ->label('Estado')

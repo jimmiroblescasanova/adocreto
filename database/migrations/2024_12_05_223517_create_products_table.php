@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreignIdFor(App\Models\Unit::class, 'production_unit_id')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
+
+            $table->unique(['company_id', 'type', 'code']);
         });
     }
 

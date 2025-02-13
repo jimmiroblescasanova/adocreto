@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Models\Product;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\MaterialResource\Pages;
@@ -27,6 +28,11 @@ class MaterialResource extends Resource
     public static function form(Form $form): Form
     {
         return ExtraResource\Forms\MaterialForm::form($form);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return ExtraResource\Infolists\MaterialInfolist::infolist($infolist);
     }
 
     public static function table(Table $table): Table
