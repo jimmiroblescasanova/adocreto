@@ -17,8 +17,8 @@ class CreateClient extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['code'] = Entity::getNextCode(EntityType::CLIENT);
-        $data['type'] = EntityType::CLIENT;
+        $data['code'] = Entity::getNextCode(EntityType::Client);
+        $data['type'] = EntityType::Client;
 
         return $data;
     }

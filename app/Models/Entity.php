@@ -69,7 +69,7 @@ class Entity extends Model
      */
     public function scopeClients(Builder $query): Builder
     {
-        return $query->where('type', EntityType::CLIENT);
+        return $query->where('type', EntityType::Client);
     }
 
     /**
@@ -80,7 +80,7 @@ class Entity extends Model
      */
     public function scopeSuppliers(Builder $query): Builder
     {
-        return $query->where('type', EntityType::SUPPLIER);
+        return $query->where('type', EntityType::Supplier);
     }
 
     /**
