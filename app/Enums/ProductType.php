@@ -14,7 +14,7 @@ enum ProductType: int implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Material => 'Insumo',
+            self::Material => 'Materia prima',
             self::Product => 'Producto',
             self::Service => 'Servicio',
             self::FinishedProduct => 'Producto compuesto',
