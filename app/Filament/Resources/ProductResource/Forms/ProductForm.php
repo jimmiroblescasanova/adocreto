@@ -6,6 +6,8 @@ use Filament\Forms;
 use App\Enums\IsActive;
 use Filament\Forms\Form;
 use App\Enums\ProductType;
+use Filament\Facades\Filament;
+use Illuminate\Validation\Rules\Unique;
 
 class ProductForm extends Form 
 {
@@ -16,6 +18,14 @@ class ProductForm extends Form
             Forms\Components\Group::make([
                 Forms\Components\Section::make('Información básica')
                 ->schema([
+                    Forms\Components\Select::make('type')
+                    ->label('Tipo')
+                    ->options(ProductType::getOptions())
+                    ->native(false)
+                    ->required()
+                    ->live(onBlur: true)
+                    ->disabledOn('edit'),
+
                     Forms\Components\TextInput::make('code')
                     ->label('Código')
                     ->extraAlpineAttributes([
@@ -24,15 +34,11 @@ class ProductForm extends Form
                     ->extraAttributes([
                         'onkeydown' => "if (event.key === ' ') return false;",
                     ])
-                    ->required(),
-
-                    Forms\Components\Select::make('type')
-                    ->label('Tipo')
-                    ->options(ProductType::getOptions())
-                    ->native(false)
                     ->required()
-                    ->live(onBlur: true)
-                    ->disabledOn('edit'),
+                    ->unique(ignoreRecord: true, modifyRuleUsing: function (Unique $rule) {
+                        return $rule->where('company_id', Filament::getTenant()->id)
+                            ->where('type', '!=', ProductType::MATERIAL);
+                    }),
 
                     Forms\Components\TextInput::make('name')
                     ->label('Nombre')
