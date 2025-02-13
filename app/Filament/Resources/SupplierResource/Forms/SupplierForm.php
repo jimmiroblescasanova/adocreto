@@ -13,7 +13,7 @@ class SupplierForm extends Form
         return $form
         ->schema([
             Forms\Components\Section::make('Información General')
-            ->icon('heroicon-o-user')
+            ->icon('heroicon-o-briefcase')
             ->schema([
                 Forms\Components\TextInput::make('name')
                 ->label('Nombre')

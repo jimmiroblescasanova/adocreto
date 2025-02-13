@@ -14,7 +14,7 @@ class SupplierInfolist extends Infolist
         ->schema([
             Infolists\Components\Group::make([
                 Infolists\Components\Section::make('Datos Generales')
-                ->icon('heroicon-o-user')
+                ->icon('heroicon-o-briefcase')
                 ->schema([
                     Infolists\Components\TextEntry::make('code')
                     ->label('Código'),

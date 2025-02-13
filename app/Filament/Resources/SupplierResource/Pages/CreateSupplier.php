@@ -17,8 +17,8 @@ class CreateSupplier extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['code'] = Entity::getNextCode(EntityType::SUPPLIER);
-        $data['type'] = EntityType::SUPPLIER;
+        $data['code'] = Entity::getNextCode(EntityType::Supplier);
+        $data['type'] = EntityType::Supplier;
 
         return $data;
     }
