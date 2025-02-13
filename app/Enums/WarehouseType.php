@@ -6,14 +6,14 @@ use Filament\Support\Contracts\HasLabel;
 
 enum WarehouseType: int implements HasLabel
 {
-    case GENERAL = 1;
-    case SUPPLIES = 2;
+    case General = 1;
+    case Supplies = 2;
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::GENERAL => 'General',
-            self::SUPPLIES => 'Materias primas',
+            self::General => 'General',
+            self::Supplies => 'Materias primas',
         };
     }
 }

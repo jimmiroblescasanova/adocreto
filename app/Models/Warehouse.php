@@ -43,7 +43,7 @@ class Warehouse extends Model
      */
     public function scopeGeneral(Builder $query): Builder
     {
-        return $query->where('type', WarehouseType::GENERAL);
+        return $query->where('type', WarehouseType::General);
     }
 
     /**
@@ -54,7 +54,7 @@ class Warehouse extends Model
      */
     public function scopeSupplies(Builder $query): Builder
     {
-        return $query->where('type', WarehouseType::SUPPLIES);
+        return $query->where('type', WarehouseType::Supplies);
     }
 
     /**
