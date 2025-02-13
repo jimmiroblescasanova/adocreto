@@ -22,7 +22,7 @@ class InventoryInResource extends Resource
 
     protected static ?string $navigationGroup = 'Documentos';
 
-    protected static ?string $modelLabel = 'Entrada de inventario';
+    protected static ?string $modelLabel = 'entrada de inventario';
 
     public static function form(Form $form): Form
     {

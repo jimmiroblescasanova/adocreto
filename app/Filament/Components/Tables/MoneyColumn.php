@@ -22,7 +22,7 @@ class MoneyColumn extends TextColumn
         ->summarize(
             Sum::make()
             ->money(currency: 'MXN', divideBy: 100)
-            ->query(fn (Builder $query): Builder => $query->where('status', DocumentStatus::PLACED)),
+            ->query(fn (Builder $query): Builder => $query->where('status', DocumentStatus::Placed)),
         );
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('folio');
             $table->dateTime('date');
             $table->string('title')->nullable();
+            $table->string('order_number')->nullable();
             $table->foreignIdFor(App\Models\Entity::class)->nullable()->constrained();
             $table->foreignIdFor(App\Models\Warehouse::class)->nullable()->constrained();
             $table->bigInteger('subtotal')->default(0);

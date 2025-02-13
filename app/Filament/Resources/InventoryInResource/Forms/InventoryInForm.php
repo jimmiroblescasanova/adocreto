@@ -19,7 +19,8 @@ class InventoryInForm extends Form
         return $form
         ->schema([
             Forms\Components\Wizard::make([
-                self::stepGeneral(),
+                self::stepGeneral()
+                ->columns(3),
 
                 self::stepItems(),
             ])
@@ -69,8 +70,11 @@ class InventoryInForm extends Form
             ->searchable()
             ->preload()
             ->optionsLimit(15)
-            ->required()
-            ->columnSpan(2),
+            ->required(),
+
+            Forms\Components\TextInput::make('order_number')
+            ->label('Número de orden')
+            ->maxLength(255),
 
             Forms\Components\Select::make('entity_id')
             ->label('Proveedor')
@@ -80,14 +84,15 @@ class InventoryInForm extends Form
             ->optionsLimit(15)
             ->required()
             ->selectablePlaceholder(false)
-            ->columnSpan(2),
+            ->columnSpan([
+                'md' => 2,
+            ]),
 
             Forms\Components\TextInput::make('title')
             ->label('Título')
             ->maxLength(255)
-            ->columnSpan(2),
-        ])
-        ->columns(4);
+            ->columnSpanFull(),
+        ]);
     }
 
     public static function stepItems(): Forms\Components\Wizard\Step
@@ -101,7 +106,7 @@ class InventoryInForm extends Form
                 ->label('Material')
                 ->relationship(name: 'product', 
                     titleAttribute: 'name', 
-                    modifyQueryUsing: fn (Builder $query): Builder => $query->where('type', ProductType::MATERIAL))
+                    modifyQueryUsing: fn (Builder $query): Builder => $query->where('type', ProductType::Material))
                 ->searchable(['code', 'name'])
                 ->preload()
                 ->optionsLimit(10)

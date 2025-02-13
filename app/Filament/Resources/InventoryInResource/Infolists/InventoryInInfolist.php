@@ -13,6 +13,7 @@ class InventoryInInfolist extends Infolist
         ->schema([
             Infolists\Components\Group::make([
                 Infolists\Components\Section::make('General')
+                ->icon('heroicon-o-chevron-double-down')
                 ->schema([
                     Infolists\Components\TextEntry::make('folio')
                     ->label('Folio')
@@ -38,6 +39,7 @@ class InventoryInInfolist extends Infolist
                 ->columns(),
 
                 Infolists\Components\Section::make('Productos')
+                ->icon('heroicon-o-truck')
                 ->schema([
                     Infolists\Components\RepeatableEntry::make('items')
                     ->hiddenLabel()
@@ -92,6 +94,7 @@ class InventoryInInfolist extends Infolist
 
             Infolists\Components\Group::make([
                 Infolists\Components\Section::make('Adicional')
+                ->icon('heroicon-o-information-circle')
                 ->schema([
                     Infolists\Components\TextEntry::make('status')
                     ->label('Estado')

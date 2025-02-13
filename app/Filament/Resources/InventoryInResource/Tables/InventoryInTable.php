@@ -8,7 +8,6 @@ use Filament\Tables\Table;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Components\Tables\MoneyColumn;
-use App\Filament\Resources\InventoryInResource\Tables\TableFilters;
 
 class InventoryInTable extends Table 
 {
@@ -24,6 +23,9 @@ class InventoryInTable extends Table
         ->deferFilters()
         ->persistSearchInSession()
         ->persistFiltersInSession()
+        ->groups([
+            ...TableGroups::groups(),
+        ])
         ->columns([
             Tables\Columns\TextColumn::make('date')
             ->label('Fecha')
@@ -47,11 +49,14 @@ class InventoryInTable extends Table
             Tables\Columns\TextColumn::make('warehouse.code')
             ->label('Almacén'),
 
-            MoneyColumn::make('subtotal', 'Subtotal'),
+            MoneyColumn::make('subtotal')
+            ->label('Subtotal'),
 
-            MoneyColumn::make('tax', 'IVA'),
+            MoneyColumn::make('tax')
+            ->label('IVA'),
 
-            MoneyColumn::make('total', 'Total'),
+            MoneyColumn::make('total')
+            ->label('Total'),
 
             Tables\Columns\TextColumn::make('status')
             ->label('Estado')
