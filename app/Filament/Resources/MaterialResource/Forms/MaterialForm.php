@@ -32,7 +32,7 @@ class MaterialForm extends Form
                     ->required()
                     ->unique(ignoreRecord: true, modifyRuleUsing: function (Unique $rule) {
                         return $rule->where('company_id', Filament::getTenant()->id)
-                            ->where('type', ProductType::MATERIAL);
+                            ->where('type', ProductType::Material);
                     }),
 
                     Forms\Components\ToggleButtons::make('active')

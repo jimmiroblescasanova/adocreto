@@ -37,7 +37,7 @@ class ProductForm extends Form
                     ->required()
                     ->unique(ignoreRecord: true, modifyRuleUsing: function (Unique $rule) {
                         return $rule->where('company_id', Filament::getTenant()->id)
-                            ->where('type', '!=', ProductType::MATERIAL);
+                            ->where('type', '!=', ProductType::Material);
                     }),
 
                     Forms\Components\TextInput::make('name')
@@ -78,7 +78,7 @@ class ProductForm extends Form
                     ])
                     ->visible(function(Forms\Get $get): bool {
                         $type = $get('type');
-                        return $type == ProductType::FINISHED_PRODUCT->value;
+                        return $type == ProductType::FinishedProduct->value;
                     }),
                 ])
                 ->columns(),

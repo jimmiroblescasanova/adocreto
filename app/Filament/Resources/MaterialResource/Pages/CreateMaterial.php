@@ -16,7 +16,7 @@ class CreateMaterial extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['type'] = ProductType::MATERIAL;
+        $data['type'] = ProductType::Material;
         
         return $data;
     }

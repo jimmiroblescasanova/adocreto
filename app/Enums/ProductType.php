@@ -6,27 +6,27 @@ use Filament\Support\Contracts\HasLabel;
 
 enum ProductType: int implements HasLabel
 {
-    case MATERIAL = 1;
-    case PRODUCT = 2;
-    case SERVICE = 3;
-    case FINISHED_PRODUCT = 4;
+    case Material = 1;
+    case Product = 2;
+    case Service = 3;
+    case FinishedProduct = 4;
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::MATERIAL => 'Insumo',
-            self::PRODUCT => 'Producto',
-            self::SERVICE => 'Servicio',
-            self::FINISHED_PRODUCT => 'Producto compuesto',
+            self::Material => 'Insumo',
+            self::Product => 'Producto',
+            self::Service => 'Servicio',
+            self::FinishedProduct => 'Producto compuesto',
         };
     }
 
     public static function getOptions(): array
     {
         return [
-            self::PRODUCT->value => self::PRODUCT->getLabel(),
-            self::SERVICE->value => self::SERVICE->getLabel(),
-            self::FINISHED_PRODUCT->value => self::FINISHED_PRODUCT->getLabel(),
+            self::Product->value => self::Product->getLabel(),
+            self::Service->value => self::Service->getLabel(),
+            self::FinishedProduct->value => self::FinishedProduct->getLabel(),
         ];
     }
 }

@@ -22,7 +22,7 @@ class ProductInfolist extends Infolist
             ->border()
             ->columnSpanFull()
             ->hidden(function (Product $record): bool {
-                $isFinalProduct = $record->type === ProductType::FINISHED_PRODUCT;
+                $isFinalProduct = $record->type === ProductType::FinishedProduct;
 
                 return $isFinalProduct ? $record->hasComponents() : true;
             }),

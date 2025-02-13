@@ -5,7 +5,6 @@ namespace App\Filament\Resources\ProductResource\RelationManagers;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Product;
-use Filament\Forms\Get;
 use Filament\Forms\Form;
 use App\Enums\ProductType;
 use Filament\Tables\Table;
@@ -33,7 +32,7 @@ class ComponentsRelationManager extends RelationManager
                 name: 'component', 
                 titleAttribute: 'name', 
                 modifyQueryUsing: function (Builder $query) {
-                    return $query->where('type', ProductType::MATERIAL);
+                    return $query->where('type', ProductType::Material);
                 }
             )
             ->searchable()
@@ -45,7 +44,7 @@ class ComponentsRelationManager extends RelationManager
 
             Forms\Components\Placeholder::make('unit')
             ->label('Unidad')
-            ->content(function (Get $get) {
+            ->content(function (Forms\Get $get) {
                 return Product::with('unit')->find($get('component_id'))->unit->name ?? '';
             }),
 
@@ -112,6 +111,6 @@ class ComponentsRelationManager extends RelationManager
 
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return $ownerRecord->type === ProductType::FINISHED_PRODUCT;
+        return $ownerRecord->type === ProductType::FinishedProduct;
     }
 }

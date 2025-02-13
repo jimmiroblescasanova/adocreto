@@ -135,7 +135,7 @@ class Product extends Model
      */
     public function scopeMaterials(Builder $query): Builder
     {
-        return $query->where('type', ProductType::MATERIAL);
+        return $query->where('type', ProductType::Material);
     }
 
     /**
@@ -146,7 +146,7 @@ class Product extends Model
      */
     public function scopeProducts(Builder $query): Builder
     {
-        return $query->where('type', '!=', ProductType::MATERIAL);
+        return $query->where('type', '!=', ProductType::Material);
     }
 
     /**
