@@ -20,7 +20,8 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->foreignIdFor(App\Models\Unit::class)->constrained();
             $table->foreignIdFor(App\Models\Category::class)->nullable()->constrained();
-            $table->unsignedBigInteger('minimum')->default(0);
+            $table->unsignedBigInteger('production_conversion_quantity')->nullable();
+            $table->foreignIdFor(App\Models\Unit::class, 'production_unit_id')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

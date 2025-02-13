@@ -76,6 +76,16 @@ class Product extends Model
     }
 
     /**
+     * Get the production unit that this Product belongs to
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function production_unit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class, 'production_unit_id');
+    }
+
+    /**
      * Get the Unit that this Product belongs to
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

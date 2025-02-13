@@ -20,4 +20,13 @@ enum ProductType: int implements HasLabel
             self::FINISHED_PRODUCT => 'Producto compuesto',
         };
     }
+
+    public static function getOptions(): array
+    {
+        return [
+            self::PRODUCT->value => self::PRODUCT->getLabel(),
+            self::SERVICE->value => self::SERVICE->getLabel(),
+            self::FINISHED_PRODUCT->value => self::FINISHED_PRODUCT->getLabel(),
+        ];
+    }
 }

@@ -5,12 +5,13 @@ namespace App\Filament\Resources;
 use App\Models\Product;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProductResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Filament\Resources\ProductResource as ExtraResource;
+use App\Filament\Resources\ProductResource\RelationManagers;
 
 class ProductResource extends Resource
 {
@@ -25,6 +26,11 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return ExtraResource\Forms\ProductForm::form($form);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return ExtraResource\Infolists\ProductInfolist::infolist($infolist);
     }
 
     public static function table(Table $table): Table

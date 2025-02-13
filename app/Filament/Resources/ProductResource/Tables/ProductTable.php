@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ProductResource\Tables;
 
 use Filament\Tables;
 use App\Enums\IsActive;
+use App\Enums\ProductType;
 use Filament\Tables\Table;
 
 class ProductTable extends Table 
@@ -37,6 +38,11 @@ class ProductTable extends Table
             ->label('Categoría')
             ->alignCenter(),
 
+            Tables\Columns\TextColumn::make('type')
+            ->label('Tipo')
+            ->alignCenter()
+            ->toggleable(isToggledHiddenByDefault: true),
+
             Tables\Columns\TextColumn::make('active')
             ->label('Estado')
             ->badge()
@@ -63,6 +69,11 @@ class ProductTable extends Table
             ->searchable()
             ->preload()
             ->optionsLimit(10)
+            ->native(false),
+
+            Tables\Filters\SelectFilter::make('type')
+            ->label('Tipo')
+            ->options(ProductType::getOptions())
             ->native(false),
 
             Tables\Filters\SelectFilter::make('active')

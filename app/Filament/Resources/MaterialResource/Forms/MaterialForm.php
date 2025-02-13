@@ -41,19 +41,12 @@ class MaterialForm extends Form
                     ->columnSpanFull(),
 
                     Forms\Components\Select::make('unit_id')
-                    ->label('Unidad')
+                    ->label('Unidad base')
                     ->relationship(name: 'unit', titleAttribute: 'name')
                     ->searchable()
                     ->preload()
                     ->optionsLimit(10)
                     ->selectablePlaceholder(false)
-                    ->required(),
-
-                    Forms\Components\TextInput::make('minimum')
-                    ->label('Mínimo')
-                    ->numeric()
-                    ->inputMode('decimal')
-                    ->default(0)
                     ->required(),
                 ])
                 ->columns(),

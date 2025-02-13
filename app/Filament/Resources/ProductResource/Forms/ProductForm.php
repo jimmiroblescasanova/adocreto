@@ -4,9 +4,8 @@ namespace App\Filament\Resources\ProductResource\Forms;
 
 use Filament\Forms;
 use App\Enums\IsActive;
-use App\Enums\ProductType;
 use Filament\Forms\Form;
-use CodeWithDennis\SimpleAlert\Components\Forms\SimpleAlert;
+use App\Enums\ProductType;
 
 class ProductForm extends Form 
 {
@@ -14,16 +13,6 @@ class ProductForm extends Form
     {
         return $form
         ->schema([
-            SimpleAlert::make('alert')
-            ->warning()
-            ->title('Aun no hay componentes en este producto')
-            ->columnSpanFull()
-            ->hidden(function ($record): bool {
-                $isNotFinishedProduct = $record->type != ProductType::FINISHED_PRODUCT;
-                
-                return $record->hasComponents() || $isNotFinishedProduct;
-            }),
-
             Forms\Components\Group::make([
                 Forms\Components\Section::make('Información básica')
                 ->schema([
@@ -39,23 +28,52 @@ class ProductForm extends Form
 
                     Forms\Components\Select::make('type')
                     ->label('Tipo')
-                    ->options(ProductType::class)
+                    ->options(ProductType::getOptions())
                     ->native(false)
-                    ->required(),
+                    ->required()
+                    ->live(onBlur: true)
+                    ->disabledOn('edit'),
 
                     Forms\Components\TextInput::make('name')
                     ->label('Nombre')
                     ->required()
                     ->columnSpanFull(),
 
+                    Forms\Components\Textarea::make('description')
+                    ->label('Descripción')
+                    ->rows(4)
+                    ->columnSpanFull(),
+
                     Forms\Components\Select::make('unit_id')
-                    ->label('Unidad')
+                    ->label('Unidad de venta')
                     ->relationship(name: 'unit', titleAttribute: 'virtual_label')
                     ->searchable(['name', 'abbreviation'])
                     ->preload()
                     ->optionsLimit(10)
                     ->selectablePlaceholder(false)
                     ->required(),
+
+                    Forms\Components\Fieldset::make('Producción')
+                    ->schema([
+                        Forms\Components\TextInput::make('production_conversion_quantity')
+                        ->label('Cantidad de conversión')
+                        ->numeric()
+                        ->inputMode('decimal')
+                        ->default(1)
+                        ->required(),
+
+                        Forms\Components\Select::make('production_unit_id')
+                        ->label('Unidad de producción')
+                        ->relationship(name: 'production_unit', titleAttribute: 'name')
+                        ->native(false)
+                        ->searchable()
+                        ->preload()
+                        ->optionsLimit(10),
+                    ])
+                    ->visible(function(Forms\Get $get): bool {
+                        $type = $get('type');
+                        return $type == ProductType::FINISHED_PRODUCT->value;
+                    }),
                 ])
                 ->columns(),
             ])
