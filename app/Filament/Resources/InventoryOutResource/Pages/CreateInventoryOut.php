@@ -7,6 +7,7 @@ use App\Enums\DocumentType;
 use Illuminate\Support\Str;
 use App\Enums\DocumentStatus;
 use App\Traits\CreateActionsOnTop;
+use App\Traits\RedirectsAfterSave;
 use Illuminate\Support\Facades\Auth;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
@@ -14,14 +15,14 @@ use App\Filament\Resources\InventoryOutResource;
 
 class CreateInventoryOut extends CreateRecord
 {
-    use CreateActionsOnTop;
+    use CreateActionsOnTop, RedirectsAfterSave;
     
     protected static string $resource = InventoryOutResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['type'] = DocumentType::InventoryOut;
-        $data['status'] = DocumentStatus::INCOMPLETE;
+        $data['status'] = DocumentStatus::Incomplete;
         $data['user_id'] = Auth::id();
         $data['uuid'] = Str::uuid();
 
@@ -35,7 +36,7 @@ class CreateInventoryOut extends CreateRecord
                 'subtotal' => $this->getRecord()->items->sum('subtotal'),
                 'tax' => $this->getRecord()->items->sum('tax'),
                 'total' => $this->getRecord()->items->sum('total'),
-                'status' => DocumentStatus::PLACED,
+                'status' => DocumentStatus::Placed,
             ]);
         } catch (\Exception $th) {
             Notification::make()

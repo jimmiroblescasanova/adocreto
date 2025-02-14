@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignIdFor(App\Models\Company::class)->constrained();
             $table->unsignedBigInteger('type'); 
             $table->unsignedBigInteger('folio');
-            $table->dateTime('date');
+            $table->date('date');
             $table->string('title')->nullable();
             $table->string('order_number')->nullable();
             $table->foreignIdFor(App\Models\Entity::class)->nullable()->constrained();

@@ -34,9 +34,9 @@ class ProductionForm
                 ->columnSpanFull(),
 
                 Forms\Components\Select::make('origin_warehouse_id')
-                ->label('Almacen de insumos')
+                ->label('Almacen de meterias primas')
                 ->relationship(name: 'originWarehouse', titleAttribute: 'name', 
-                    modifyQueryUsing: fn (Builder $query) => $query->where('type', WarehouseType::SUPPLIES)
+                    modifyQueryUsing: fn (Builder $query) => $query->where('type', WarehouseType::Supplies)
                 )
                 ->searchable()
                 ->preload()
@@ -47,7 +47,7 @@ class ProductionForm
                 Forms\Components\Select::make('destination_warehouse_id')
                 ->label('Almacen de productos terminados')
                 ->relationship(name: 'destinationWarehouse', titleAttribute: 'name', 
-                    modifyQueryUsing: fn (Builder $query) => $query->where('type', WarehouseType::GENERAL)
+                    modifyQueryUsing: fn (Builder $query) => $query->where('type', WarehouseType::General)
                 )
                 ->searchable()
                 ->preload()
@@ -67,7 +67,7 @@ class ProductionForm
                     Forms\Components\Select::make('product_id')
                     ->label('Producto')
                     ->relationship(name: 'product', titleAttribute: 'name', 
-                        modifyQueryUsing: fn (Builder $query) => $query->where('type', ProductType::PRODUCT)
+                        modifyQueryUsing: fn (Builder $query) => $query->where('type', ProductType::FinishedProduct)
                     )
                     ->searchable()
                     ->preload()
