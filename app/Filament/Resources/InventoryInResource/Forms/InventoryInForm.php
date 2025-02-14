@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use App\Enums\ProductType;
 use App\Enums\DocumentType;
 use App\Enums\InventoryOperation;
+use Filament\Forms\Components\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 
 class InventoryInForm extends Form 
@@ -74,7 +75,10 @@ class InventoryInForm extends Form
 
             Forms\Components\TextInput::make('order_number')
             ->label('Número de orden')
-            ->maxLength(255),
+            ->maxLength(255)
+            ->extraAlpineAttributes([
+                'oninput' => 'this.value = this.value.replace(/[^a-zA-Z0-9\-\._\/:#@()\*]/g, "")',
+            ]),
 
             Forms\Components\Select::make('entity_id')
             ->label('Proveedor')

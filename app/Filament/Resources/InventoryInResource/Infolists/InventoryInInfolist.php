@@ -26,6 +26,9 @@ class InventoryInInfolist extends Infolist
                     ->inlineLabel()
                     ->alignEnd(),
 
+                    Infolists\Components\TextEntry::make('order_number')
+                    ->label('Número de orden'),
+
                     Infolists\Components\TextEntry::make('title')
                     ->label('Título')
                     ->columnSpan(2),
