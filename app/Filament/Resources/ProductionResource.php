@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Filament\Forms\Form;
 use App\Models\Production;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -26,6 +27,11 @@ class ProductionResource extends Resource
     public static function form(Form $form): Form
     {
         return ExtraResource\Forms\ProductionForm::form($form);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return ExtraResource\Infolists\ProductionInfolist::infolist($infolist);
     }
 
     public static function table(Table $table): Table

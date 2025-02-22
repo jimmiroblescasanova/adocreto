@@ -29,25 +29,18 @@ class CreateProduction extends CreateRecord
     {
         $production = $this->record;
         
-        $products = $production->items()->get()->map(function ($item) {
-            return $item->product->load('components');
-        });
-    
-        // Extraemos todos los component_id de los productos
-        $components = $products->flatMap(function ($product) {
-            return $product->components->select('component_id', 'quantity');
-        });
+        $production->load('items.product.components');
 
-        $components->each(function ($component) use ($production) {
-            // Buscar o crear el registro de componente para la producción
-            $record = ProductionComponent::firstOrNew([
-                'production_id' => $production->id,
-                'component_id' => $component['component_id'],
-            ]);
+        $production->items->each(function ($item) use ($production) {
+            $item->product->components->each(function ($component) use ($item, $production) {
+                $record = ProductionComponent::firstOrNew([
+                    'production_id' => $production->id,
+                    'component_id' => $component->component_id,
+                ]);
 
-            // Sumar la cantidad anterior (si existe) con la nueva cantidad
-            $record->quantity = ($record->quantity ?? 0) + $component['quantity'];
-            $record->save();
+                $record->quantity += $component->quantity * $item->quantity;
+                $record->save();
+            });
         });
     }
 }
