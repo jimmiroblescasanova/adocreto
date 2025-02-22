@@ -33,9 +33,9 @@ class TransferForm extends Form
                     ->required()
                     ->columnSpanFull(),
 
-                    Forms\Components\Select::make('origin_warehouse_id')
+                    Forms\Components\Select::make('warehouse_id')
                     ->label('Almacén de salida')
-                    ->relationship('originWarehouse')
+                    ->relationship('warehouse')
                     ->options(self::generateOptions())
                     ->searchable()
                     ->preload()
@@ -78,7 +78,7 @@ class TransferForm extends Form
                 ->afterStateUpdated(function (Forms\Set $set, $state, Forms\Get $get): void {
                     if ($state) {
                         $product = self::getProduct($state);
-                        $set('inventory', $product->totalInventory($get('../../origin_warehouse_id')) ?? 0);
+                        $set('inventory', $product->totalInventory($get('../../warehouse_id')) ?? 0);
                     }
                 })
                 ->columnSpan(function (string $operation): string {

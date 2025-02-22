@@ -41,17 +41,23 @@ class ViewTransfer extends ViewRecord
 
     private function sendTransferToRoute(): void
     {
-        $tenant = Filament::getTenant();
-        
-        $this->record->status = TransferStatus::InRoute;
-        $this->record->save();
+        try {
+            TransferInRoute::dispatch($this->record);
 
-        TransferInRoute::dispatch($this->record, $tenant);
+            $this->record->status = TransferStatus::InRoute;
+            $this->record->save();
 
-        Notification::make()
-        ->title('Traspaso enviado a ruta')
-        ->success()
-        ->send();
+            Notification::make()
+            ->title('Traspaso enviado a ruta')
+            ->success()
+            ->send();
+        } catch (\Throwable $th) {
+            Notification::make()
+            ->title('Error al enviar el traspaso a ruta')
+            ->body($th->getMessage())
+            ->danger()
+            ->send();
+        }
 
         $this->redirect($this->getResource()::getUrl('index'));
     }
@@ -59,11 +65,12 @@ class ViewTransfer extends ViewRecord
     private function markAsReceived(): void
     {
         try {
-            $tenant = Filament::getTenant();
-            TransferHasArrived::dispatch($this->record, $tenant);
+            TransferHasArrived::dispatch($this->record);
 
-            $this->record->status = TransferStatus::Delivered;
-            $this->record->save();
+            $this->record->update([
+                'status' => TransferStatus::Delivered,
+                'accepted_by' => auth()->id(),
+            ]);
 
             Notification::make()
             ->title('Traspaso marcado como recibido')

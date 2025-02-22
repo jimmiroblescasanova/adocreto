@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Company;
 use App\Models\Transfer;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -20,7 +19,6 @@ class TransferInRoute
      * Create a new event instance.
      */
     public function __construct(
-        public Transfer $transfer,
-        public Company $company
+        public Transfer $transfer
     ) {}
 }

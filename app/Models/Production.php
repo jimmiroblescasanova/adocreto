@@ -49,19 +49,9 @@ class Production extends Model
      * 
      * @return BelongsTo<Warehouse>
      */
-    public function originWarehouse(): BelongsTo
+    public function warehouse(): BelongsTo
     {
-        return $this->belongsTo(Warehouse::class, 'origin_warehouse_id');
-    }
-
-    /**
-     * This method returns the destination warehouse of the production.
-     * 
-     * @return BelongsTo<Warehouse>
-     */
-    public function destinationWarehouse(): BelongsTo
-    {
-        return $this->belongsTo(Warehouse::class, 'destination_warehouse_id');
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
     }
 
     /**

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('date');
             $table->unsignedBigInteger('folio');
             $table->string('title')->nullable();
-            $table->foreignIdFor(App\Models\Warehouse::class, 'origin_warehouse_id')->constrained();
+            $table->foreignIdFor(App\Models\Warehouse::class)->constrained();
             $table->foreignIdFor(App\Models\Warehouse::class, 'destination_warehouse_id')->constrained();
             $table->foreignIdFor(App\Models\User::class, 'created_by')->constrained();
             $table->foreignIdFor(App\Models\User::class, 'accepted_by')->nullable()->constrained();

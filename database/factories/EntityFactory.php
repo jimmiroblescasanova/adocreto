@@ -20,7 +20,6 @@ class EntityFactory extends Factory
         return [
             'company_id'    => fake()->randomElement([1,2]),
             'type'          => fake()->randomElement(EntityType::class),
-            'code'          => fake()->unique()->bothify('???###'),
             'name'          => fake()->company(),
             'rfc'           => fake()->optional()->regexify('[A-Z]{3}[0-9]{10}'),
             'email'         => fake()->optional()->safeEmail(),

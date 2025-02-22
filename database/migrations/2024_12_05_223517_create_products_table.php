@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(App\Models\Company::class);
-            $table->unsignedBigInteger('type'); // 1: Materia Prima, 2: Producto, 3: Servicio, 4: Producto Compuesto
+            $table->unsignedBigInteger('type');
             $table->string('code');
             $table->string('name');
             $table->longText('description')->nullable();

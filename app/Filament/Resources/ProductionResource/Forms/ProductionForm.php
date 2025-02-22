@@ -30,24 +30,12 @@ class ProductionForm
                 Forms\Components\TextInput::make('title')
                 ->label('Titulo')
                 ->maxLength(255)
-                ->required()
-                ->columnSpanFull(),
-
-                Forms\Components\Select::make('origin_warehouse_id')
-                ->label('Almacen de meterias primas')
-                ->relationship(name: 'originWarehouse', titleAttribute: 'name', 
-                    modifyQueryUsing: fn (Builder $query) => $query->where('type', WarehouseType::Supplies)
-                )
-                ->searchable()
-                ->preload()
-                ->optionsLimit(15)
-                ->selectablePlaceholder(false)
                 ->required(),
 
-                Forms\Components\Select::make('destination_warehouse_id')
-                ->label('Almacen de productos terminados')
-                ->relationship(name: 'destinationWarehouse', titleAttribute: 'name', 
-                    modifyQueryUsing: fn (Builder $query) => $query->where('type', WarehouseType::General)
+                Forms\Components\Select::make('warehouse_id')
+                ->label('Almacen de meterias primas')
+                ->relationship(name: 'warehouse', titleAttribute: 'name', 
+                    modifyQueryUsing: fn (Builder $query) => $query->where('type', WarehouseType::Supplies)
                 )
                 ->searchable()
                 ->preload()
@@ -57,7 +45,7 @@ class ProductionForm
             ])
             ->columns(2),
 
-            Forms\Components\Section::make('Productos terminados a producir')
+            Forms\Components\Section::make('Productos a producir')
             ->schema([
                 Forms\Components\Repeater::make('items')
                 ->hiddenLabel()

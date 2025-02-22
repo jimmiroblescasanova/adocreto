@@ -57,9 +57,9 @@ class Transfer extends Model
      *
      * @return BelongsTo<Warehouse>
      */
-    public function originWarehouse(): BelongsTo
+    public function warehouse(): BelongsTo
     {
-        return $this->belongsTo(Warehouse::class, 'origin_warehouse_id');
+        return $this->belongsTo(Warehouse::class);
     }
 
     /**
