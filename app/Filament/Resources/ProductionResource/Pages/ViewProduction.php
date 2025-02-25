@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ViewRecord;
 use App\Filament\Resources\ProductionResource;
 use App\Filament\Components\Actions\BackButton;
 use Filament\Notifications\Notification;
+use App\Services\ProductionAvailabilityService;
 
 class ViewProduction extends ViewRecord
 {
@@ -16,6 +17,9 @@ class ViewProduction extends ViewRecord
 
     protected function getHeaderActions(): array
     {
+        $productionService = new ProductionAvailabilityService();
+        $canBeProduced = $productionService->canBeProduced($this->record);
+
         return [
             Actions\EditAction::make(),
 
@@ -24,7 +28,7 @@ class ViewProduction extends ViewRecord
             ->icon('heroicon-o-play')
             ->color('success')
             ->action(fn () => $this->startProduction())
-            ->visible(fn () => $this->record->status === ProductionStatus::Pending),
+            ->visible(fn () => ($this->record->status === ProductionStatus::Pending) && $canBeProduced),
 
             BackButton::make(),
         ];

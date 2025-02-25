@@ -15,8 +15,23 @@ class ProductionComponent extends Model
         ];
     }
 
+    /**
+     * This method returns the product that the production component belongs to.
+     * 
+     * @return BelongsTo<Product>
+     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'component_id');
+    }
+
+    /**
+     * This method returns the production that the production component belongs to.
+     * 
+     * @return BelongsTo<Production>
+     */
+    public function production(): BelongsTo
+    {
+        return $this->belongsTo(Production::class);
     }
 }

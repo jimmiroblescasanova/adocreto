@@ -4,13 +4,26 @@ namespace App\Filament\Resources\ProductionResource\Infolists;
 
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use App\Models\ProductionComponent;
+use App\Services\ProductionAvailabilityService;
+use CodeWithDennis\SimpleAlert\Components\Infolists\SimpleAlert;
 
 class ProductionInfolist extends Infolist
 {
     public static function infolist(Infolist $infolist): Infolist
     {
+        $productionService = new ProductionAvailabilityService();
+        $canBeProduced = $productionService->canBeProduced($infolist->getRecord());
+
         return $infolist
         ->schema([
+            SimpleAlert::make('alert')
+            ->title('No se puede iniciar producción')
+            ->description('No se puede iniciar producción porque no hay suficiente materia prima disponible.')
+            ->color('danger')
+            ->hidden($canBeProduced)
+            ->columnSpanFull(),
+            
             Infolists\Components\Group::make([
                 Infolists\Components\Section::make('Datos generales')
                 ->icon('heroicon-o-queue-list')
@@ -54,6 +67,16 @@ class ProductionInfolist extends Infolist
                     ->hiddenLabel()
                     ->contained(false)
                     ->schema([
+                        Infolists\Components\IconEntry::make('availability')
+                        ->label('Disponible')
+                        ->state(function (ProductionComponent $record) {
+                            return $record->product->totalInventory($record->production->warehouse_id);
+                        })
+                        ->icon(fn (string $state, ProductionComponent $record): string => match ($state >= $record->quantity) {
+                            true => 'heroicon-o-check-circle',
+                            false => 'heroicon-o-x-circle',
+                        }),
+
                         Infolists\Components\TextEntry::make('product.name')
                         ->label('Producto')
                         ->columnSpan(2),
@@ -64,7 +87,7 @@ class ProductionInfolist extends Infolist
                         Infolists\Components\TextEntry::make('product.unit.abbreviation')
                         ->label('Unidad'),
                     ])
-                    ->columns(4),
+                    ->columns(5),
                 ])
                 ->collapsed()
                 ->collapsible(),
