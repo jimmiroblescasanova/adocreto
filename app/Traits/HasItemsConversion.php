@@ -4,10 +4,17 @@ namespace App\Traits;
 
 use App\Models\Product;
 use App\Models\Transfer;
+use App\Models\Production;
 use App\Enums\InventoryOperation;
 
 trait HasItemsConversion
 {
+    /**
+     * Convert items to inventory out
+     * 
+     * @param Transfer $source
+     * @return array
+     */
     public function convertItemsToInventoryOut(Transfer $source): array
     {
         return $source->items->map(function($item) use ($source) {
@@ -23,6 +30,12 @@ trait HasItemsConversion
         })->toArray();
     }
 
+    /**
+     * Convert items to inventory in
+     * 
+     * @param Transfer $source
+     * @return array
+     */
     public function convertItemsToInventoryIn(Transfer $source): array
     {
         return $source->items->map(function($item) use ($source) {
@@ -37,4 +50,6 @@ trait HasItemsConversion
             ];
         })->toArray();
     }
+
+    
 }
