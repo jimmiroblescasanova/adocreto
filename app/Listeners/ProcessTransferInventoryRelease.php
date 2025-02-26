@@ -2,10 +2,12 @@
 
 namespace App\Listeners;
 
+use App\Models\Product;
+use App\Models\Transfer;
 use App\Enums\DocumentType;
 use App\Enums\TransferStatus;
 use App\Events\TransferInRoute;
-use App\Traits\HasItemsConversion;
+use App\Enums\InventoryOperation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Actions\CreateInventoryDocument;
@@ -14,8 +16,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ProcessTransferInventoryRelease
 {
-    use HasItemsConversion;
-
     /**
      * Create the event listener.
      */
@@ -49,5 +49,26 @@ class ProcessTransferInventoryRelease
 
             throw $th;
         }
+    }
+
+    /**
+     * Convert items to inventory out
+     * 
+     * @param Transfer $source
+     * @return array
+     */
+    public function convertItemsToInventoryOut(Transfer $source): array
+    {
+        return $source->items->map(function($item) use ($source) {
+            $averageCost = Product::find($item->product_id)->calculateAveragePrice($source->warehouse_id);
+
+            return [
+                'product_id' => $item->product_id,
+                'warehouse_id' => $source->warehouse_id,
+                'quantity' => $item->quantity,
+                'price' => $averageCost,
+                'operation' => InventoryOperation::OUT,
+            ];
+        })->toArray();
     }
 }
