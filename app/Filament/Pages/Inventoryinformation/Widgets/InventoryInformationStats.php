@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Pages\Modules;
+namespace App\Filament\Pages\Inventoryinformation\Widgets;
 
 use Livewire\Attributes\On;
 use App\Models\DocumentItem;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Pages\Modules;
+namespace App\Filament\Pages\Inventoryinformation;
 
 use Filament\Forms;
 use Filament\Tables;
@@ -18,7 +18,7 @@ use App\Filament\Resources\InventoryInResource;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Resources\InventoryOutResource;
 use Filament\Tables\Concerns\InteractsWithTable;
-use App\Filament\Pages\Modules\InventoryInformationStats;
+use App\Filament\Pages\Inventoryinformation\Widgets\InventoryInformationStats;
 
 class InventoryInformation extends Page implements HasTable, HasForms
 {   
@@ -29,6 +29,8 @@ class InventoryInformation extends Page implements HasTable, HasForms
 
     protected static string $view = 'filament.pages.modules.inventory-information';
 
+    protected static ?string $title = 'Información de inventario';
+
     public $defaultAction = 'showParameters';
 
     public ?array $data = [];
@@ -37,17 +39,18 @@ class InventoryInformation extends Page implements HasTable, HasForms
     {
         if (isset($this->data['product_id']) ) {
             $query = DocumentItem::with('document')
-                ->select('*')
+                ->join('documents', 'document_items.document_id', '=', 'documents.id')
+                ->select('document_items.*')
                 ->selectRaw('(quantity * operation) / 100 as inventory')
-                ->where('product_id', $this->data['product_id'])
-                ->where('warehouse_id', $this->data['warehouse_id']);
+                ->where('document_items.product_id', $this->data['product_id'])
+                ->where('document_items.warehouse_id', $this->data['warehouse_id']);
         } else {
             $query = DocumentItem::query()->whereNull('id');
         }
 
         return $table
             ->query($query)
-            ->defaultSort('id', 'asc')
+            ->defaultSort('documents.date', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('document.type')
                 ->label('Tipo'),
