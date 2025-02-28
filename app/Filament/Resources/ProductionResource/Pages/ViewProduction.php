@@ -30,6 +30,13 @@ class ViewProduction extends ViewRecord
             ->action(fn () => $this->startProduction())
             ->visible(fn () => ($this->record->status === ProductionStatus::Pending) && $canBeProduced),
 
+            Actions\Action::make('finishProduction')
+            ->label('Finalizar producción')
+            ->icon('heroicon-o-check')
+            ->color('success')
+            ->action(fn () => $this->finishProduction())
+            ->visible(fn () => ($this->record->status === ProductionStatus::InProgress)),
+
             BackButton::make(),
         ];
     }
@@ -49,5 +56,11 @@ class ViewProduction extends ViewRecord
         ->send();
 
         $this->redirect($this->getResource()::getUrl('index'));
+    }
+
+    // TODO: Implement finishProduction
+    private function finishProduction(): void
+    {
+        $this->redirect($this->getResource()::getUrl('manage', ['record' => $this->record->id]));
     }
 }

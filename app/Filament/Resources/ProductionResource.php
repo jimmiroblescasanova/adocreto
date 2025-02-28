@@ -53,6 +53,7 @@ class ProductionResource extends Resource
             'create' => Pages\CreateProduction::route('/create'),
             'view' => Pages\ViewProduction::route('/{record}'),
             'edit' => Pages\EditProduction::route('/{record}/edit'),
+            'manage' => Pages\CompleteProduction::route('{record}/manage'),
         ];
     }
 }
