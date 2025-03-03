@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Price extends Pivot
 {
+    protected $table = 'prices';
+    
     protected function casts(): array
     {
         return [

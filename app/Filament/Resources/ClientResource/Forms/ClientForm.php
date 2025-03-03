@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Illuminate\Support\Str;
 use App\Models\Cfdi40\UsoCfdi;
 use App\Models\Cfdi40\RegimenFiscal;
+use App\Filament\Resources\EstimateResource\Pages\CreateEstimate;
 
 class ClientForm extends Form 
 {
@@ -96,7 +97,13 @@ class ClientForm extends Form
                 ->hidden(fn (Forms\Get $get) => $get('is_fiscal')),
             ])
             ->columns()
-            ->columnSpan(2),
+            ->columnSpan(function (string $operation) {
+                return match ($operation) {
+                    'create' => 2,
+                    'edit' => 2,
+                    default => 3,
+                };
+            }),
 
             Forms\Components\Section::make('Información adicional')
             ->icon('heroicon-o-information-circle')
@@ -111,6 +118,7 @@ class ClientForm extends Form
                 ->label('Notas adicionales')
                 ->rows(3),
             ])
+            ->hiddenOn(CreateEstimate::class)
             ->columnSpan(1),
         ])
         ->columns(3);

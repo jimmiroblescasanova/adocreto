@@ -8,7 +8,7 @@ enum DocumentType: int implements HasLabel
 {
     case InventoryIn = 1;
     case InventoryOut = 2;
-    case Transfer = 3;
+    case Estimate = 3;
     case Order = 4;
     case Sale = 5;
     case Invoice = 6;
@@ -18,8 +18,8 @@ enum DocumentType: int implements HasLabel
         return match ($this) {
             self::InventoryIn => 'Entrada',
             self::InventoryOut => 'Salida',
-            self::Transfer => 'Traspaso',
-            self::Order => 'Cotizacion',
+            self::Estimate => 'Cotizacion',
+            self::Order => 'Pedido',
             self::Sale => 'Venta',
             self::Invoice => 'Factura',
         };
