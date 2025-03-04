@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('rfc');
+            $table->string('address')->nullable();
+            $table->string('zip_code')->nullable();
             $table->integer('tax')->default(16);
             $table->timestamps();
         });
