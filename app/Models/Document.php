@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Document extends Model
 {
@@ -21,6 +22,7 @@ class Document extends Model
     {
         return [
             'type'      => DocumentType::class,
+            'date'      => 'date',
             'quantity'  => QuantityCast::class,
             'price'     => MoneyCast::class,
             'subtotal'  => MoneyCast::class,
@@ -28,6 +30,16 @@ class Document extends Model
             'total'     => MoneyCast::class,
             'status'    => DocumentStatus::class,
         ];
+    }
+
+    /**
+     * Get the address associated with the document.
+     *
+     * @return MorphOne
+     */
+    public function address(): MorphOne
+    {
+        return $this->morphOne(Address::class, 'addressable');
     }
 
     /**

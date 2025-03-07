@@ -5,6 +5,7 @@ namespace App\Filament\Resources\EstimateResource\Forms;
 use Filament\Forms;
 use App\Models\Price;
 use App\Models\Entity;
+use App\Models\Document;
 use Filament\Forms\Form;
 use App\Enums\EntityType;
 use App\Traits\HasTotalsArea;
@@ -37,11 +38,29 @@ class EstimateForm extends Form
                     ->native(false)
                     ->required()
                     ->createOptionForm(fn (Form $form) => ClientForm::form($form))
-                    ->createOptionUsing(fn (array $data) => self::createNewClient($data)),
+                    ->createOptionUsing(fn (array $data) => self::createNewClient($data))
+                    ->live()
+                    ->disabledOn('edit'),
 
                     Forms\Components\TextInput::make('title')
                     ->label('Titulo')
                     ->required(),
+
+                    Forms\Components\Select::make('address')
+                    ->label('Seleccionar dirección')
+                    ->options(function (Forms\Get $get) {
+                        $entity = Entity::find($get('entity_id'));
+                        if ($entity) {
+                            return $entity->addresses->pluck('address_line_1', 'id');
+                        }
+                    })
+                    ->hiddenOn('edit'),
+
+                    Forms\Components\Placeholder::make('address')
+                    ->label('Dirección seleccionada')
+                    ->content(function (Document $record) {
+                        return $record->address?->address_line_1 ?? '';
+                    }),
                 ])
                 ->columns(2),
             ])

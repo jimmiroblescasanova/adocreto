@@ -13,7 +13,11 @@ class EditEstimate extends EditRecord
 {
     use ManageProductsFromModal;
     use EditActionsOnTop;
-    use RedirectsAfterSave;
 
     protected static string $resource = EstimateResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('print', ['record' => $this->record]);
+    }
 }

@@ -11,6 +11,7 @@ use App\Traits\CreateActionsOnTop;
 use App\Traits\ManageProductsFromModal;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\EstimateResource;
+use App\Models\Address;
 
 class CreateEstimate extends CreateRecord
 {
@@ -19,6 +20,8 @@ class CreateEstimate extends CreateRecord
     use HasTotalsArea;
 
     protected static string $resource = EstimateResource::class;
+
+    public int $addressId;
 
     public function mutateFormDataBeforeCreate(array $data): array
     {
@@ -37,6 +40,24 @@ class CreateEstimate extends CreateRecord
         $data['tax'] = $tax;
         $data['total'] = $total;
 
+        $this->addressId = $data['address'];
+        unset($data['address']);
+
         return $data;
+    }
+
+    public function after(): void
+    {
+        $address = Address::find($this->addressId);
+        if ($address) {
+            $duplicatedAddress = $address->replicate();
+            unset($duplicatedAddress->address_line_1, $duplicatedAddress->address_line_2);
+            $this->record->address()->save($duplicatedAddress);
+        }
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('print', ['record' => $this->record]);
     }
 }

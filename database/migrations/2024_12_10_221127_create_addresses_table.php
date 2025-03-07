@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('state');
             $table->string('country');
             $table->longText('notes')->nullable();
+            $table->string('address_line_1')->storedAs('CONCAT(street, " ", exterior, " ", interior, ", ", neighborhood)');
+            $table->string('address_line_2')->storedAs('CONCAT(city, ", ", state, ", ", country, " ", zip)');
             $table->timestamps();
         });
     }

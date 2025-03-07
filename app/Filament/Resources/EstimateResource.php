@@ -57,6 +57,7 @@ class EstimateResource extends Resource
             'create' => Pages\CreateEstimate::route('/create'),
             'view' => Pages\ViewEstimate::route('/{record}'),
             'edit' => Pages\EditEstimate::route('/{record}/edit'),
+            'print' => Pages\PrintEstimate::route('/{record}/print'),
         ];
     }
 

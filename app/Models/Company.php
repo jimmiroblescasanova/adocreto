@@ -14,7 +14,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Company extends Model implements HasAvatar, HasMedia
 {
-    use HasFactory;
     use InteractsWithMedia;
 
     protected function casts(): array
