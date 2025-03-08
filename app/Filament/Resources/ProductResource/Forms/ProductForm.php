@@ -7,6 +7,7 @@ use App\Enums\IsActive;
 use Filament\Forms\Form;
 use App\Enums\ProductType;
 use Filament\Facades\Filament;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Illuminate\Validation\Rules\Unique;
 
 class ProductForm extends Form 
@@ -86,6 +87,15 @@ class ProductForm extends Form
             ->columnSpan(2),
 
             Forms\Components\Group::make([
+                Forms\Components\Section::make('Imagen')
+                ->schema([
+                    SpatieMediaLibraryFileUpload::make('image')
+                    ->label('Fotografía del producto')
+                    ->collection('products')
+                    ->image()
+                    ->maxSize(250),
+                ]),
+
                 Forms\Components\Section::make('Datos adicionales')
                 ->schema([
                     Forms\Components\ToggleButtons::make('active')

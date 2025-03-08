@@ -7,6 +7,7 @@ use Filament\Infolists;
 use App\Enums\ProductType;
 use Filament\Infolists\Infolist;
 use CodeWithDennis\SimpleAlert\Components\Infolists\SimpleAlert;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 
 class ProductInfolist extends Infolist
 {
@@ -54,6 +55,14 @@ class ProductInfolist extends Infolist
             ->columnSpan(2),
 
             Infolists\Components\Group::make([
+                Infolists\Components\Section::make('Imagen')
+                ->icon('heroicon-o-camera')
+                ->schema([
+                    SpatieMediaLibraryImageEntry::make('image')
+                    ->label('Fotografía')
+                    ->collection('products'),
+                ]),
+
                 Infolists\Components\Section::make('Información adicional')
                 ->icon('heroicon-o-information-circle')
                 ->schema([
