@@ -60,7 +60,8 @@ class EstimateForm extends Form
                     ->label('Dirección seleccionada')
                     ->content(function (Document $record) {
                         return $record->address?->address_line_1 ?? '';
-                    }),
+                    })
+                    ->hiddenOn('create'),
                 ])
                 ->columns(2),
             ])
