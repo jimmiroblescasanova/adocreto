@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Filament\Resources\EstimateResource\Pages;
+namespace App\Filament\Resources\SaleResource\Pages;
 
 use Filament\Actions;
+use App\Models\Address;
 use App\Enums\DocumentType;
 use Illuminate\Support\Str;
 use App\Enums\DocumentStatus;
 use App\Traits\HasTotalsArea;
 use App\Traits\CreateActionsOnTop;
 use App\Traits\ManageProductsFromModal;
+use App\Filament\Resources\SaleResource;
 use Filament\Resources\Pages\CreateRecord;
-use App\Filament\Resources\EstimateResource;
-use App\Models\Address;
 
-class CreateEstimate extends CreateRecord
+class CreateSale extends CreateRecord
 {
-    use ManageProductsFromModal;
     use CreateActionsOnTop;
+    use ManageProductsFromModal;
     use HasTotalsArea;
 
-    protected static string $resource = EstimateResource::class;
+    protected static string $resource = SaleResource::class;
 
     public int $addressId;
 
@@ -29,8 +29,8 @@ class CreateEstimate extends CreateRecord
         $tax = HasTotalsArea::calculateTax($this->data['items']);
         $total = HasTotalsArea::calculateTotal($this->data['items']);
         
-        $data['type'] = DocumentType::Estimate;
-        $data['folio'] = static::getModel()::getNextFolio(DocumentType::Estimate);
+        $data['type'] = DocumentType::Sale;
+        $data['folio'] = static::getModel()::getNextFolio(DocumentType::Sale);
         $data['date'] = now();
         $data['status'] = DocumentStatus::Placed;
         $data['user_id'] = auth()->id();
@@ -54,10 +54,5 @@ class CreateEstimate extends CreateRecord
             unset($duplicatedAddress->address_line_1, $duplicatedAddress->address_line_2);
             $this->record->address()->save($duplicatedAddress);
         }
-    }
-
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('print', ['record' => $this->record]);
     }
 }

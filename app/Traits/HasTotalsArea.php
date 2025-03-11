@@ -7,7 +7,10 @@ trait HasTotalsArea
     public static function calculateSubtotal(array $items): float
     {
         $subtotal = collect($items)->sum(function($item) {
-            if (!isset($item['quantity']) || !isset($item['price'])) {
+            if (!isset($item['quantity']) || 
+                !isset($item['price']) || 
+                $item['quantity'] === '' || 
+                $item['price'] === '') {
                 return 0;
             }
             return ($item['quantity'] * $item['price']);
