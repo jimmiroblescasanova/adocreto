@@ -40,7 +40,7 @@ class CreateSale extends CreateRecord
         $data['tax'] = $tax;
         $data['total'] = $total;
 
-        $this->addressId = $data['address'];
+        $this->addressId = $data['address'] ?? 0;
         unset($data['address']);
 
         return $data;

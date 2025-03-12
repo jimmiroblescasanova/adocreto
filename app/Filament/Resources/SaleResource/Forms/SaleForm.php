@@ -5,8 +5,10 @@ namespace App\Filament\Resources\SaleResource\Forms;
 use Filament\Forms;
 use App\Models\Price;
 use App\Models\Entity;
+use App\Models\Document;
 use Filament\Forms\Form;
 use App\Traits\HasTotalsArea;
+use App\Enums\InventoryOperation;
 use App\Traits\FindsProductsOnce;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Actions\Action;
@@ -32,7 +34,8 @@ class SaleForm extends Form
                     ->preload()
                     ->optionsLimit(15)
                     ->columnSpan(2)
-                    ->live(),
+                    ->live()
+                    ->disabledOn('edit'),
 
                     Forms\Components\Select::make('address')
                     ->label('Direccion del cliente')
@@ -43,6 +46,11 @@ class SaleForm extends Form
                         }
                     })
                     ->hiddenOn('edit'),
+
+                    Forms\Components\Placeholder::make('address')
+                    ->label('Direccion del cliente')
+                    ->content(fn (Document $record): string => $record?->address?->address_line_1)
+                    ->hiddenOn('create'),
 
                     Forms\Components\TextInput::make('title')
                     ->label('Título')
@@ -140,7 +148,8 @@ class SaleForm extends Form
                         ->hidden(function (string $operation) {
                             return $operation === 'view';
                         }),
-                    ]),
+                    ])
+                    ->mutateRelationshipDataBeforeCreateUsing(fn (array $data) => self::mutateRepeaterData($data)),
                 ]),
 
                 Forms\Components\Fieldset::make('Totales')
@@ -179,5 +188,14 @@ class SaleForm extends Form
             ])
             ->columnSpanFull(),
         ]);
+    }
+
+    private static function mutateRepeaterData(array $data): array
+    {
+        $data['operation'] = InventoryOperation::OUT;
+        $data['subtotal'] = $data['price'] * $data['quantity'];
+        $data['tax'] = $data['subtotal'] * 0.16;
+        $data['total'] = $data['subtotal'] + $data['tax'];
+        return $data;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\SaleResource\Pages;
 
+use App\Filament\Components\Actions\BackButton;
 use App\Filament\Resources\SaleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
@@ -14,6 +15,8 @@ class ViewSale extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
+
+            BackButton::make(),
         ];
     }
 }

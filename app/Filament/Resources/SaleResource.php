@@ -6,11 +6,12 @@ use App\Models\Document;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Enums\DocumentType;
-use App\Filament\Resources\SaleResource as ExtraResource;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\SaleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\SaleResource as ExtraResource;
 use App\Filament\Resources\SaleResource\RelationManagers;
 
 class SaleResource extends Resource
@@ -31,6 +32,11 @@ class SaleResource extends Resource
     public static function table(Table $table): Table
     {
         return ExtraResource\Tables\SaleTable::table($table);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return ExtraResource\Infolists\SaleInfolist::infolist($infolist);
     }
 
     public static function getRelations(): array
