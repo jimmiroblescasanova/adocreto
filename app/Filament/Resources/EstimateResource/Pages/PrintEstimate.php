@@ -3,15 +3,15 @@
 namespace App\Filament\Resources\EstimateResource\Pages;
 
 use Filament\Actions\Action;
-use Filament\Facades\Filament;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Pages\Page;
 use App\Filament\Resources\EstimateResource;
+use App\Traits\GeneratesPdfDocument;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 
 class PrintEstimate extends Page
 {
     use InteractsWithRecord;
+    use GeneratesPdfDocument;
 
     protected static string $resource = EstimateResource::class;
 
@@ -19,13 +19,10 @@ class PrintEstimate extends Page
 
     protected static ?string $title = 'Imprimir cotización';
 
-    public string $pdfUrl;
-
     public function mount(int | string $record): void
     {
         $this->record = $this->resolveRecord($record);
-        $this->generatePdf();
-        $this->pdfUrl = 'storage/pdf/printable.pdf';
+        $this->generatePdf('invoice');
     }
 
     protected function getHeaderActions(): array
@@ -37,19 +34,5 @@ class PrintEstimate extends Page
                 ->icon('heroicon-o-arrow-left')
                 ->color('success'),
         ];
-    }
-
-    private function generatePdf(): void
-    {
-        $folder = storage_path('app/public/pdf');
-        if (!file_exists($folder)) {
-            mkdir($folder, 0777, true);
-        }
-
-        $pdf = Pdf::loadView('pdf.estimate', [
-            'estimate' => $this->record,
-        ]);
-        
-        $pdf->save($folder . '/printable.pdf');
     }
 }

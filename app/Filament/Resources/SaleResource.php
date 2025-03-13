@@ -53,6 +53,7 @@ class SaleResource extends Resource
             'create' => Pages\CreateSale::route('/create'),
             'view' => Pages\ViewSale::route('/{record}'),
             'edit' => Pages\EditSale::route('/{record}/edit'),
+            'print' => Pages\PrintSale::route('/{record}/print'),
         ];
     }
 

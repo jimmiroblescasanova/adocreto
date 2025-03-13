@@ -138,7 +138,7 @@
       <tr>
         <td><h1>COTIZACIÓN</h1></td>
         <td class="logo">
-          <img src="{{ $estimate->company->getFirstMediaPath('company') }}" alt="Logo">
+          <img src="{{ $document->company->getFirstMediaPath('company') }}" alt="Logo">
         </td>
       </tr>
     </table>
@@ -147,23 +147,23 @@
     <table class="address-table">
       <tr>
         <td colspan="2">
-          <p><strong>{{ $estimate->company->name }}</strong></p>
-          <p>{{ $estimate->company->address }}</p>
-          <p>{{ $estimate->company->zip_code }}</p>
+          <p><strong>{{ $document->company->name }}</strong></p>
+          <p>{{ $document->company->address }}</p>
+          <p>{{ $document->company->zip_code }}</p>
         </td>
       </tr>
       <tr>
         <td>
           <h3>Cliente</h3>
-          <p>{{ $estimate->entity->name }}</p>
-          <p>{{ $estimate->address?->address_line_1 }}</p>
-          <p>{{ $estimate->address?->address_line_2 }}</p>
+          <p>{{ $document->entity->name }}</p>
+          <p>{{ $document->address?->address_line_1 }}</p>
+          <p>{{ $document->address?->address_line_2 }}</p>
         </td>
         <td>
           <h3>Datos fiscales</h3>
-          <p>{{ $estimate->entity->rfc }}</p>
-          <p>{{ $estimate->entity->regimenFiscal?->descripcion }}</p>
-          <p>{{ $estimate->entity->usoCfdi?->descripcion }}</p>
+          <p>{{ $document->entity->rfc }}</p>
+          <p>{{ $document->entity->regimenFiscal?->descripcion }}</p>
+          <p>{{ $document->entity->usoCfdi?->descripcion }}</p>
         </td>
       </tr>
     </table>
@@ -173,19 +173,19 @@
       <tr>
         <td>
           <p><strong>Cotización #</strong></p>
-          <p>{{ $estimate->folio }}</p>
+          <p>{{ $document->folio }}</p>
         </td>
         <td>
           <p><strong>Fecha de cotización</strong></p>
-          <p>{{ $estimate->date->format('d/m/Y') }}</p>
+          <p>{{ $document->date->format('d/m/Y') }}</p>
         </td>
         <td>
           <p><strong>Fecha de vencimiento</strong></p>
-          <p>{{ $estimate->date->addDays(30)->format('d/m/Y') }}</p>
+          <p>{{ $document->date->addDays(30)->format('d/m/Y') }}</p>
         </td>
         <td>
           <p><strong>Vendedor</strong></p>
-          <p>{{ $estimate->user->name }}</p>
+          <p>{{ $document->user->name }}</p>
         </td>
       </tr>
     </table>
@@ -201,7 +201,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($estimate->items as $item)
+        @foreach ($document->items as $item)
           <tr>
             <td>{{ $item->quantity }}</td>
             <td>{{ $item->product->name }}</td>
@@ -216,15 +216,15 @@
     <table class="totals-table">
       <tr>
         <td>Subtotal:</td>
-        <td>{{ number_format($estimate->subtotal, 2, '.', ',') }}</td>
+        <td>{{ number_format($document->subtotal, 2, '.', ',') }}</td>
       </tr>
       <tr>
         <td>IVA 16%:</td>
-        <td>{{ number_format($estimate->tax, 2, '.', ',') }}</td>
+        <td>{{ number_format($document->tax, 2, '.', ',') }}</td>
       </tr>
       <tr>
         <td><strong>Total:</strong></td>
-        <td><strong>{{ number_format($estimate->total, 2, '.', ',') }}</strong></td>
+        <td><strong>{{ number_format($document->total, 2, '.', ',') }}</strong></td>
       </tr>
     </table>
 
@@ -233,7 +233,7 @@
       <tr>
         <td>
           <p>__________________________</p>
-          <p>{{ $estimate->company->name }}</p>
+          <p>{{ $document->company->name }}</p>
         </td>
       </tr>
     </table>
