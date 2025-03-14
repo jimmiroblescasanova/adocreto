@@ -29,6 +29,8 @@ class InventoryInformation extends Page implements HasTable, HasForms
 
     protected static string $view = 'filament.pages.modules.inventory-information';
 
+    protected static ?string $navigationGroup = 'Reportes';
+
     protected static ?string $title = 'Información de inventario';
 
     public $defaultAction = 'showParameters';

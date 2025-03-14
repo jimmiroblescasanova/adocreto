@@ -64,8 +64,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 'Catalogos',
-                'Configuración',
+                'Ventas',
                 'Documentos',
+                'Reportes',
+                'Configuración',
             ])
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
