@@ -67,6 +67,7 @@ class AdminPanelProvider extends PanelProvider
                 'Configuración',
                 'Documentos',
             ])
+            ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->viteTheme('resources/css/filament/admin/theme.css');
     }
