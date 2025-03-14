@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\SaleResource\Tables;
 
-use App\Enums\DocumentStatus;
-use App\Filament\Components\Tables\MoneyColumn;
-use App\Models\Document;
 use Filament\Tables;
+use App\Models\Document;
 use Filament\Tables\Table;
+use App\Enums\DocumentStatus;
+use Filament\Tables\Enums\FiltersLayout;
+use App\Filament\Components\Tables\MoneyColumn;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
+use CodeWithDennis\FilamentPriceFilter\Filament\Tables\Filters\PriceFilter;
 
 class SaleTable extends Table 
 {
@@ -53,11 +56,22 @@ class SaleTable extends Table
             ->label('Total'),
         ])
         ->filters([
+            PriceFilter::make('total')
+            ->currency(currency: 'MXN', locale: 'es_MX', cents: true)
+            ->label('Por TOTAL')
+            ->columns()
+            ->columnSpan(2),
+            
+            DateRangeFilter::make('date')
+            ->label('Por Fecha')
+            ->defaultLast7Days(),
+            
             Tables\Filters\SelectFilter::make('status')
             ->label('Estado')
             ->options(DocumentStatus::class)
             ->native(false),
-        ])
+        ], layout: FiltersLayout::Modal)
+        ->filtersFormColumns(2)
         ->filtersTriggerAction(
             fn (Tables\Actions\Action $action) => $action
                 ->button()

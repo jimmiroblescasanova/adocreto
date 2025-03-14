@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4174a440c42d0357e100e107ae7b795a",
+    "content-hash": "61091cfb7a5d8d9ec21027d825503106",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -473,6 +473,87 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "codewithdennis/filament-price-filter",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CodeWithDennis/filament-price-filter.git",
+                "reference": "083c874b06fdbb4669bf92ae299486f225e17b8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CodeWithDennis/filament-price-filter/zipball/083c874b06fdbb4669bf92ae299486f225e17b8d",
+                "reference": "083c874b06fdbb4669bf92ae299486f225e17b8d",
+                "shasum": ""
+            },
+            "require": {
+                "filament/forms": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentPriceFilter": "CodeWithDennis\\FilamentPriceFilter\\Facades\\FilamentPriceFilter"
+                    },
+                    "providers": [
+                        "CodeWithDennis\\FilamentPriceFilter\\FilamentPriceFilterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CodeWithDennis\\FilamentPriceFilter\\": "src/",
+                    "CodeWithDennis\\FilamentPriceFilter\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CodeWithDennis",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple and customizable price filter for FilamentPHP, allowing users to easily refine results based on specified price ranges.",
+            "homepage": "https://github.com/codewithdennis/filament-price-filter",
+            "keywords": [
+                "CodeWithDennis",
+                "filament",
+                "filament-price-filter",
+                "filamentphp",
+                "filter",
+                "form",
+                "laravel",
+                "laravel-filament",
+                "plugin",
+                "price",
+                "price-filter"
+            ],
+            "support": {
+                "issues": "https://github.com/codewithdennis/filament-price-filter/issues",
+                "source": "https://github.com/codewithdennis/filament-price-filter"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/CodeWithDennis",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-17T10:18:01+00:00"
         },
         {
             "name": "codewithdennis/filament-simple-alert",
@@ -5423,6 +5504,72 @@
                 }
             ],
             "time": "2025-01-27T12:07:53+00:00"
+        },
+        {
+            "name": "malzariey/filament-daterangepicker-filter",
+            "version": "3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/malzariey/filament-daterangepicker-filter.git",
+                "reference": "4108b1f465d77d2a88ea637ded37d7e99523a3bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/malzariey/filament-daterangepicker-filter/zipball/4108b1f465d77d2a88ea637ded37d7e99523a3bc",
+                "reference": "4108b1f465d77d2a88ea637ded37d7e99523a3bc",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0|^11.0|^12.0",
+                "spatie/laravel-package-tools": "^1.16.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentDaterangepickerFilter": "Malzariey\\FilamentDaterangepickerFilter\\Facades\\FilamentDaterangepickerFilter"
+                    },
+                    "providers": [
+                        "Malzariey\\FilamentDaterangepickerFilter\\FilamentDaterangepickerFilterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Malzariey\\FilamentDaterangepickerFilter\\": "src",
+                    "Malzariey\\FilamentDaterangepickerFilter\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Majid Al-Zariey",
+                    "email": "malzariey@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This package uses daterangepciker library to filter date by a range or predefined date ranges (Today , Yesterday ...etc)",
+            "homepage": "https://github.com/malzariey/filament-daterangepicker-filter",
+            "keywords": [
+                "Malzariey",
+                "filament-daterangepicker-filter",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/malzariey/filament-daterangepicker-filter/issues",
+                "source": "https://github.com/malzariey/filament-daterangepicker-filter/tree/3.2.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Malzariey",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-03-10T12:23:59+00:00"
         },
         {
             "name": "masterminds/html5",
