@@ -9,12 +9,15 @@ use App\Models\Document;
 use Filament\Forms\Form;
 use App\Enums\ProductType;
 use App\Enums\DocumentType;
+use App\Enums\EntityType;
 use App\Enums\InventoryOperation;
-use Filament\Forms\Components\Actions\Action;
+use App\Traits\HasTotalsArea;
 use Illuminate\Database\Eloquent\Builder;
 
 class InventoryInForm extends Form 
 {
+    use HasTotalsArea;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -26,23 +29,23 @@ class InventoryInForm extends Form
                 self::stepItems(),
             ])
             ->columnSpanFull(), 
-            // TODO: Opcional: agregarlos como campos de texto deshabilitados
+
             Forms\Components\Fieldset::make('Totales')
             ->schema([
                 Forms\Components\Placeholder::make('subtotal')
                 ->label('Subtotal')
                 ->inlineLabel()
-                ->content(fn (Get $get) => "$ " . number_format(self::calculateSubtotal($get('items')), 2, '.', ',')),
+                ->content(fn (Get $get) => "$ " . number_format(HasTotalsArea::calculateSubtotal($get('items')), 2, '.', ',')),
 
                 Forms\Components\Placeholder::make('tax')
                 ->label('IVA')
                 ->inlineLabel()
-                ->content(fn (Get $get) => "$ " . number_format(self::calculateTax($get('items')), 2, '.', ',')),
+                ->content(fn (Get $get) => "$ " . number_format(HasTotalsArea::calculateTax($get('items')), 2, '.', ',')),
 
                 Forms\Components\Placeholder::make('total')
                 ->label('TOTAL')
                 ->inlineLabel()
-                ->content(fn (Get $get) => "$ " . number_format(self::calculateTotal($get('items')), 2, '.', ',')),
+                ->content(fn (Get $get) => "$ " . number_format(HasTotalsArea::calculateTotal($get('items')), 2, '.', ',')),
             ])
             ->columns(3),
         ]);
@@ -54,23 +57,13 @@ class InventoryInForm extends Form
         ->schema([
             Forms\Components\TextInput::make('folio')
             ->label('Folio')
-            ->default(fn (): int => Document::getFolio(DocumentType::InventoryIn)+1)
-            ->readOnly(),
+            ->default(fn (): int => Document::getNextFolio(DocumentType::InventoryIn))
+            ->readOnly()
+            ->disabledOn('edit'),
 
             Forms\Components\DatePicker::make('date')
             ->label('Fecha')
             ->default(now()->toDateString())
-            ->required(),
-
-            Forms\Components\Select::make('warehouse_id')
-            ->label('Almacén')
-            ->relationship(name: 'warehouse', titleAttribute: 'name', 
-                modifyQueryUsing: function ($query) {
-                return $query->active()->supplies();
-            })
-            ->searchable()
-            ->preload()
-            ->optionsLimit(15)
             ->required(),
 
             Forms\Components\TextInput::make('order_number')
@@ -82,15 +75,15 @@ class InventoryInForm extends Form
 
             Forms\Components\Select::make('entity_id')
             ->label('Proveedor')
-            ->relationship('entity', 'name')
+            ->relationship(name: 'entity', titleAttribute: 'name', 
+                modifyQueryUsing: fn (Builder $query): Builder => $query->where('type', EntityType::Supplier))
             ->searchable()
             ->preload()
             ->optionsLimit(15)
             ->required()
             ->selectablePlaceholder(false)
-            ->columnSpan([
-                'md' => 2,
-            ]),
+            ->columnSpanFull()
+            ->disabledOn('edit'),
 
             Forms\Components\TextInput::make('title')
             ->label('Título')
@@ -124,6 +117,15 @@ class InventoryInForm extends Form
                     return Product::with('unit')->find($get('product_id'))->unit->name ?? '';
                 }),
 
+                Forms\Components\Select::make('warehouse_id')
+                ->label('Almacén')
+                ->relationship(name: 'warehouse', titleAttribute: 'name')
+                ->searchable()
+                ->preload()
+                ->optionsLimit(10)
+                ->required()
+                ->columnSpan(2),
+
                 Forms\Components\TextInput::make('quantity')
                 ->label('Cantidad')
                 ->numeric()
@@ -136,32 +138,19 @@ class InventoryInForm extends Form
                 ->live(onBlur: true)
                 ->required(),
             ])
-            ->mutateRelationshipDataBeforeCreateUsing(function (array $data, Forms\Get $get): array {
-                $data['warehouse_id'] = $get('warehouse_id');
-                $data['subtotal'] = $data['quantity'] * $data['price'];
-                $data['tax'] = $data['subtotal'] * 0.16;
-                $data['total'] = $data['subtotal'] + $data['tax'];
-                $data['operation'] = InventoryOperation::IN;
-                return $data;
-            })
-            ->columns(5),
+            ->mutateRelationshipDataBeforeCreateUsing(
+                fn (array $data): array => self::mutateRepeaterData($data)
+            )
+            ->columns(7),
         ]);
     }
 
-    private static function calculateSubtotal(array $items): int
+    private static function mutateRepeaterData(array $data): array 
     {
-        return collect($items)->sum(function($item) {
-            return $item['quantity'] * $item['price'];
-        });
-    }
-
-    private static function calculateTax(array $items): int
-    {
-        return self::calculateSubtotal($items) * 0.16;
-    }
-
-    private static function calculateTotal(array $items): int
-    {
-        return self::calculateSubtotal($items) + self::calculateTax($items);
+        $data['subtotal'] = $data['quantity'] * $data['price'];
+        $data['tax'] = $data['subtotal'] * 0.16;
+        $data['total'] = $data['subtotal'] + $data['tax'];
+        $data['operation'] = InventoryOperation::IN;
+        return $data;
     }
 }

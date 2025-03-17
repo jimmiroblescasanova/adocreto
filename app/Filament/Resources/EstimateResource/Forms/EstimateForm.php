@@ -43,8 +43,7 @@ class EstimateForm extends Form
                     ->disabledOn('edit'),
 
                     Forms\Components\TextInput::make('title')
-                    ->label('Titulo')
-                    ->required(),
+                    ->label('Titulo'),
 
                     Forms\Components\Select::make('address')
                     ->label('Seleccionar dirección')

@@ -39,5 +39,15 @@ class DatabaseSeeder extends Seeder
         ]);
         // Attach company to user
         $user->companies()->attach(Company::all());
+
+        // Create fake categories from FakeCategories.php
+        $categories = require __DIR__ . '/FakeCategories.php';
+        DB::table('categories')->insert($categories);
+        // create fake units from FakeUnits.php
+        $units = require __DIR__ . '/FakeUnits.php';
+        DB::table('units')->insert($units);
+        // create fake products from FakeProducts.php
+        $products = require __DIR__ . '/FakeProducts.php';
+        DB::table('products')->insert($products);
     }
 }

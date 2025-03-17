@@ -46,9 +46,6 @@ class InventoryInTable extends Table
             ->description(fn (Document $record): string => $record->title ?? '')
             ->default('Traspaso'),
 
-            Tables\Columns\TextColumn::make('warehouse.code')
-            ->label('Almacén'),
-
             MoneyColumn::make('subtotal')
             ->label('Subtotal'),
 

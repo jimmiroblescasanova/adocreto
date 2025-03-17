@@ -9,46 +9,28 @@ use App\Enums\DocumentStatus;
 use App\Traits\CreateActionsOnTop;
 use App\Traits\RedirectsAfterSave;
 use Illuminate\Support\Facades\Auth;
-use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\InventoryInResource;
+use App\Traits\HasTotalsArea;
 
 class CreateInventoryIn extends CreateRecord
 {
     use CreateActionsOnTop, RedirectsAfterSave;
+    use HasTotalsArea;
     
     protected static string $resource = InventoryInResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['type'] = DocumentType::InventoryIn;
-        $data['status'] = DocumentStatus::Incomplete;
+        $data['status'] = DocumentStatus::Placed;
         $data['user_id'] = Auth::id();
         $data['uuid'] = Str::uuid();
 
-        return $data;
-    }
+        $data['subtotal'] = $this->calculateSubtotal($this->data['items']);
+        $data['tax'] = $this->calculateTax($this->data['items']);
+        $data['total'] = $this->calculateTotal($this->data['items']);
 
-    protected function afterCreate(): void
-    {
-        try {
-            $this->getRecord()->update([
-                'subtotal' => $this->getRecord()->items->sum('subtotal'),
-                'tax' => $this->getRecord()->items->sum('tax'),
-                'total' => $this->getRecord()->items->sum('total'),
-                'status' => DocumentStatus::Placed,
-            ]);
-        } catch (\Exception $th) {
-            Notification::make()
-            ->title('Error')
-            ->body($th->getMessage())
-            ->danger()
-            ->actions([
-                Actions\Action::make('report')
-                ->label('Reportar error')
-                ->link(),
-            ])
-            ->send();
-        }
+        return $data;
     }
 }

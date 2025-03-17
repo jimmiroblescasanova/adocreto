@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('order_number')->nullable();
             $table->foreignIdFor(App\Models\Entity::class)->nullable()->constrained();
-            $table->foreignIdFor(App\Models\Warehouse::class)->nullable()->constrained();
             $table->bigInteger('subtotal')->default(0);
             $table->bigInteger('tax')->default(0);
             $table->bigInteger('total')->default(0);
