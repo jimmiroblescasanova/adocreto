@@ -2,13 +2,12 @@
 
 namespace App\Filament\Resources\ProductResource\RelationManagers;
 
+use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Resources\RelationManagers\RelationManager;
 
 class PriceListsRelationManager extends RelationManager
 {
@@ -25,25 +24,25 @@ class PriceListsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                ->label('Nombre de la lista'),
+                    ->label('Nombre de la lista'),
 
                 Tables\Columns\TextColumn::make('price')
-                ->label('Precio')
-                ->money(),
+                    ->label('Precio')
+                    ->money(),
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
-                ->recordSelectOptionsQuery(
-                    fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant())
-                )
-                ->preloadRecordSelect()
-                ->modalHeading('Vincular lista de precios')
-                ->form(fn (Tables\Actions\AttachAction $action): array => [
-                    $action->getRecordSelect(),
-                    Forms\Components\TextInput::make('price')
-                    ->numeric()
-                    ->required(),
-                ]),
+                    ->recordSelectOptionsQuery(
+                        fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant())
+                    )
+                    ->preloadRecordSelect()
+                    ->modalHeading('Vincular lista de precios')
+                    ->form(fn (Tables\Actions\AttachAction $action): array => [
+                        $action->getRecordSelect(),
+                        Forms\Components\TextInput::make('price')
+                            ->numeric()
+                            ->required(),
+                    ]),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),

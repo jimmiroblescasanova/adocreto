@@ -17,7 +17,7 @@ class ProductionComponent extends Model
 
     /**
      * This method returns the product that the production component belongs to.
-     * 
+     *
      * @return BelongsTo<Product>
      */
     public function product(): BelongsTo
@@ -27,7 +27,7 @@ class ProductionComponent extends Model
 
     /**
      * This method returns the production that the production component belongs to.
-     * 
+     *
      * @return BelongsTo<Production>
      */
     public function production(): BelongsTo

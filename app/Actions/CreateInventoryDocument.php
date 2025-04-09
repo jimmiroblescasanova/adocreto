@@ -1,13 +1,13 @@
-<?php 
+<?php
 
 namespace App\Actions;
 
-use App\Models\Document;
-use App\Models\Transfer;
-use App\Models\Production;
-use App\Enums\DocumentType;
-use Illuminate\Support\Str;
 use App\Enums\DocumentStatus;
+use App\Enums\DocumentType;
+use App\Models\Document;
+use App\Models\Production;
+use App\Models\Transfer;
+use Illuminate\Support\Str;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class CreateInventoryDocument
@@ -16,15 +16,12 @@ class CreateInventoryDocument
 
     /**
      * Generate the title of the document
-     * 
-     * @param Transfer|Production $source
-     * @return string
      */
     private function generateTitle(Transfer|Production $source, DocumentType $type): string
     {
         $modelId = $source->folio ?? $source->id;
         $sourceType = $source instanceof Transfer ? 'traspaso' : 'producción';
-        
+
         return match ($type) {
             DocumentType::InventoryIn => "Entrada de inventario por {$sourceType}. [ID#{$modelId}]",
             DocumentType::InventoryOut => "Salida de inventario por {$sourceType}. [ID#{$modelId}]",
@@ -34,10 +31,6 @@ class CreateInventoryDocument
 
     /**
      * Get the warehouse id
-     * 
-     * @param Transfer|Production $source
-     * @param DocumentType $type
-     * @return int
      */
     private function getWarehouseId(Transfer|Production $source, DocumentType $type): int
     {
@@ -54,10 +47,6 @@ class CreateInventoryDocument
 
     /**
      * Create the document creation
-     * 
-     * @param Transfer|Production $source
-     * @param DocumentType $type
-     * @return Document
      */
     public function handle(Transfer|Production $source, DocumentType $type): Document
     {
@@ -74,7 +63,7 @@ class CreateInventoryDocument
             'external_model' => $source::class,
             'external_id' => $source->id,
         ];
-        
+
         return Document::create($data);
     }
 }

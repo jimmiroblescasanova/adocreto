@@ -2,13 +2,12 @@
 
 namespace App\Filament\Resources\ProductionResource\Pages;
 
-use Filament\Actions;
-use Illuminate\Support\Str;
 use App\Enums\ProductionStatus;
-use App\Traits\CreateActionsOnTop;
-use App\Models\ProductionComponent;
-use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\ProductionResource;
+use App\Models\ProductionComponent;
+use App\Traits\CreateActionsOnTop;
+use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Str;
 
 class CreateProduction extends CreateRecord
 {
@@ -28,7 +27,7 @@ class CreateProduction extends CreateRecord
     protected function afterCreate(): void
     {
         $production = $this->record;
-        
+
         $production->load('items.product.components');
 
         $production->items->each(function ($item) use ($production) {

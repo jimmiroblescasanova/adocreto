@@ -4,11 +4,11 @@ namespace App\Filament\Resources\InventoryInResource\Pages;
 
 use App\Enums\DocumentStatus;
 use App\Enums\InventoryOperation;
-use Filament\Actions;
-use Filament\Resources\Pages\ViewRecord;
 use App\Filament\Components\Actions\BackButton;
 use App\Filament\Resources\InventoryInResource;
+use Filament\Actions;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Enums\IconPosition;
 
 class ViewInventoryIn extends ViewRecord
@@ -24,16 +24,16 @@ class ViewInventoryIn extends ViewRecord
 
             Actions\ActionGroup::make([
                 Actions\Action::make('cancel')
-                ->label('Cancelar')
-                ->icon('heroicon-o-x-circle')
-                ->action(fn () => $this->cancelDocument())
-                ->requiresConfirmation(),
+                    ->label('Cancelar')
+                    ->icon('heroicon-o-x-circle')
+                    ->action(fn () => $this->cancelDocument())
+                    ->requiresConfirmation(),
             ])
-            ->label('Acciones')
-            ->icon('heroicon-o-ellipsis-horizontal-circle')
-            ->iconPosition(IconPosition::After)
-            ->button()
-            ->color('gray'),
+                ->label('Acciones')
+                ->icon('heroicon-o-ellipsis-horizontal-circle')
+                ->iconPosition(IconPosition::After)
+                ->button()
+                ->color('gray'),
         ];
     }
 
@@ -49,10 +49,10 @@ class ViewInventoryIn extends ViewRecord
             ]);
         } catch (\Throwable $th) {
             Notification::make()
-            ->title('Error al cancelar')
-            ->body($th->getMessage())
-            ->danger()
-            ->send();
+                ->title('Error al cancelar')
+                ->body($th->getMessage())
+                ->danger()
+                ->send();
         }
     }
 }

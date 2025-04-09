@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum IsActive: int implements HasLabel, HasColor, HasIcon
+enum IsActive: int implements HasColor, HasIcon, HasLabel
 {
     case Yes = 1;
     case No = 0;
@@ -19,7 +19,7 @@ enum IsActive: int implements HasLabel, HasColor, HasIcon
         };
     }
 
-    public function getColor(): string | array | null
+    public function getColor(): string|array|null
     {
         return match ($this) {
             self::Yes => 'success',

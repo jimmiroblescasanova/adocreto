@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources\SaleResource\Pages;
 
-use Filament\Actions\Action;
-use Filament\Resources\Pages\Page;
 use App\Filament\Resources\SaleResource;
 use App\Traits\GeneratesPdfDocument;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
+use Filament\Resources\Pages\Page;
 
 class PrintSale extends Page
 {
-    use InteractsWithRecord;
     use GeneratesPdfDocument;
+    use InteractsWithRecord;
 
     protected static string $resource = SaleResource::class;
 
@@ -19,7 +19,7 @@ class PrintSale extends Page
 
     protected static ?string $title = 'Imprimir venta';
 
-    public function mount(int | string $record): void
+    public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
         $this->generatePdf('ticket');
@@ -29,11 +29,10 @@ class PrintSale extends Page
     {
         return [
             Action::make('backToSale')
-            ->label('Volver a la venta')
-            ->url(SaleResource::getUrl('view', ['record' => $this->record]))
-            ->icon('heroicon-o-arrow-left')
-            ->color('success'),
+                ->label('Volver a la venta')
+                ->url(SaleResource::getUrl('view', ['record' => $this->record]))
+                ->icon('heroicon-o-arrow-left')
+                ->color('success'),
         ];
     }
-
 }

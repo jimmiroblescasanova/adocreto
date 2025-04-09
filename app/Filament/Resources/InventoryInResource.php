@@ -2,17 +2,15 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\DocumentType;
+use App\Filament\Resources\InventoryInResource as ExtraResource;
+use App\Filament\Resources\InventoryInResource\Pages;
 use App\Models\Document;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Enums\DocumentType;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\InventoryInResource\Pages;
-use App\Filament\Resources\InventoryInResource as ExtraResource;
-use App\Filament\Resources\InventoryInResource\RelationManagers;
 
 class InventoryInResource extends Resource
 {

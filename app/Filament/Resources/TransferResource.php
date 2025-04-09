@@ -2,15 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\TransferResource as ExtraResource;
+use App\Filament\Resources\TransferResource\Pages;
 use App\Models\Transfer;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\TransferResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\TransferResource as ExtraResource;
-use App\Filament\Resources\TransferResource\RelationManagers;
+use Filament\Tables\Table;
 
 class TransferResource extends Resource
 {

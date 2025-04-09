@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\InventoryOutResource\Pages;
 
-use Filament\Actions;
-use Filament\Resources\Pages\ViewRecord;
 use App\Filament\Components\Actions\BackButton;
 use App\Filament\Resources\InventoryOutResource;
+use Filament\Actions;
+use Filament\Resources\Pages\ViewRecord;
 
 class ViewInventoryOut extends ViewRecord
 {

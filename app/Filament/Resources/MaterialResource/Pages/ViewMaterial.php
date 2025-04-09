@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\MaterialResource\Pages;
 
+use App\Filament\Components\Actions\BackButton;
+use App\Filament\Resources\MaterialResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
-use App\Filament\Resources\MaterialResource;
-use App\Filament\Components\Actions\BackButton;
 
 class ViewMaterial extends ViewRecord
 {

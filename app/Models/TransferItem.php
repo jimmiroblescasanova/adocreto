@@ -14,7 +14,7 @@ class TransferItem extends Model
             'quantity' => QuantityCast::class,
         ];
     }
-    
+
     /**
      * This method returns the transfer for the item.
      *

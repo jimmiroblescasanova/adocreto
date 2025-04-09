@@ -2,21 +2,21 @@
 
 namespace App\Filament\Resources\InventoryOutResource\Pages;
 
-use Filament\Actions;
-use App\Enums\DocumentType;
-use Illuminate\Support\Str;
 use App\Enums\DocumentStatus;
+use App\Enums\DocumentType;
+use App\Filament\Resources\InventoryOutResource;
 use App\Traits\CreateActionsOnTop;
 use App\Traits\RedirectsAfterSave;
-use Illuminate\Support\Facades\Auth;
+use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
-use App\Filament\Resources\InventoryOutResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CreateInventoryOut extends CreateRecord
 {
     use CreateActionsOnTop, RedirectsAfterSave;
-    
+
     protected static string $resource = InventoryOutResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
@@ -40,15 +40,15 @@ class CreateInventoryOut extends CreateRecord
             ]);
         } catch (\Exception $th) {
             Notification::make()
-            ->title('Error')
-            ->body($th->getMessage())
-            ->danger()
-            ->actions([
-                Actions\Action::make('report')
-                ->label('Reportar error')
-                ->link(),
-            ])
-            ->send();
+                ->title('Error')
+                ->body($th->getMessage())
+                ->danger()
+                ->actions([
+                    Actions\Action::make('report')
+                        ->label('Reportar error')
+                        ->link(),
+                ])
+                ->send();
         }
     }
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Traits;
 
@@ -14,16 +14,16 @@ trait GeneratesPdfDocument
         $paperSize = $this->getPaperSize($document);
 
         $folder = storage_path('app/public/pdf');
-        if (!file_exists($folder)) {
+        if (! file_exists($folder)) {
             mkdir($folder, 0777, true);
         }
 
         $pdf = Pdf::loadView($template, [
             'document' => $this->record,
         ])
-        ->setPaper($paperSize, 'portrait');
-        
-        $pdf->save($folder . "/{$document}.pdf");
+            ->setPaper($paperSize, 'portrait');
+
+        $pdf->save($folder."/{$document}.pdf");
 
         $this->pdfUrl = "storage/pdf/{$document}.pdf";
     }
@@ -40,7 +40,7 @@ trait GeneratesPdfDocument
     private function getPaperSize($document): string|array
     {
         return match ($document) {
-            'ticket' => array(0, 0, 226.77, 850),
+            'ticket' => [0, 0, 226.77, 850],
             'invoice' => 'letter',
             default => 'letter',
         };

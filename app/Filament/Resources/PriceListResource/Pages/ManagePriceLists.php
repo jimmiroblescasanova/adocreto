@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\PriceListResource\Pages;
 
-use Filament\Actions;
-use Illuminate\Support\Str;
-use Filament\Resources\Pages\ManageRecords;
 use App\Filament\Resources\PriceListResource;
+use Filament\Actions;
+use Filament\Resources\Pages\ManageRecords;
+use Illuminate\Support\Str;
 
 class ManagePriceLists extends ManageRecords
 {
@@ -15,10 +15,11 @@ class ManagePriceLists extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-            ->mutateFormDataUsing(function (array $data): array {
-                $data['name'] = Str::title($data['name']);
-                return $data;
-            }),
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['name'] = Str::title($data['name']);
+
+                    return $data;
+                }),
         ];
     }
 }

@@ -8,12 +8,9 @@ trait HasActiveSorting
 {
     /**
      * Scope a query to prioritize active records first
-     *
-     * @param Builder $query
-     * @return Builder
      */
-    public function scopeOrderByActiveFirst(Builder $query): Builder 
+    public function scopeOrderByActiveFirst(Builder $query): Builder
     {
         return $query->orderBy('active', 'desc');
     }
-} 
+}

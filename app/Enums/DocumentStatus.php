@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 namespace App\Enums;
 
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum DocumentStatus: string implements HasLabel, HasColor
+enum DocumentStatus: string implements HasColor, HasLabel
 {
     case Incomplete = 'incomplete';
     case Placed = 'placed';

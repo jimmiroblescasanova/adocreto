@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Casts\MoneyCast;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Price extends Pivot
 {
     protected $table = 'prices';
-    
+
     protected function casts(): array
     {
         return [

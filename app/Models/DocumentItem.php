@@ -12,18 +12,16 @@ class DocumentItem extends Model
     protected function casts(): array
     {
         return [
-            'quantity'  => QuantityCast::class,
-            'price'     => MoneyCast::class,
-            'subtotal'  => MoneyCast::class,
-            'tax'       => MoneyCast::class,
-            'total'     => MoneyCast::class,
+            'quantity' => QuantityCast::class,
+            'price' => MoneyCast::class,
+            'subtotal' => MoneyCast::class,
+            'tax' => MoneyCast::class,
+            'total' => MoneyCast::class,
         ];
     }
 
     /**
      * Get the document that owns the item.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function document(): BelongsTo
     {
@@ -32,8 +30,6 @@ class DocumentItem extends Model
 
     /**
      * Get the product that owns the item.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product(): BelongsTo
     {
@@ -42,8 +38,6 @@ class DocumentItem extends Model
 
     /**
      * Get the warehouse that owns the item.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouse(): BelongsTo
     {

@@ -14,8 +14,6 @@ class ProductComponent extends Model
 
     /**
      * Get the product that owns the component.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product(): BelongsTo
     {
@@ -24,8 +22,6 @@ class ProductComponent extends Model
 
     /**
      * Get the component product that the product component belongs to.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function component(): BelongsTo
     {

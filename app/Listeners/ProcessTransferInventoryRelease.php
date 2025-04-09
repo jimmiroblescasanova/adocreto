@@ -2,24 +2,22 @@
 
 namespace App\Listeners;
 
-use App\Models\Product;
-use App\Models\Transfer;
+use App\Actions\CreateInventoryDocument;
 use App\Enums\DocumentType;
+use App\Enums\InventoryOperation;
 use App\Enums\TransferStatus;
 use App\Events\TransferInRoute;
-use App\Enums\InventoryOperation;
+use App\Models\Product;
+use App\Models\Transfer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Actions\CreateInventoryDocument;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ProcessTransferInventoryRelease
 {
     /**
      * Create the event listener.
      */
-    public function __construct() { }
+    public function __construct() {}
 
     /**
      * Handle the event.
@@ -33,7 +31,7 @@ class ProcessTransferInventoryRelease
             // Create inventory out items
             $items = $this->convertItemsToInventoryOut($event->transfer);
             $inventoryOut->items()->createMany($items);
-    
+
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -41,10 +39,10 @@ class ProcessTransferInventoryRelease
             $event->transfer->update([
                 'status' => TransferStatus::Pending,
             ]);
-            
+
             Log::error($th->getMessage(), [
                 'transfer_id' => $event->transfer->id,
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ]);
 
             throw $th;
@@ -53,13 +51,10 @@ class ProcessTransferInventoryRelease
 
     /**
      * Convert items to inventory out
-     * 
-     * @param Transfer $source
-     * @return array
      */
     public function convertItemsToInventoryOut(Transfer $source): array
     {
-        return $source->items->map(function($item) use ($source) {
+        return $source->items->map(function ($item) use ($source) {
             $averageCost = Product::find($item->product_id)->calculateAveragePrice($source->warehouse_id);
 
             return [

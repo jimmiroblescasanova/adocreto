@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 namespace App\Traits;
 
 trait CreateActionsOnTop
 {
     protected function getHeaderActions(): array
-    { 
+    {
         return [
             $this->getCreateFormAction()->formId('form'),
 

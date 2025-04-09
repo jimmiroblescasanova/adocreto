@@ -2,15 +2,14 @@
 
 namespace App\Filament\Resources\TransferResource\Pages;
 
-use Filament\Actions;
 use App\Enums\TransferStatus;
-use Filament\Facades\Filament;
-use App\Events\TransferInRoute;
 use App\Events\TransferHasArrived;
+use App\Events\TransferInRoute;
+use App\Filament\Components\Actions\BackButton;
+use App\Filament\Resources\TransferResource;
+use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
-use App\Filament\Resources\TransferResource;
-use App\Filament\Components\Actions\BackButton;
 
 class ViewTransfer extends ViewRecord
 {
@@ -22,18 +21,18 @@ class ViewTransfer extends ViewRecord
             Actions\EditAction::make(),
 
             Actions\Action::make('send_to_route')
-            ->label('Enviar a ruta')
-            ->action(fn () => $this->sendTransferToRoute())
-            ->icon('heroicon-m-truck')
-            ->requiresConfirmation()
-            ->visible(fn () => $this->record->status === TransferStatus::Pending),
+                ->label('Enviar a ruta')
+                ->action(fn () => $this->sendTransferToRoute())
+                ->icon('heroicon-m-truck')
+                ->requiresConfirmation()
+                ->visible(fn () => $this->record->status === TransferStatus::Pending),
 
             Actions\Action::make('mark_as_received')
-            ->label('Marcar como recibido')
-            ->action(fn () => $this->markAsReceived())
-            ->icon('heroicon-m-check')
-            ->requiresConfirmation()
-            ->visible(fn () => $this->record->status === TransferStatus::InRoute),
+                ->label('Marcar como recibido')
+                ->action(fn () => $this->markAsReceived())
+                ->icon('heroicon-m-check')
+                ->requiresConfirmation()
+                ->visible(fn () => $this->record->status === TransferStatus::InRoute),
 
             BackButton::make(),
         ];
@@ -48,15 +47,15 @@ class ViewTransfer extends ViewRecord
             $this->record->save();
 
             Notification::make()
-            ->title('Traspaso enviado a ruta')
-            ->success()
-            ->send();
+                ->title('Traspaso enviado a ruta')
+                ->success()
+                ->send();
         } catch (\Throwable $th) {
             Notification::make()
-            ->title('Error al enviar el traspaso a ruta')
-            ->body($th->getMessage())
-            ->danger()
-            ->send();
+                ->title('Error al enviar el traspaso a ruta')
+                ->body($th->getMessage())
+                ->danger()
+                ->send();
         }
 
         $this->redirect($this->getResource()::getUrl('index'));
@@ -73,15 +72,15 @@ class ViewTransfer extends ViewRecord
             ]);
 
             Notification::make()
-            ->title('Traspaso marcado como recibido')
-            ->success()
-            ->send();
+                ->title('Traspaso marcado como recibido')
+                ->success()
+                ->send();
         } catch (\Throwable $th) {
             Notification::make()
-            ->title('Error al marcar el traspaso como recibido')
-            ->body($th->getMessage())
-            ->danger()
-            ->send();
+                ->title('Error al marcar el traspaso como recibido')
+                ->body($th->getMessage())
+                ->danger()
+                ->send();
         }
 
         $this->redirect($this->getResource()::getUrl('index'));

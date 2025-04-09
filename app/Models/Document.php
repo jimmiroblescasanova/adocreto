@@ -4,38 +4,36 @@ namespace App\Models;
 
 use App\Casts\MoneyCast;
 use App\Casts\QuantityCast;
-use App\Enums\DocumentType;
 use App\Enums\DocumentStatus;
-use Filament\Facades\Filament;
+use App\Enums\DocumentType;
 use App\Traits\BelongsToTenant;
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Document extends Model
 {
     use BelongsToTenant;
-    
+
     protected function casts(): array
     {
         return [
-            'type'      => DocumentType::class,
-            'date'      => 'date',
-            'quantity'  => QuantityCast::class,
-            'price'     => MoneyCast::class,
-            'subtotal'  => MoneyCast::class,
-            'tax'       => MoneyCast::class,
-            'total'     => MoneyCast::class,
-            'status'    => DocumentStatus::class,
+            'type' => DocumentType::class,
+            'date' => 'date',
+            'quantity' => QuantityCast::class,
+            'price' => MoneyCast::class,
+            'subtotal' => MoneyCast::class,
+            'tax' => MoneyCast::class,
+            'total' => MoneyCast::class,
+            'status' => DocumentStatus::class,
         ];
     }
 
     /**
      * Get the address associated with the document.
-     *
-     * @return MorphOne
      */
     public function address(): MorphOne
     {
@@ -44,8 +42,6 @@ class Document extends Model
 
     /**
      * Get the entity associated with the document.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function entity(): BelongsTo
     {
@@ -54,8 +50,6 @@ class Document extends Model
 
     /**
      * Get the items associated with the document.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function items(): HasMany
     {
@@ -64,8 +58,6 @@ class Document extends Model
 
     /**
      * Get the production associated with the document.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function production(): HasOne
     {
@@ -74,8 +66,6 @@ class Document extends Model
 
     /**
      * Get the user that owns the document.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user(): BelongsTo
     {
@@ -84,8 +74,6 @@ class Document extends Model
 
     /**
      * Get the warehouse that owns the document.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function warehouse(): BelongsTo
     {
@@ -97,7 +85,7 @@ class Document extends Model
      *
      * This method retrieves the count of documents of a given type that belong to the current tenant.
      *
-     * @param DocumentType $type The type of document to count.
+     * @param  DocumentType  $type  The type of document to count.
      * @return int The count of documents of the specified type.
      */
     public static function getFolio(DocumentType $type): int
@@ -108,11 +96,9 @@ class Document extends Model
             ->where('type', $type)
             ->max('folio') ?? 0;
     }
-    
+
     /**
      * Returns the next available folio number.
-     *
-     * @return int
      */
     public static function getNextFolio(DocumentType $type): int
     {

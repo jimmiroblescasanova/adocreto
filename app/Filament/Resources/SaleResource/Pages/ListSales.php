@@ -17,12 +17,12 @@ class ListSales extends ListRecords
             Actions\CreateAction::make(),
 
             Actions\ExportAction::make()
-            ->label('Exportar ventas')
-            ->exporter(
-                SaleExporter::class
-            )
-            ->columnMapping(false)
-            ->modalHeading('Exportar ventas'),
+                ->label('Exportar ventas')
+                ->exporter(
+                    SaleExporter::class
+                )
+                ->columnMapping(false)
+                ->modalHeading('Exportar ventas'),
         ];
     }
 }

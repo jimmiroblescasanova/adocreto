@@ -2,16 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\DocumentType;
+use App\Filament\Resources\InventoryOutResource as ExtraResource;
+use App\Filament\Resources\InventoryOutResource\Pages;
 use App\Models\Document;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Enums\DocumentType;
 use Filament\Resources\Resource;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\InventoryOutResource\Pages;
-use App\Filament\Resources\InventoryOutResource as ExtraResource;
-use App\Filament\Resources\InventoryOutResource\RelationManagers;
 
 class InventoryOutResource extends Resource
 {

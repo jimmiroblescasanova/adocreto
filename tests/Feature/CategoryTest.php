@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Category;
-use Illuminate\Support\Str;
-use function Pest\Livewire\livewire;
-
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\CategoryResource\Pages\ManageCategories;
+use App\Models\Category;
+use Illuminate\Support\Str;
+
+use function Pest\Livewire\livewire;
 
 it('can render the category page', function () {
     $this->get(CategoryResource::getUrl('index'))->assertSuccessful();
@@ -56,9 +56,9 @@ it('can edit a category from modal', function () {
     $category = Category::factory()->create();
 
     livewire(ManageCategories::class, ['record' => $category])
-    ->callTableAction('edit', $category->id, [
-        'name' => 'New Name',
-    ]);
+        ->callTableAction('edit', $category->id, [
+            'name' => 'New Name',
+        ]);
 
     $this->assertDatabaseHas(Category::class, [
         'name' => 'New Name',

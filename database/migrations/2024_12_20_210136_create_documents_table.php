@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(App\Models\Company::class)->constrained();
-            $table->unsignedBigInteger('type'); 
+            $table->unsignedBigInteger('type');
             $table->unsignedBigInteger('folio');
             $table->date('date');
             $table->string('title')->nullable();

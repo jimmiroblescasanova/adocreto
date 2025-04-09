@@ -2,17 +2,15 @@
 
 namespace App\Listeners;
 
+use App\Actions\CreateInventoryDocument;
+use App\Enums\DocumentType;
+use App\Enums\InventoryOperation;
+use App\Enums\ProductionStatus;
+use App\Events\ProductionStarted;
 use App\Models\Product;
 use App\Models\Production;
-use App\Enums\DocumentType;
-use App\Enums\ProductionStatus;
-use App\Enums\InventoryOperation;
-use App\Events\ProductionStarted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Actions\CreateInventoryDocument;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateInventoryOutForProduction
 {
@@ -46,7 +44,7 @@ class CreateInventoryOutForProduction
 
             Log::error($th->getMessage(), [
                 'production_id' => $event->production->id,
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ]);
 
             throw $th;
@@ -55,13 +53,10 @@ class CreateInventoryOutForProduction
 
     /**
      * Convert components to inventory out
-     * 
-     * @param Production $source
-     * @return array
      */
     public function convertComponentsToInventoryOut(Production $source): array
     {
-        return $source->components->map(function($component) use ($source) {
+        return $source->components->map(function ($component) use ($source) {
             $averageCost = Product::find($component->component_id)->calculateAveragePrice($source->warehouse_id);
 
             return [

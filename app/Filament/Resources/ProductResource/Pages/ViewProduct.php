@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\ProductResource\Pages;
 
+use App\Filament\Components\Actions\BackButton;
+use App\Filament\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
-use App\Filament\Resources\ProductResource;
-use App\Filament\Components\Actions\BackButton;
 
 class ViewProduct extends ViewRecord
 {

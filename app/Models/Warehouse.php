@@ -6,16 +6,16 @@ use App\Enums\IsActive;
 use App\Enums\WarehouseType;
 use App\Traits\BelongsToTenant;
 use App\Traits\HasActiveSorting;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Warehouse extends Model
 {
-    use HasFactory;
     use BelongsToTenant;
     use HasActiveSorting;
-    
+    use HasFactory;
+
     protected function casts(): array
     {
         return [
@@ -26,9 +26,6 @@ class Warehouse extends Model
 
     /**
      * Scope a query to only include active warehouses.
-     *
-     * @param Builder $query
-     * @return Builder
      */
     public function scopeActive(Builder $query): Builder
     {
@@ -37,9 +34,6 @@ class Warehouse extends Model
 
     /**
      * Scope a query to only include warehouses of type 'GENERAL'.
-     *
-     * @param Builder $query
-     * @return Builder
      */
     public function scopeGeneral(Builder $query): Builder
     {
@@ -48,9 +42,6 @@ class Warehouse extends Model
 
     /**
      * Scope a query to only include warehouses of type 'SUPPLIES'.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSupplies(Builder $query): Builder
     {
@@ -59,8 +50,6 @@ class Warehouse extends Model
 
     /**
      * Get the grouped options for the warehouse.
-     *
-     * @return array
      */
     public static function getGroupedOptions(): array
     {
@@ -83,7 +72,7 @@ class Warehouse extends Model
                 return [
                     $typeLabel => $group->mapWithKeys(function ($warehouse) {
                         return [$warehouse->id => $warehouse->name];
-                    })->toArray()
+                    })->toArray(),
                 ];
             })
             ->toArray();

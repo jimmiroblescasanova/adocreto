@@ -2,16 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\SupplierResource as ExtraResource;
+use App\Filament\Resources\SupplierResource\Pages;
 use App\Models\Entity;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\SupplierResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\SupplierResource as ExtraResource;
-use App\Filament\Resources\SupplierResource\RelationManagers;
 
 class SupplierResource extends Resource
 {

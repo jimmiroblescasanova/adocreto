@@ -6,14 +6,15 @@ trait HasTotalsArea
 {
     public static function calculateSubtotal(array $items): float
     {
-        $subtotal = collect($items)->sum(function($item) {
-            if (!isset($item['quantity']) || 
-                !isset($item['price']) || 
-                $item['quantity'] === '' || 
+        $subtotal = collect($items)->sum(function ($item) {
+            if (! isset($item['quantity']) ||
+                ! isset($item['price']) ||
+                $item['quantity'] === '' ||
                 $item['price'] === '') {
                 return 0;
             }
-            return ($item['quantity'] * $item['price']);
+
+            return $item['quantity'] * $item['price'];
         });
 
         return round($subtotal, 2);
@@ -22,6 +23,7 @@ trait HasTotalsArea
     public static function calculateTax(array $items): float
     {
         $subtotal = self::calculateSubtotal($items);
+
         return round($subtotal * 0.16, 2);
     }
 
@@ -29,6 +31,7 @@ trait HasTotalsArea
     {
         $subtotal = self::calculateSubtotal($items);
         $tax = self::calculateTax($items);
+
         return round($subtotal + $tax, 2);
     }
 }

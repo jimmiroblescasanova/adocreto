@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use App\Traits\HasFolio;
 use App\Enums\ProductionStatus;
 use App\Traits\BelongsToTenant;
+use App\Traits\HasFolio;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Production extends Model
 {
-    use HasFolio;
     use BelongsToTenant;
+    use HasFolio;
 
     protected function casts(): array
     {
@@ -26,7 +26,7 @@ class Production extends Model
 
     /**
      * This method returns the items of the production.
-     * 
+     *
      * @return HasMany<ProductionItems>
      */
     public function items(): HasMany
@@ -36,8 +36,6 @@ class Production extends Model
 
     /**
      * Get the components associated with the production.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function components(): HasMany
     {
@@ -46,7 +44,7 @@ class Production extends Model
 
     /**
      * This method returns the origin warehouse of the production.
-     * 
+     *
      * @return BelongsTo<Warehouse>
      */
     public function warehouse(): BelongsTo
@@ -56,7 +54,7 @@ class Production extends Model
 
     /**
      * This method returns the user who started the production.
-     * 
+     *
      * @return BelongsTo<User>
      */
     public function startedBy(): BelongsTo
@@ -66,7 +64,7 @@ class Production extends Model
 
     /**
      * This method returns the user who ended the production.
-     * 
+     *
      * @return BelongsTo<User>
      */
     public function endedBy(): BelongsTo
@@ -76,7 +74,7 @@ class Production extends Model
 
     /**
      * This method returns the user who created the production.
-     * 
+     *
      * @return BelongsTo<User>
      */
     public function user(): BelongsTo

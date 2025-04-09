@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Traits;
 
@@ -8,21 +8,21 @@ use Filament\Support\Enums\IconPosition;
 trait EditActionsOnTop
 {
     protected function getHeaderActions(): array
-    { 
+    {
         return [
             $this->getSaveFormAction()
-            ->formId('form'),
+                ->formId('form'),
 
             $this->getCancelFormAction(),
 
             Actions\ActionGroup::make([
                 Actions\DeleteAction::make(),
             ])
-            ->label('Más')
-            ->icon('heroicon-o-ellipsis-horizontal-circle')
-            ->iconPosition(IconPosition::After)
-            ->color('gray')
-            ->button(),
+                ->label('Más')
+                ->icon('heroicon-o-ellipsis-horizontal-circle')
+                ->iconPosition(IconPosition::After)
+                ->color('gray')
+                ->button(),
         ];
     }
 

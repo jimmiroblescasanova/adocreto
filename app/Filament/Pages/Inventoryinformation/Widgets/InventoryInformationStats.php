@@ -2,10 +2,10 @@
 
 namespace App\Filament\Pages\Inventoryinformation\Widgets;
 
-use Livewire\Attributes\On;
 use App\Models\DocumentItem;
-use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
+use Livewire\Attributes\On;
 
 class InventoryInformationStats extends BaseWidget
 {
@@ -16,7 +16,7 @@ class InventoryInformationStats extends BaseWidget
     {
         $this->data = $data;
     }
-    
+
     protected function getStats(): array
     {
         $query = DocumentItem::with('document')

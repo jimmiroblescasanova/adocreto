@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
@@ -18,10 +18,10 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'company_id'    => 1,
-            'name'          => Str::title(fake()->word()),
-            'color'         => fake()->hexColor(),
-            'description'   => fake()->sentence(),
+            'company_id' => 1,
+            'name' => Str::title(fake()->word()),
+            'color' => fake()->hexColor(),
+            'description' => fake()->sentence(),
         ];
     }
 }

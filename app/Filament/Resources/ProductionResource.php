@@ -2,16 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms\Form;
+use App\Filament\Resources\ProductionResource as ExtraResource;
+use App\Filament\Resources\ProductionResource\Pages;
 use App\Models\Production;
-use Filament\Tables\Table;
+use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ProductionResource\Pages;
-use App\Filament\Resources\ProductionResource as ExtraResource;
-use App\Filament\Resources\ProductionResource\RelationManagers;
+use Filament\Tables\Table;
 
 class ProductionResource extends Resource
 {
@@ -22,6 +19,7 @@ class ProductionResource extends Resource
     protected static ?string $navigationGroup = 'Documentos';
 
     protected static ?string $modelLabel = 'producción';
+
     protected static ?string $pluralModelLabel = 'producciones';
 
     public static function form(Form $form): Form

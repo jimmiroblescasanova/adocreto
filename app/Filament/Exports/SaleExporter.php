@@ -15,38 +15,38 @@ class SaleExporter extends Exporter
     {
         return [
             ExportColumn::make('date')
-            ->label('Fecha'),
+                ->label('Fecha'),
 
             ExportColumn::make('folio')
-            ->label('Folio'),
+                ->label('Folio'),
 
             ExportColumn::make('entity.name')
-            ->label('Cliente'),
+                ->label('Cliente'),
 
             ExportColumn::make('title')
-            ->label('Título'),
+                ->label('Título'),
 
             ExportColumn::make('subtotal')
-            ->label('Subtotal'),
+                ->label('Subtotal'),
 
             ExportColumn::make('tax')
-            ->label('Impuesto'),
+                ->label('Impuesto'),
 
             ExportColumn::make('total')
-            ->label('Total'),
+                ->label('Total'),
 
             ExportColumn::make('doc_status')
-            ->label('Estado')
-            ->formatStateUsing(fn (Document $record): string => $record->status->getLabel()),
+                ->label('Estado')
+                ->formatStateUsing(fn (Document $record): string => $record->status->getLabel()),
         ];
     }
 
     public static function getCompletedNotificationBody(Export $export): string
     {
-        $body = 'La descarga de las ventas ha terminado y ' . number_format($export->successful_rows) . ' ' . str('fila')->plural($export->successful_rows) . ' fueron exportadas.';
+        $body = 'La descarga de las ventas ha terminado y '.number_format($export->successful_rows).' '.str('fila')->plural($export->successful_rows).' fueron exportadas.';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('fila')->plural($failedRowsCount) . ' no se pudieron exportar.';
+            $body .= ' '.number_format($failedRowsCount).' '.str('fila')->plural($failedRowsCount).' no se pudieron exportar.';
         }
 
         return $body;

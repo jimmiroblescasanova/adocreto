@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\WarehouseResource\Pages;
 
-use Filament\Actions;
-use Illuminate\Support\Str;
-use Filament\Resources\Pages\ManageRecords;
 use App\Filament\Resources\WarehouseResource;
+use Filament\Actions;
+use Filament\Resources\Pages\ManageRecords;
+use Illuminate\Support\Str;
 
 class ManageWarehouses extends ManageRecords
 {
@@ -15,12 +15,12 @@ class ManageWarehouses extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-            ->mutateFormDataUsing(function (array $data): array {
-                $data['code'] = Str::upper($data['code']);
-                $data['name'] = Str::title($data['name']);
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['code'] = Str::upper($data['code']);
+                    $data['name'] = Str::title($data['name']);
 
-                return $data;
-            }),
+                    return $data;
+                }),
         ];
     }
 }

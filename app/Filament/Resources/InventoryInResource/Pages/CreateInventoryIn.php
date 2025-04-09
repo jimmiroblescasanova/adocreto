@@ -2,22 +2,21 @@
 
 namespace App\Filament\Resources\InventoryInResource\Pages;
 
-use Filament\Actions;
-use App\Enums\DocumentType;
-use Illuminate\Support\Str;
 use App\Enums\DocumentStatus;
-use App\Traits\CreateActionsOnTop;
-use App\Traits\RedirectsAfterSave;
-use Illuminate\Support\Facades\Auth;
-use Filament\Resources\Pages\CreateRecord;
+use App\Enums\DocumentType;
 use App\Filament\Resources\InventoryInResource;
+use App\Traits\CreateActionsOnTop;
 use App\Traits\HasTotalsArea;
+use App\Traits\RedirectsAfterSave;
+use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CreateInventoryIn extends CreateRecord
 {
     use CreateActionsOnTop, RedirectsAfterSave;
     use HasTotalsArea;
-    
+
     protected static string $resource = InventoryInResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array

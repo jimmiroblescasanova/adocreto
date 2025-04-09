@@ -4,9 +4,9 @@ namespace App\Traits;
 
 use App\Models\Price;
 use App\Models\Product;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
-use Filament\Notifications\Notification;
 
 trait ManageProductsFromModal
 {
@@ -17,10 +17,10 @@ trait ManageProductsFromModal
 
         if (in_array($productId, $currentProducts)) {
             Notification::make()
-            ->title('Producto ya agregado')
-            ->danger()
-            ->send();
-            
+                ->title('Producto ya agregado')
+                ->danger()
+                ->send();
+
             return;
         }
 
@@ -32,10 +32,10 @@ trait ManageProductsFromModal
         $price = Price::whereBelongsTo($product)->first()->price ?? 0;
 
         data_set($this->data, "items.{$uuid}.price", $price);
-        
+
         Notification::make()
-        ->title('Producto agregado')
-        ->success()
-        ->send();
+            ->title('Producto agregado')
+            ->success()
+            ->send();
     }
 }

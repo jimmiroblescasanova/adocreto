@@ -6,8 +6,6 @@ trait HasFolio
 {
     /**
      * Returns the last folio number used.
-     *
-     * @return int
      */
     public static function getFolio(): int
     {
@@ -16,8 +14,6 @@ trait HasFolio
 
     /**
      * Returns the next available folio number.
-     *
-     * @return int
      */
     public static function getNextFolio(): int
     {

@@ -24,9 +24,9 @@ class ProductionAvailabilityService
                 return [
                     'product' => $component->product->name,
                     'required' => $component->quantity,
-                    'available' => $component->product->totalInventory($production->warehouse_id)
+                    'available' => $component->product->totalInventory($production->warehouse_id),
                 ];
             })
             ->toArray();
     }
-} 
+}

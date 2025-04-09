@@ -2,17 +2,15 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\DocumentType;
+use App\Filament\Resources\SaleResource as ExtraResource;
+use App\Filament\Resources\SaleResource\Pages;
 use App\Models\Document;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Enums\DocumentType;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\SaleResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\SaleResource as ExtraResource;
-use App\Filament\Resources\SaleResource\RelationManagers;
 
 class SaleResource extends Resource
 {

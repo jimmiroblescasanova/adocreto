@@ -27,7 +27,7 @@ class SendEstimateToClient extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '🚀 Cotización recibida folio: ' . $this->quote->folio,
+            subject: '🚀 Cotización recibida folio: '.$this->quote->folio,
         );
     }
 

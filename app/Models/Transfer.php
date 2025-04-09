@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use App\Traits\HasFolio;
 use App\Enums\TransferStatus;
 use App\Traits\BelongsToTenant;
+use App\Traits\HasFolio;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transfer extends Model
 {
-    use HasFolio;
     use BelongsToTenant;
+    use HasFolio;
 
     protected function casts(): array
     {
@@ -71,5 +71,4 @@ class Transfer extends Model
     {
         return $this->hasMany(TransferItem::class);
     }
-
 }

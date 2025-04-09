@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources\EstimateResource\Pages;
 
-use Filament\Actions\Action;
-use Filament\Resources\Pages\Page;
 use App\Filament\Resources\EstimateResource;
 use App\Traits\GeneratesPdfDocument;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
+use Filament\Resources\Pages\Page;
 
 class PrintEstimate extends Page
 {
-    use InteractsWithRecord;
     use GeneratesPdfDocument;
+    use InteractsWithRecord;
 
     protected static string $resource = EstimateResource::class;
 
@@ -19,7 +19,7 @@ class PrintEstimate extends Page
 
     protected static ?string $title = 'Imprimir cotización';
 
-    public function mount(int | string $record): void
+    public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
         $this->generatePdf('invoice');

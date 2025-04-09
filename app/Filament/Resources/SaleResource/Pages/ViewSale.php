@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\SaleResource\Pages;
 
-use Filament\Actions;
+use App\Filament\Components\Actions\BackButton;
 use App\Filament\Resources\SaleResource;
+use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Enums\IconPosition;
-use App\Filament\Components\Actions\BackButton;
 
 class ViewSale extends ViewRecord
 {
@@ -21,15 +21,15 @@ class ViewSale extends ViewRecord
 
             Actions\ActionGroup::make([
                 Actions\Action::make('print')
-                ->label('Imprimir')
-                ->icon('heroicon-o-printer')
-                ->url(static::getResource()::getUrl('print', ['record' => $this->record])),
+                    ->label('Imprimir')
+                    ->icon('heroicon-o-printer')
+                    ->url(static::getResource()::getUrl('print', ['record' => $this->record])),
             ])
-            ->label('Más opciones')
-            ->icon('heroicon-o-ellipsis-horizontal-circle')
-            ->iconPosition(IconPosition::After)
-            ->color('gray')
-            ->button(),
+                ->label('Más opciones')
+                ->icon('heroicon-o-ellipsis-horizontal-circle')
+                ->iconPosition(IconPosition::After)
+                ->color('gray')
+                ->button(),
         ];
     }
 }

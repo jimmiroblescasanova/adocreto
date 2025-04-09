@@ -21,22 +21,16 @@ class RegimenFiscal extends Model
 
     /**
      * Scope a query to only include records where 'aplica_fisica' is true.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeFisica(Builder $query): Builder 
+    public function scopeFisica(Builder $query): Builder
     {
         return $query->where('aplica_fisica', true);
     }
 
     /**
      * Scope a query to only include records where 'aplica_moral' is true.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeMoral(Builder $query): Builder 
+    public function scopeMoral(Builder $query): Builder
     {
         return $query->where('aplica_moral', true);
     }

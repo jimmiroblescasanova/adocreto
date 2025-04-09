@@ -2,19 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Enums\DocumentType;
+use App\Filament\Resources\EstimateResource as ExtraResource;
+use App\Filament\Resources\EstimateResource\Pages;
 use App\Models\Document;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Enums\DocumentType;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\EstimateResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\EstimateResource as ExtraResource;
-use App\Filament\Resources\EstimateResource\RelationManagers;
 
 class EstimateResource extends Resource
 {

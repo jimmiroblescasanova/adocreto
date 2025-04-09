@@ -4,12 +4,11 @@ namespace App\Models;
 
 use App\Casts\MoneyCast;
 use Filament\Models\Contracts\HasAvatar;
-use Spatie\Image\Enums\Fit;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Company extends Model implements HasAvatar, HasMedia
@@ -25,8 +24,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the categories associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function categories(): HasMany
     {
@@ -35,8 +32,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the documents associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function documents(): HasMany
     {
@@ -45,8 +40,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the entities associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function entities(): HasMany
     {
@@ -55,8 +48,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the transfers associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function transfers(): HasMany
     {
@@ -65,8 +56,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the price lists associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function priceLists(): HasMany
     {
@@ -75,8 +64,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the productions associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function productions(): HasMany
     {
@@ -85,8 +72,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the products associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products(): HasMany
     {
@@ -95,8 +80,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the units associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function units(): HasMany
     {
@@ -105,8 +88,6 @@ class Company extends Model implements HasAvatar, HasMedia
 
     /**
      * Get the warehouses associated with the company.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function warehouses(): HasMany
     {

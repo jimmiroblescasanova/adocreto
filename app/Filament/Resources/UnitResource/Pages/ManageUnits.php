@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\UnitResource\Pages;
 
-use Filament\Actions;
 use App\Filament\Resources\UnitResource;
+use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageUnits extends ManageRecords
@@ -14,12 +14,12 @@ class ManageUnits extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-            ->mutateFormDataUsing(function (array $data): array {
-                $data['name'] = strtoupper($data['name']);
-                $data['abbreviation'] = strtoupper($data['abbreviation']);
-         
-                return $data;
-            }),
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['name'] = strtoupper($data['name']);
+                    $data['abbreviation'] = strtoupper($data['abbreviation']);
+
+                    return $data;
+                }),
         ];
     }
 }

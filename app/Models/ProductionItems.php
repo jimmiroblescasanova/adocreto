@@ -17,7 +17,7 @@ class ProductionItems extends Model
 
     /**
      * This method returns the production of the item.
-     * 
+     *
      * @return BelongsTo<Production>
      */
     public function production(): BelongsTo
@@ -27,7 +27,7 @@ class ProductionItems extends Model
 
     /**
      * This method returns the product of the item.
-     * 
+     *
      * @return BelongsTo<Product>
      */
     public function product(): BelongsTo

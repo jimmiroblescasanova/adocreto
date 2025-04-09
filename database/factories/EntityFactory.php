@@ -18,14 +18,14 @@ class EntityFactory extends Factory
     public function definition(): array
     {
         return [
-            'company_id'    => fake()->randomElement([1,2]),
-            'type'          => fake()->randomElement(EntityType::class),
-            'name'          => fake()->company(),
-            'rfc'           => fake()->optional()->regexify('[A-Z]{3}[0-9]{10}'),
-            'email'         => fake()->optional()->safeEmail(),
-            'phone'         => fake()->optional()->phoneNumber(),
-            'active'        => fake()->boolean(),
-            'notes'         => fake()->optional()->text(),
+            'company_id' => fake()->randomElement([1, 2]),
+            'type' => fake()->randomElement(EntityType::class),
+            'name' => fake()->company(),
+            'rfc' => fake()->optional()->regexify('[A-Z]{3}[0-9]{10}'),
+            'email' => fake()->optional()->safeEmail(),
+            'phone' => fake()->optional()->phoneNumber(),
+            'active' => fake()->boolean(),
+            'notes' => fake()->optional()->text(),
         ];
     }
 }

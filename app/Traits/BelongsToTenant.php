@@ -9,8 +9,6 @@ trait BelongsToTenant
 {
     /**
      * Get the company that owns the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function company(): BelongsTo
     {
