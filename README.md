@@ -25,7 +25,7 @@ Sistema de gestión para Adocreto construido con Laravel y Filament.
 
 1. Clonar el repositorio:
 ```bash
-git clone [URL_DEL_REPOSITORIO]
+git clone https://github.com/jimmiroblescasanova/adocreto.git
 cd adocreto
 ```
 
