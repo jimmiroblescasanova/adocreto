@@ -22,6 +22,7 @@ class Estimate extends Component implements HasForms, HasTable
     {
         return $table
             ->query(Product::query()->where('type', '!=', ProductType::Material))
+            ->striped()
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Producto')

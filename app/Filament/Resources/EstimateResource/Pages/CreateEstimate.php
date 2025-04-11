@@ -5,7 +5,6 @@ namespace App\Filament\Resources\EstimateResource\Pages;
 use App\Enums\DocumentStatus;
 use App\Enums\DocumentType;
 use App\Filament\Resources\EstimateResource;
-use App\Models\Address;
 use App\Traits\CreateActionsOnTop;
 use App\Traits\HasTotalsArea;
 use App\Traits\ManageProductsFromModal;
@@ -39,20 +38,7 @@ class CreateEstimate extends CreateRecord
         $data['tax'] = $tax;
         $data['total'] = $total;
 
-        $this->addressId = $data['address'];
-        unset($data['address']);
-
         return $data;
-    }
-
-    protected function afterCreate(): void
-    {
-        $address = Address::find($this->addressId);
-        if ($address) {
-            $duplicatedAddress = $address->replicate();
-            unset($duplicatedAddress->address_line_1, $duplicatedAddress->address_line_2);
-            $this->record->address()->save($duplicatedAddress);
-        }
     }
 
     protected function getRedirectUrl(): string

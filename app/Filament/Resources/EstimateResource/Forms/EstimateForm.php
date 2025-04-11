@@ -5,7 +5,6 @@ namespace App\Filament\Resources\EstimateResource\Forms;
 use App\Enums\EntityType;
 use App\Enums\InventoryOperation;
 use App\Filament\Resources\ClientResource\Forms\ClientForm;
-use App\Models\Document;
 use App\Models\Entity;
 use App\Models\Price;
 use App\Traits\FindsProductsOnce;
@@ -44,23 +43,6 @@ class EstimateForm extends Form
 
                             Forms\Components\TextInput::make('title')
                                 ->label('Titulo'),
-
-                            Forms\Components\Select::make('address')
-                                ->label('Seleccionar dirección')
-                                ->options(function (Forms\Get $get) {
-                                    $entity = Entity::find($get('entity_id'));
-                                    if ($entity) {
-                                        return $entity->addresses->pluck('address_line_1', 'id');
-                                    }
-                                })
-                                ->hiddenOn('edit'),
-
-                            Forms\Components\Placeholder::make('address')
-                                ->label('Dirección seleccionada')
-                                ->content(function (Document $record) {
-                                    return $record->address?->address_line_1 ?? '';
-                                })
-                                ->hiddenOn('create'),
                         ])
                         ->columns(2),
                 ])
